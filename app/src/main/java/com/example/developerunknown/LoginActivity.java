@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -33,6 +34,10 @@ public class LoginActivity extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        final CollectionReference userCollectionReference=db.collection("Users");
+
+
         editUserName = findViewById(R.id.editUsername);
         editPassword = findViewById(R.id.editPassward);
         logInButton = findViewById(R.id.signIn);
@@ -41,7 +46,7 @@ public class LoginActivity extends Activity {
             public void onClick(View v) {
                 userName = editUserName.getText().toString();
                 password = editPassword.getText().toString();
-                if (userName.equals(password)) {
+                if (userName.equals(password)) {                        //a place holder function
                     Intent returnIntent = new Intent();
                     returnIntent.putExtra("result","success");
                     setResult(Activity.RESULT_OK,returnIntent);
@@ -54,15 +59,8 @@ public class LoginActivity extends Activity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userName = editUserName.getText().toString();
-                password = editPassword.getText().toString();
-
-                Intent returnIntent = new Intent();
-                returnIntent.putExtra("result","success");
-
-                setResult(Activity.RESULT_OK,returnIntent);
-                finish();
-
+                Intent intent = new Intent(LoginActivity.this,SignUpActivity.class);
+                startActivityForResult(intent,126);
             }
         });
 
