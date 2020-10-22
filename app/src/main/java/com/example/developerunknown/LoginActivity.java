@@ -44,7 +44,7 @@ public class LoginActivity extends Activity {
                 if (userName.equals(password)) {
                     Intent returnIntent = new Intent();
                     returnIntent.putExtra("result","success");
-                    setResult(Activity.RESULT_OK,returnIntent);
+                    setResult(Activity.RESULT_OK, returnIntent);
                     finish();
                 }
 
@@ -70,7 +70,7 @@ public class LoginActivity extends Activity {
 
 
     public boolean loginSuccessful(String userName, String password) {
-        if (userName == "admin" && password == "admin") {                   //do some check,will be updated later
+        if (userName == "admin" && password == "admin") {                   //do some check, will be updated later
             return true;
         }
         return false;

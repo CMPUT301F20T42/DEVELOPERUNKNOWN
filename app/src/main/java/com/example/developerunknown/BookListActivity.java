@@ -1,4 +1,8 @@
 package com.example.developerunknown;
 
-public class BookListActivity {
+import android.app.Activity;
+import android.widget.Button;
+
+public class BookListActivity extends Activity {
+    public Button addBookButton;
 }
