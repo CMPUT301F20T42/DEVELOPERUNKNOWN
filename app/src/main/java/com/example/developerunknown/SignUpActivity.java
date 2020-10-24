@@ -80,8 +80,8 @@ public class SignUpActivity extends AppCompatActivity {
                 else if (password.trim().length() == 0 ) {
                     Toast.makeText(SignUpActivity.this, "password can't be empty", Toast.LENGTH_SHORT).show();
                 }
-                else if (email.trim().length()==0 || Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-                    Toast.makeText(SignUpActivity.this, "email can't be empty", Toast.LENGTH_SHORT).show();
+                else if (email.trim().length()==0 || !Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                    Toast.makeText(SignUpActivity.this, "Warning:email format not correct", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     DocumentReference docIdRef = userCollectionReference.document(userName);
@@ -104,6 +104,7 @@ public class SignUpActivity extends AppCompatActivity {
                                                 String user_Id = auth.getCurrentUser().getUid();
                                                 HashMap<String, String> uidData = new HashMap<>();
                                                 uidData.put("uid", user_Id);
+                                                uidData.put("email",email);
                                                 unameCollectionReference
                                                         .document(userName)
                                                         .set(uidData)
