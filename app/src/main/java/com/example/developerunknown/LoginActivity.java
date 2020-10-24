@@ -57,41 +57,40 @@ public class LoginActivity extends AppCompatActivity {
         editPassword = findViewById(R.id.editPassward);
         logInButton = findViewById(R.id.signIn);
         logInButton.setOnClickListener(new View.OnClickListener() {
+                                           @Override
+                                           public void onClick(View v) {
+                                               userName = editUserName.getText().toString();
+                                               password = editPassword.getText().toString();
+                                               if (userName.trim().length() == 0) {
+                                                   editUserName.setError("userName can not be empty");
+                                               }
+                                               DocumentReference uNameDocRef = unameCollectionReference.document(userName);
+                                               uNameDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                   @Override
+                                                   public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                       if (task.isSuccessful()) {
+                                                           DocumentSnapshot document = task.getResult();
+                                                           if (document.exists()) {
+                                                               email = document.getString("email");
+                                                               //Log.d("TAG", "email: " + email);
+                                                               login(email, password);
+
+                                                           } else {
+                                                               Log.d("check userName", "user not Exist");
+                                                               Toast.makeText(LoginActivity.this, "user not Exist", Toast.LENGTH_SHORT).show();
+                                                           }
+                                                       }
+                                                   }
+                                               });
+                                           }
+                                       });
+
+        signUpButton = findViewById(R.id.signUp);
+        signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userName = editUserName.getText().toString();
-                password = editPassword.getText().toString();
-                if (userName.trim().length() == 0) {
-                    editUserName.setError("userName can not be empty");
-                }
-                DocumentReference uNameDocRef = unameCollectionReference.document(userName);
-                uNameDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                email = document.getString("email");
-                                //Log.d("TAG", "email: " + email);
-                                login(email,password);
-
-                            } else {
-                                Log.d("check userName", "user not Exist");
-                                Toast.makeText(LoginActivity.this, "user not Exist", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    }
-                });
-
-                signUpButton = findViewById(R.id.signUp);
-                signUpButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
-                        startActivityForResult(intent, 000);
-                    }
-                });
-
+                Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+                startActivityForResult(intent, 000);
             }
         });
     }

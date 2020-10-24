@@ -7,8 +7,8 @@
     android:background="@android:color/darker_gray">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="59dp"
+        android:layout_width="370dp"
+        android:layout_height="53dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="152dp"
+        android:layout_marginTop="165dp"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
@@ -111,17 +111,5 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="262dp"
         android:text="TextView" />
-
-    <EditText
-        android:id="@+id/editTextTextPersonName"
-        android:layout_width="359dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="53dp"
-        android:ems="10"
-        android:hint="Search a user"
-        android:inputType="textPersonName" />
 
 </RelativeLayout>
