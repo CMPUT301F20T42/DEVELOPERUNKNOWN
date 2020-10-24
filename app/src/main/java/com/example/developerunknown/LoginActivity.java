@@ -1,24 +1,25 @@
 package com.example.developerunknown;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -28,10 +29,11 @@ public class LoginActivity extends AppCompatActivity {
     public EditText editPassword;
     public String userName;
     public String password;
-    final FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-
-
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference unameCollectionReference = db.collection("userName");
+    private FirebaseAuth auth = FirebaseAuth.getInstance();
+    private String email;
+    public boolean userExist;
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
@@ -47,12 +49,8 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        final CollectionReference userCollectionReference=db.collection("Users");
 
 
         editUserName = findViewById(R.id.editUsername);
@@ -63,41 +61,54 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 userName = editUserName.getText().toString();
                 password = editPassword.getText().toString();
-                if (userName.equals(password)) {                        //a place holder function
+                if (userName.trim().length() == 0) {
+                    editUserName.setError("userName can not be empty");
+                }
+                DocumentReference uNameDocRef = unameCollectionReference.document(userName);
+                uNameDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                email = document.getString("email");
+                                //Log.d("TAG", "email: " + email);
+                                login(email,password);
+
+                            } else {
+                                Log.d("check userName", "user not Exist");
+                                Toast.makeText(LoginActivity.this, "user not Exist", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                });
+
+                signUpButton = findViewById(R.id.signUp);
+                signUpButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+                        startActivityForResult(intent, 000);
+                    }
+                });
+
+            }
+        });
+    }
+    public void login(String email, String password){
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
                     Intent returnIntent = new Intent();
-                    returnIntent.putExtra("result","success");
+                    returnIntent.putExtra("result", "success");
                     setResult(Activity.RESULT_OK, returnIntent);
                     finish();
+                } else {
+                    Toast.makeText(LoginActivity.this, "wrong password", Toast.LENGTH_SHORT).show();
                 }
-
-            }
-        });
-        signUpButton = findViewById(R.id.signUp);
-        signUpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*
-                Intent intent = new Intent(LoginActivity.this,SignUpActivity.class);
-                startActivity(intent);
-
-                Intent returnIntent = new Intent();
-                returnIntent.putExtra("result","success");
-                setResult(Activity.RESULT_OK,returnIntent);
-                finish();
-*/
-                Intent intent = new Intent(LoginActivity.this,SignUpActivity.class);
-                startActivityForResult(intent,000);
-
             }
         });
 
-    }
-
-
-    public boolean loginSuccessful(String userName, String password) {
-        if (userName == "admin" && password == "admin") {                   //do some check, will be updated later
-            return true;
-        }
-        return false;
     }
 }

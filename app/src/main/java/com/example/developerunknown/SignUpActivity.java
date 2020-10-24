@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Observable;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -79,7 +80,7 @@ public class SignUpActivity extends AppCompatActivity {
                 else if (password.trim().length() == 0 ) {
                     Toast.makeText(SignUpActivity.this, "password can't be empty", Toast.LENGTH_SHORT).show();
                 }
-                else if (email.trim().length()==0){
+                else if (email.trim().length()==0 || Patterns.EMAIL_ADDRESS.matcher(email).matches()){
                     Toast.makeText(SignUpActivity.this, "email can't be empty", Toast.LENGTH_SHORT).show();
                 }
                 else{

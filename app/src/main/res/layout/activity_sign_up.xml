@@ -23,14 +23,14 @@
 
     <EditText
         android:id="@+id/registerPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="217dp"
+        android:layout_height="43dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="80dp"
         android:layout_marginRight="80dp"
         android:layout_marginBottom="8dp"
         android:ems="10"
-        android:hint="Enter your password"
+        android:hint="Enter your password(minimum 6 characters)"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/registerUname"
         app:layout_constraintEnd_toEndOf="parent"

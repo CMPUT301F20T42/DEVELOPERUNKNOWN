@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == 123) {
             if (resultCode == Activity.RESULT_OK) {
                 String result = data.getStringExtra("result");
-
+/*
                 // Create dummy user + book data
                 // TODO: replace with calls to firestore
                 loggedIn = new User("A Admin", "admin", "admin@gmail.com");
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
                 loggedIn.addBook(b1);
                 loggedIn.addBook(b2);
-
+*/
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 // Not logged in
