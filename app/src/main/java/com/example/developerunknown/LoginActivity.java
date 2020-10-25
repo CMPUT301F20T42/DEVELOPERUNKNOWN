@@ -61,10 +61,7 @@ public class LoginActivity extends AppCompatActivity {
                                            public void onClick(View v) {
                                                userName = editUserName.getText().toString();
                                                password = editPassword.getText().toString();
-                                               if (userName.trim().length() == 0) {
-                                                   editUserName.setError("userName can not be empty");
-                                                   return;
-                                               }
+  
                                                DocumentReference uNameDocRef = unameCollectionReference.document(userName);
                                                uNameDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                                    @Override
