@@ -1,7 +1,5 @@
 package com.example.developerunknown;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 public class Book {
     private String title;
     private String author;
