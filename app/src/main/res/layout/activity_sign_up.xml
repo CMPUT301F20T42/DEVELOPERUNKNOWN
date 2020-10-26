@@ -59,7 +59,7 @@
         android:layout_marginEnd="80dp"
         android:layout_marginRight="80dp"
         android:ems="10"
-        android:hint="Enter your firstName(optional)"
+        android:hint="Enter your firstName"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/registerUname" />
@@ -69,10 +69,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
-        android:layout_marginEnd="76dp"
-        android:layout_marginRight="76dp"
+        android:layout_marginEnd="80dp"
+        android:layout_marginRight="80dp"
         android:ems="10"
-        android:hint="Enter your last name(optional)"
+        android:hint="Enter your last name"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/registerFirstName" />
@@ -138,4 +138,29 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/registerLastName" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="62dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="46dp"
+        android:layout_marginLeft="46dp"
+        android:text="phone:"
+        app:layout_constraintBaseline_toBaselineOf="@+id/registerPhone"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/registerPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="80dp"
+        android:layout_marginRight="80dp"
+        android:ems="10"
+        android:hint="Enter your phone"
+        android:inputType="phone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/registerLastName" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
