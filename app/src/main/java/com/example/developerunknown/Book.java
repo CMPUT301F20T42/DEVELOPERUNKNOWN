@@ -2,7 +2,9 @@ package com.example.developerunknown;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class Book {
+import java.io.Serializable;
+
+public class Book implements Serializable {
     private String title;
     private String author;
     private String status;
@@ -12,11 +14,11 @@ public class Book {
     //private User currentBorrower;
 
     public String getTitle () {
-        return title;
+        return this.title;
     }
 
     public String getAuthor () {
-        return author;
+        return this.author;
     }
 
     public String getAvailability () {

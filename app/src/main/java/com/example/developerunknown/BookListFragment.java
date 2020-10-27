@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -68,6 +69,25 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
                 fragmentTransaction.commit();
             }
 
+        });
+
+        bookList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView parent, View view, int position, long id) {
+                Book clickedBook = bookDataList.get(position);
+
+                Bundle args = new Bundle();
+                args.putSerializable("current user", currentUser);
+                args.putSerializable("clicked book", clickedBook);
+
+                Fragment fragment = new ViewBookFragment();
+                fragment.setArguments(args);
+
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, fragment, "View Book Fragment");
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
         });
     }
 
