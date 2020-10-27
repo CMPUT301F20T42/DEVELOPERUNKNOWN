@@ -1,8 +1,9 @@
 package com.example.developerunknown;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class User {
+public class User implements Serializable {
     private String name;
     private String username;
     private String contact;
@@ -14,6 +15,7 @@ public class User {
         this.name = name;
         this.username = username;
         this.contact = contact;
+        this.bookList = new ArrayList<Book>();
     }
 
     public void addBook(Book book) {
