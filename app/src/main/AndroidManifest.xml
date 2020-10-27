@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Test_Photo"></activity>
         <activity
             android:name=".SignUpActivity"
             android:label="@string/title_activity_sign_up_"></activity>
