@@ -19,7 +19,7 @@ public class Book {
         return author;
     }
 
-    public String getAvailability () {
+    public String getStatus () {
         return status;
     }
 

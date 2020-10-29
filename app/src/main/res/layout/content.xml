@@ -1,48 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="590dp">
+    android:layout_marginBottom="550dp">
 
     <TextView
         android:id="@+id/book_title"
         android:layout_width="251dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="top"
         android:padding="20dp"
         android:text="Title"
-        android:textSize="20sp">
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
     </TextView>
 
     <TextView
         android:id="@+id/book_status"
-        android:layout_width="155dp"
-        android:layout_height="82dp"
-        android:layout_gravity="right"
+        android:layout_width="162dp"
+        android:layout_height="66dp"
         android:padding="20dp"
         android:text="Status"
         android:textSize="20sp"
-        app:layout_anchor="@+id/book_title"
-        app:layout_anchorGravity="end|center">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
     </TextView>
 
     <TextView
         android:id="@+id/book_description"
-        android:layout_width="330dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
+        android:layout_width="413dp"
+        android:layout_height="55dp"
         android:padding="20dp"
-        android:text="Description" />
+        android:text="Description"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/book_author2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:layout_width="209dp"
+        android:layout_height="60dp"
         android:padding="20dp"
-        android:text="Author" />\
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        android:text="Author"
+        app:layout_constraintBottom_toTopOf="@+id/book_description"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/book_title" />
+
+    <TextView
+        android:id="@+id/book_borrower"
+        android:layout_width="204dp"
+        android:layout_height="60dp"
+        android:padding="20dp"
+        android:text="Current Borrower"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/book_status" />\
+</androidx.constraintlayout.widget.ConstraintLayout>

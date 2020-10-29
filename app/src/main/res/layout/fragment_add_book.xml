@@ -11,15 +11,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginStart="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginBottom="228dp"
         android:text="New Book"
         android:textSize="30sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/add_photo_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/cancel_book_button"
@@ -87,16 +85,11 @@
         android:layout_width="189dp"
         android:layout_height="49dp"
 
-        android:layout_marginStart="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
         android:layout_marginBottom="84dp"
         android:hint="ISBN"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/cancel_book_button"
         app:layout_constraintEnd_toStartOf="@+id/scan_button"
-        app:layout_constraintHorizontal_bias="0.416"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -132,6 +125,19 @@
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/book_isbn_editText"
         app:layout_constraintEnd_toEndOf="parent"
+        android:maxLength="120"
         app:layout_constraintStart_toStartOf="parent" />
+
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="157dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="8dp"
+        android:entries="@array/status_array"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/book_isbn_editText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
