@@ -32,7 +32,7 @@ public class AccountFragment extends Fragment {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference userCollectionReference = db.collection("user");
     private FirebaseAuth auth = FirebaseAuth.getInstance();
-    public FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();;
+    public FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     public String uid = user.getUid();
     public String updatedContactEmail;
     public String undatedContactPhone;
@@ -144,6 +144,10 @@ public class AccountFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 searchUser = searchUserEdit.getText().toString();
+                if (searchUser.length()==0){
+                    Toast.makeText(getActivity(), "You have to enter a username", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 CollectionReference userNameCollectionReference = db.collection("userName");
                 DocumentReference searchUserDocRef = userNameCollectionReference.document(searchUser);
                 searchUserDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

@@ -91,6 +91,10 @@ public class SignUpActivity extends AppCompatActivity {
                 else if (contactPhone.trim().length()==0 || !Patterns.PHONE.matcher(contactPhone).matches()){
                     Toast.makeText(SignUpActivity.this, "Warning:please check your phone number format", Toast.LENGTH_SHORT).show();
                 }
+                else if (!userName.matches("[a-zA-Z0-9]+")){
+                    Toast.makeText(SignUpActivity.this, "UserName must be alphanumerical", Toast.LENGTH_SHORT).show();
+
+                }
                 else{
                     DocumentReference docIdRef = userCollectionReference.document(userName);
                     docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

@@ -46,6 +46,9 @@ public class AddBookFragment extends Fragment {
     @Override
     @Nullable
     public View onCreateView (LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+
+
         currentUser = (User) this.getArguments().getSerializable("current user");
 
         final View view = inflater.inflate(R.layout.fragment_add_book, container, false);
@@ -133,5 +136,7 @@ public class AddBookFragment extends Fragment {
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
+
+
 
 }
