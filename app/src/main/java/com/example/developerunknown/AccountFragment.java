@@ -131,25 +131,12 @@ public class AccountFragment extends Fragment {
             }
         });
 
-        /*
-        editImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                //selectImage();
-            }
-        });
-         */
-
-
 
         confirmEditButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 updatedContactEmail = contactEmailEdit.getText().toString();
                 undatedContactPhone = contactPhoneEdit.getText().toString();
-                StorageReference ref = storageReference.child("images/");
-
                 if (Patterns.PHONE.matcher(undatedContactPhone).matches() && Patterns.EMAIL_ADDRESS.matcher(updatedContactEmail).matches() ) {
                     currentUserDocRef.update("contactEmail", updatedContactEmail,
                             "contactPhone", undatedContactPhone)
@@ -182,18 +169,19 @@ public class AccountFragment extends Fragment {
                 contactEmailEdit.setClickable(false);
                 contactPhoneEdit.setEnabled(false);
                 contactPhoneEdit.setClickable(false);
-                editImageButton.setClickable(false);
                 confirmEditButton.setVisibility(View.INVISIBLE);
                 editInfoButton.setVisibility(View.VISIBLE);
             }
-
-
         });
 
         searchUserButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 searchUser = searchUserEdit.getText().toString();
+                if (searchUser.length()==0){
+                    Toast.makeText(getActivity(), "You have to enter a username", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 CollectionReference userNameCollectionReference = db.collection("userName");
                 DocumentReference searchUserDocRef = userNameCollectionReference.document(searchUser);
                 searchUserDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -224,6 +212,16 @@ public class AccountFragment extends Fragment {
 
         return view;
     }
+
+    /*=====================================================================
+        editImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                //selectImage();
+            }
+        });
+         */
 
     /*=====================================================
     private void selectImage() {
