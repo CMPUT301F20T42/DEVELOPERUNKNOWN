@@ -8,8 +8,6 @@ import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.storage.StorageManager;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -18,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +28,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -54,12 +50,12 @@ public class AccountFragment extends Fragment {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference userCollectionReference = db.collection("user");
     private FirebaseAuth auth = FirebaseAuth.getInstance();
-    private Uri filePath;
-    private ImageButton imageButton;
     private Activity activity = getActivity();
-    FirebaseStorage storage;
-    StorageReference storageReference;
+    private Uri filePath;
+    private ImageButton editImageButton;
     public FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private FirebaseStorage storage;
+    private StorageReference storageReference;
     public String uid = user.getUid();
     public String updatedContactEmail;
     public String undatedContactPhone;
@@ -81,39 +77,40 @@ public class AccountFragment extends Fragment {
         final Button editInfoButton = view.findViewById(R.id.editInfo);
         final Button confirmEditButton = view.findViewById(R.id.confirmEditProfile);
         final Button searchUserButton = view.findViewById(R.id.searchUserButton);
+        editImageButton = view.findViewById(R.id.editImageButton);
         final EditText contactEmailEdit = view.findViewById(R.id.editContactEmail);
         final EditText contactPhoneEdit = view.findViewById(R.id.editContactPhone);
         final EditText searchUserEdit = view.findViewById(R.id.searchUnameEdit);
-        final Button editImageButton = view.findViewById(R.id.editImageButton);
+
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
 
         confirmEditButton.setVisibility(View.INVISIBLE);
         contactEmailEdit.setEnabled(false);
         contactEmailEdit.setClickable(false);
         contactPhoneEdit.setEnabled(false);
         contactPhoneEdit.setClickable(false);
+        editInfoButton.setClickable(false);
         editImageButton.setClickable(false);
 
-
-        storage = FirebaseStorage.getInstance();
-        storageReference = storage.getReference();
 
         currentUserDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
-                        uNameTextView.setText(document.getString("userName"));
-                        uEmailTextView.setText(document.getString("email"));
-                        uFirstNameTextView.setText(document.getString("firstName"));
-                        uLastNameTextView.setText(document.getString("lastName"));
-                        contactEmailEdit.setText(document.getString("contactEmail"));
-                        contactPhoneEdit.setText(document.getString("contactPhone"));
-                    }
-                else {
-                        Log.d("check userProfile", "user profile error");
-                        Toast.makeText(getActivity(), "There is a error showing the profile", Toast.LENGTH_SHORT).show();
-                    }
+                    uNameTextView.setText(document.getString("userName"));
+                    uEmailTextView.setText(document.getString("email"));
+                    uFirstNameTextView.setText(document.getString("firstName"));
+                    uLastNameTextView.setText(document.getString("lastName"));
+                    contactEmailEdit.setText(document.getString("contactEmail"));
+                    contactPhoneEdit.setText(document.getString("contactPhone"));
                 }
+                else {
+                    Log.d("check userProfile", "user profile error");
+                    Toast.makeText(getActivity(), "There is a error showing the profile", Toast.LENGTH_SHORT).show();
+                }
+            }
         });
 
         editInfoButton.setOnClickListener(new View.OnClickListener() {
@@ -125,12 +122,12 @@ public class AccountFragment extends Fragment {
                 contactEmailEdit.setClickable(true);
                 contactPhoneEdit.setEnabled(true);
                 contactPhoneEdit.setClickable(true);
+                editInfoButton.setClickable(true);
                 editImageButton.setClickable(true);
                 editInfoButton.setVisibility(View.INVISIBLE);
                 confirmEditButton.setVisibility(View.VISIBLE);
             }
         });
-
 
         confirmEditButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,6 +166,8 @@ public class AccountFragment extends Fragment {
                 contactEmailEdit.setClickable(false);
                 contactPhoneEdit.setEnabled(false);
                 contactPhoneEdit.setClickable(false);
+                editInfoButton.setClickable(false);
+                editImageButton.setClickable(false);
                 confirmEditButton.setVisibility(View.INVISIBLE);
                 editInfoButton.setVisibility(View.VISIBLE);
             }
@@ -208,22 +207,20 @@ public class AccountFragment extends Fragment {
             }
         });
 
+        editImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                selectImage();
+            }
+        });
 
 
         return view;
     }
 
-    /*=====================================================================
-        editImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                //selectImage();
-            }
-        });
-         */
 
-    /*=====================================================
+
     private void selectImage() {
 
         // Defining Implicit Intent to mobile gallery
@@ -237,7 +234,6 @@ public class AccountFragment extends Fragment {
                 PICK_IMAGE_REQUEST);
     }
 
-    /*===========================================================
     @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
     public void onActivityResult(int requestCode,
@@ -249,52 +245,54 @@ public class AccountFragment extends Fragment {
                 resultCode,
                 data);
 
-        // checking request code and result code 
-        // if request code is PICK_IMAGE_REQUEST and 
-        // resultCode is RESULT_OK 
-        // then set image in the image view 
+        // checking request code and result code
+        // if request code is PICK_IMAGE_REQUEST and
+        // resultCode is RESULT_OK
+        // then set image in the image view
         if (requestCode == PICK_IMAGE_REQUEST
                 && resultCode == RESULT_OK
                 && data != null
                 && data.getData() != null) {
 
-            // Get the Uri of data 
+            // Get the Uri of data
             filePath = data.getData();
             try {
 
                 // Setting image on image view using Bitmap
-                Bitmap bitmap = ImageDecoder
-                        .decodeBitmap(ImageDecoder.createSource(activity.getContentResolver(), filePath));
-                imageButton.setImageBitmap(bitmap);
+                ImageDecoder.Source source = ImageDecoder.createSource(activity.getContentResolver(),filePath);
+                Bitmap bitmap = ImageDecoder.decodeBitmap(source);
+                editImageButton.setImageBitmap(bitmap);
             }
 
             catch (IOException e) {
-                // Log the exception 
+                // Log the exception
                 e.printStackTrace();
             }
+
+
         }
     }
 
-    // UploadImage method 
+    // UploadImage method
     private void uploadImage()
     {
         if (filePath != null) {
 
-            // Code for showing progressDialog while uploading 
+            // Code for showing progressDialog while uploading
             final ProgressDialog progressDialog
                     = new ProgressDialog(activity);
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
 
-            // Defining the child of storageReference 
+            // Defining the child of storageReference
             StorageReference ref
                     = storageReference
                     .child(
                             "images/"
                                     + UUID.randomUUID().toString());
 
-            // adding listeners on upload 
-            // or failure of image 
+            // adding listeners on upload
+            // or failure of image
             ref.putFile(filePath)
                     .addOnSuccessListener(
                             new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -304,8 +302,8 @@ public class AccountFragment extends Fragment {
                                         UploadTask.TaskSnapshot taskSnapshot)
                                 {
 
-                                    // Image uploaded successfully 
-                                    // Dismiss dialog 
+                                    // Image uploaded successfully
+                                    // Dismiss dialog
                                     progressDialog.dismiss();
                                     Toast
                                             .makeText(activity,
@@ -320,7 +318,7 @@ public class AccountFragment extends Fragment {
                         public void onFailure(@NonNull Exception e)
                         {
 
-                            // Error, Image not uploaded 
+                            // Error, Image not uploaded
                             progressDialog.dismiss();
                             Toast
                                     .makeText(activity,
@@ -332,8 +330,8 @@ public class AccountFragment extends Fragment {
                     .addOnProgressListener(
                             new OnProgressListener<UploadTask.TaskSnapshot>() {
 
-                                // Progress Listener for loading 
-                                // percentage on the dialog box 
+                                // Progress Listener for loading
+                                // percentage on the dialog box
                                 @Override
                                 public void onProgress(
                                         UploadTask.TaskSnapshot taskSnapshot)
@@ -348,6 +346,7 @@ public class AccountFragment extends Fragment {
                                 }
                             });
         }
-    }*/
+
+    }
 
 }
