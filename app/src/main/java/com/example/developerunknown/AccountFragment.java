@@ -182,6 +182,7 @@ public class AccountFragment extends Fragment {
                 contactEmailEdit.setClickable(false);
                 contactPhoneEdit.setEnabled(false);
                 contactPhoneEdit.setClickable(false);
+                editImageButton.setClickable(false);
                 confirmEditButton.setVisibility(View.INVISIBLE);
                 editInfoButton.setVisibility(View.VISIBLE);
             }
