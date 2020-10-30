@@ -90,8 +90,9 @@ public class AddBookFragment extends Fragment {
                     data.put("author", author);
                     data.put("description", description);
                     data.put("ISBN", ISBN);
-                    //data.put("Available",status);
-
+                    /*
+                    data.put("Available",status);
+                    */
                     bookCollectionReference
                             .document(ISBN)
                             .set(data)
