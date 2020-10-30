@@ -36,13 +36,9 @@ public class AddBookFragment extends Fragment {
     private EditText bookISBN;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference bookCollectionReference = db.collection("book");
-
-/*
     public FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     public String uid = user.getUid();
     public CollectionReference userBookCollectionReference = db.collection("user").document(uid).collection("Book");
-*/
 
     Context context;
     User currentUser;
@@ -55,8 +51,6 @@ public class AddBookFragment extends Fragment {
     @Override
     @Nullable
     public View onCreateView (LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-
 
         currentUser = (User) this.getArguments().getSerializable("current user");
 
@@ -90,9 +84,8 @@ public class AddBookFragment extends Fragment {
                     data.put("author", author);
                     data.put("description", description);
                     data.put("ISBN", ISBN);
-                    //data.put("Available",status);
 
-                    bookCollectionReference
+                    userBookCollectionReference
                             .document(ISBN)
                             .set(data)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -107,31 +100,6 @@ public class AddBookFragment extends Fragment {
                                     Log.d("create book", "ISBN is not be added!" + e.toString());
                                 }
                             });
-
-
-/*
-                    HashMap<String, String> data1 = new HashMap<>();
-                    data1.put("title", title);
-                    data1.put("author", author);
-                    data1.put("description", description);
-                    data1.put("ISBN", ISBN);
-                    userBookCollectionReference
-                            .document()
-                            .set(data1)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Log.d("create book", "book has been added successfully!");
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.d("create book", "ISBN is not be added!" + e.toString());
-                                }
-                            });
-*/
-
 
                     destroy_current_fragment();
                 }
