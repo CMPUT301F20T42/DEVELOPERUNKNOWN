@@ -1,5 +1,6 @@
 package com.example.developerunknown;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -55,6 +56,7 @@ public class AccountFragment extends Fragment {
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private Uri filePath;
     private ImageButton imageButton;
+    private Activity activity = getActivity();
     FirebaseStorage storage;
     StorageReference storageReference;
     public FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();;
@@ -129,13 +131,15 @@ public class AccountFragment extends Fragment {
             }
         });
 
+        /*
         editImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
-                selectImage();
+                //selectImage();
             }
         });
+         */
 
 
 
@@ -220,6 +224,7 @@ public class AccountFragment extends Fragment {
         return view;
     }
 
+    /*=====================================================
     private void selectImage() {
 
         // Defining Implicit Intent to mobile gallery
@@ -233,8 +238,12 @@ public class AccountFragment extends Fragment {
                 PICK_IMAGE_REQUEST);
     }
 
+    /*===========================================================
     @RequiresApi(api = Build.VERSION_CODES.P)
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    @Override
+    public void onActivityResult(int requestCode,
+                                 int resultCode,
+                                 Intent data)
     {
 
         super.onActivityResult(requestCode,
@@ -256,7 +265,7 @@ public class AccountFragment extends Fragment {
 
                 // Setting image on image view using Bitmap
                 Bitmap bitmap = ImageDecoder
-                        .decodeBitmap(ImageDecoder.createSource(this.getContentResolver, filePath));
+                        .decodeBitmap(ImageDecoder.createSource(activity.getContentResolver(), filePath));
                 imageButton.setImageBitmap(bitmap);
             }
 
@@ -273,8 +282,8 @@ public class AccountFragment extends Fragment {
         if (filePath != null) {
 
             // Code for showing progressDialog while uploading 
-            ProgressDialog progressDialog
-                    = new ProgressDialog(this);
+            final ProgressDialog progressDialog
+                    = new ProgressDialog(activity);
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
 
@@ -300,7 +309,7 @@ public class AccountFragment extends Fragment {
                                     // Dismiss dialog 
                                     progressDialog.dismiss();
                                     Toast
-                                            .makeText(MainActivity.this,
+                                            .makeText(activity,
                                                     "Image Uploaded!!",
                                                     Toast.LENGTH_SHORT)
                                             .show();
@@ -315,7 +324,7 @@ public class AccountFragment extends Fragment {
                             // Error, Image not uploaded 
                             progressDialog.dismiss();
                             Toast
-                                    .makeText(MainActivity.this,
+                                    .makeText(activity,
                                             "Failed " + e.getMessage(),
                                             Toast.LENGTH_SHORT)
                                     .show();
@@ -340,6 +349,6 @@ public class AccountFragment extends Fragment {
                                 }
                             });
         }
-    }
+    }*/
 
 }
