@@ -6,8 +6,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 
 public class resultActivity extends AppCompatActivity {
+    TextView Title;
+    TextView Author;
+    TextView ISBN;
+    TextView Description;
+    TextView Status;
+    ImageView BookImage;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,7 +27,9 @@ public class resultActivity extends AppCompatActivity {
         actionBar.setTitle("Result");
         actionBar.setDisplayHomeAsUpEnabled(true);
         Intent intent = getIntent();
-        String currentBook = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        Book currentBook = (Book) intent.getSerializableExtra("Character");
+
+
 
 
 

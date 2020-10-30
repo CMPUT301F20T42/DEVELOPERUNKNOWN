@@ -13,44 +13,16 @@ public class Book implements Serializable {
     //private Float rating;
     //private User currentBorrower;
 
-    public String getTitle () {
+    public String getTitle() {
         return this.title;
     }
 
-    public String getAuthor () {
+    public String getAuthor() {
         return this.author;
     }
 
-    public String getAvailability () {
-        return status;
-    }
-
-    public String getISBN () {
-        return ISBN;
-    }
-
-    public String getDescription () {
-        return description;
-    }
-
-    public Book(String title, String author, String status, String ISBN, String description) {
-        this.title = title;
-        this.author = author;
-        this.status = status;
-        this.ISBN = ISBN;
-        this.description = description;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
     public String getAvailability() {
-        return availability;
+        return status;
     }
 
     public String getISBN() {
@@ -61,11 +33,11 @@ public class Book implements Serializable {
         return description;
     }
 
-    public Float getRating() {
-        return rating;
-    }
-
-    public User getCurrentBorrower() {
-        return currentBorrower;
+    public Book(String title, String author, String status, String ISBN, String description) {
+        this.title = title;
+        this.author = author;
+        this.status = status;
+        this.ISBN = ISBN;
+        this.description = description;
     }
 }
