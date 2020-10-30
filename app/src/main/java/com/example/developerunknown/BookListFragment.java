@@ -38,13 +38,12 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
     Context context;
     User currentUser;
 
-  //##########################this part is needed for the below blocking part.
-/*
+    //########################## this part is needed for the below blocking part.
+
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     public FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     public String uid = user.getUid();
     public CollectionReference userBookCollectionReference = db.collection("user").document(uid).collection("Book");
-*/
 
     @Nullable
     @Override
@@ -91,6 +90,8 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
 
         bookList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View view, int position, long id) {
+                Log.d("BookList Message", "Successfully clicked book");
+
                 Book clickedBook = bookDataList.get(position);
 
                 Bundle args = new Bundle();
@@ -100,6 +101,8 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
                 Fragment fragment = new ViewBookFragment();
                 fragment.setArguments(args);
 
+
+
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.fragment_container, fragment, "View Book Fragment");
@@ -108,8 +111,8 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
             }
         });
 
-     //###################################this part retrive book from online data base and automatically update ################################
-/*
+        //################################### this part retrieves book from online data base and automatically update ################################
+
         userBookCollectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable
@@ -129,8 +132,6 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
             }
         });
 
-
-*/
 
     }
 
