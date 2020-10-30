@@ -18,7 +18,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -43,7 +42,7 @@ public class SearchFragment extends Fragment {
     //String []books ={"To kill a mockingbird", "Indian Horse", "1984","1984", "Greenlight"};
     String currentBook;
     Button search_button;
-    private CollectionReference bookcollection = db.collection("book")
+    private CollectionReference bookcollection = db.collection("book");
 
     @Nullable
     @Override
