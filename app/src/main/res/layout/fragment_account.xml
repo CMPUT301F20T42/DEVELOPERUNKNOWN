@@ -34,8 +34,8 @@
 
     <ImageButton
         android:id="@+id/editImageButton"
-        android:layout_width="192dp"
-        android:layout_height="113dp"
+        android:layout_width="118dp"
+        android:layout_height="88dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="30dp"
         android:src="@drawable/defaultphoto"
@@ -140,10 +140,10 @@
         android:id="@+id/editInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="32dp"
         android:text="Edit"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.179"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editContactPhone" />
 
@@ -195,11 +195,15 @@
         android:id="@+id/confirmEditProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginStart="93dp"
+        android:layout_marginLeft="93dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="84dp"
+        android:layout_marginRight="84dp"
         android:text="Confirm"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editInfo" />
+        app:layout_constraintStart_toEndOf="@+id/editInfo"
+        app:layout_constraintTop_toBottomOf="@+id/editContactPhone" />
 
     <EditText
         android:id="@+id/searchUnameEdit"
