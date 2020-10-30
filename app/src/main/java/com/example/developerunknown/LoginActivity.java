@@ -68,22 +68,9 @@ public class LoginActivity extends AppCompatActivity {
                                                        if (task.isSuccessful()) {
                                                            DocumentSnapshot document = task.getResult();
                                                            if (document.exists()) {
+                                                               Log.d("TAG", "email: " + email);
                                                                email = document.getString("email");
-                                                               //Log.d("TAG", "email: " + email);
-                                                               auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                                                   @Override
-                                                                   public void onComplete(@NonNull Task<AuthResult> task) {
-                                                                       if (task.isSuccessful()) {
-                                                                           Toast.makeText(LoginActivity.this, "login success", Toast.LENGTH_SHORT).show();
-                                                                           Intent returnIntent = new Intent();
-                                                                           returnIntent.putExtra("result", "success");
-                                                                           setResult(Activity.RESULT_OK, returnIntent);
-                                                                           finish();
-                                                                       } else {
-                                                                           Toast.makeText(LoginActivity.this, "wrong password", Toast.LENGTH_SHORT).show();
-                                                                       }
-                                                                   }
-                                                               });
+                                                               login(email, password);
 
                                                            } else {
                                                                Log.d("check userName", "user not Exist");
