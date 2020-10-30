@@ -61,7 +61,6 @@ public class LoginActivity extends AppCompatActivity {
                                            public void onClick(View v) {
                                                userName = editUserName.getText().toString();
                                                password = editPassword.getText().toString();
-  
                                                DocumentReference uNameDocRef = unameCollectionReference.document(userName);
                                                uNameDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                                    @Override
@@ -97,6 +96,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
+                    Toast.makeText(LoginActivity.this, "login success", Toast.LENGTH_SHORT).show();
                     Intent returnIntent = new Intent();
                     returnIntent.putExtra("result", "success");
                     setResult(Activity.RESULT_OK, returnIntent);
