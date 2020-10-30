@@ -8,13 +8,13 @@
     >
 
     <EditText
-        android:id="@+id/editText_name"
+        android:id="@+id/editText_book"
         style="@style/Widget.AppCompat.EditText"
         android:layout_width="310dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:ems="10"
-        android:hint="City Name"
+        android:hint="Book Name"
         android:inputType="textCapWords"
         android:textColor="#000000" />
 

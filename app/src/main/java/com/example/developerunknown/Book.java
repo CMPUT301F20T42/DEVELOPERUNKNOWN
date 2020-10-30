@@ -19,6 +19,31 @@ public class Book {
         this.description = description;
     }
 
+    public String getTitle() {
+        return title;
+    }
 
+    public String getAuthor() {
+        return author;
+    }
 
+    public String getAvailability() {
+        return availability;
+    }
+
+    public String getISBN() {
+        return ISBN;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Float getRating() {
+        return rating;
+    }
+
+    public User getCurrentBorrower() {
+        return currentBorrower;
+    }
 }
