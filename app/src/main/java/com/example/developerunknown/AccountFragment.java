@@ -59,7 +59,7 @@ public class AccountFragment extends Fragment {
     private Activity activity = getActivity();
     FirebaseStorage storage;
     StorageReference storageReference;
-    public FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();;
+    public FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     public String uid = user.getUid();
     public String updatedContactEmail;
     public String undatedContactPhone;
