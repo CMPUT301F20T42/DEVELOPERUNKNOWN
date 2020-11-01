@@ -26,7 +26,7 @@ public class BookList extends ArrayAdapter<Book> {
         View view = convertView;
 
         if (view == null){
-            view = LayoutInflater.from(context).inflate(R.layout.content_search,parent,false);
+            view = LayoutInflater.from(context).inflate(R.layout.content,parent,false);
         }
 
         Book book = books.get(position);

@@ -30,7 +30,7 @@ public class resultActivity extends AppCompatActivity {
         actionBar.setTitle("Result");
         actionBar.setDisplayHomeAsUpEnabled(true);
         Intent intent = getIntent();
-        currentBook = (Book) intent.getSerializableExtra("Character");
+        currentBook = (Book) intent.getSerializableExtra("SelectedBook");
         borrower = (User) intent.getSerializableExtra("nowUser");
 
         Title = findViewById(R.id.rbook_title);
