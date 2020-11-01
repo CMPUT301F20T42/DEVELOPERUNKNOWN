@@ -38,6 +38,7 @@ import java.util.List;
 public class SearchFragment extends Fragment {
     public static final String EXTRA_MESSAGE = "com.example.developerunknown.MESSAGE";
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    public User currentUser;
     ListView resultList;
     ArrayAdapter<Book> bookAdapter;
     ArrayList<Book> dataList = new ArrayList<>();
@@ -45,9 +46,12 @@ public class SearchFragment extends Fragment {
     //String []books ={"To kill a mockingbird", "Indian Horse", "1984","1984", "Greenlight"};
     Button search_button;
 
+    public SearchFragment(User user){this.currentUser = user;}
+
+
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,@Nullable Bundle savedInstanceState){
+    public View onCreateView(final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_search,container,false);
         //final List<Book> books = new ArrayList<>();
     
@@ -121,6 +125,7 @@ public class SearchFragment extends Fragment {
                 Intent intent = new Intent(getActivity(),resultActivity.class);
                 Book thisBook = bookAdapter.getItem(pos);
                 intent.putExtra("SelectedBook", thisBook);
+                intent.putExtra("nowUser", currentUser);
                 startActivity(intent);
             }
         });

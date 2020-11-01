@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                             selectedFragment = new HomeFragment();
                             break;
                         case R.id.nav_search:
-                            selectedFragment = new SearchFragment();
+                            selectedFragment = new SearchFragment(currentUser);
                             break;
                         case R.id.nav_booklist:
                             Bundle args = new Bundle();

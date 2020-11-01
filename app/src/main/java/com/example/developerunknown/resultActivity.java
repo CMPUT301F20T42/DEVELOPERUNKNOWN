@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -17,6 +18,8 @@ public class resultActivity extends AppCompatActivity {
     TextView Description;
     TextView Status;
     ImageView BookImage;
+    Book currentBook;
+    User borrower;
 
 
     @Override
@@ -27,9 +30,20 @@ public class resultActivity extends AppCompatActivity {
         actionBar.setTitle("Result");
         actionBar.setDisplayHomeAsUpEnabled(true);
         Intent intent = getIntent();
-        Book currentBook = (Book) intent.getSerializableExtra("Character");
+        currentBook = (Book) intent.getSerializableExtra("Character");
+        borrower = (User) intent.getSerializableExtra("nowUser");
 
+        Title = findViewById(R.id.rbook_title);
+        Author = findViewById(R.id.rbook_author);
+        ISBN = findViewById(R.id.rbook_ISBN);
+        Description = findViewById(R.id.rbook_description);
+        Status = findViewById(R.id.rbook_status);
 
+        Title.setText(currentBook.getTitle());
+        Author.setText(currentBook.getAuthor());
+        ISBN.setText(currentBook.getISBN());
+        Description.setText(currentBook.getDescription());
+        Status.setText(currentBook.getAvailability());
 
 
 
@@ -42,5 +56,15 @@ public class resultActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /*public void startRequest(View view){
+        Intent intent = new Intent(this,resultActivity.class);
+        intent.putExtra("SelectedBook", currentBook);
+        startActivity(intent);
+    }*/
+    public void startRequest(View view){
+        Request nowRequest = new Request(borrower);
+        //TODO: update book status...
     }
 }
