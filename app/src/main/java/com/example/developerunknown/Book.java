@@ -12,6 +12,7 @@ public class Book implements Serializable {
     private String ISBN;
     private String description;
     private ArrayList<Request> requestsList;
+    private User owner;
     //private Float rating;
     //private User currentBorrower;
 
@@ -33,6 +34,10 @@ public class Book implements Serializable {
 
     public String getDescription() {
         return description;
+    }
+
+    public User getOwner() {
+        return owner;
     }
 
     public Book(String title, String author, String status, String ISBN, String description) {

@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class resultActivity extends AppCompatActivity {
     TextView Title;
@@ -64,7 +65,12 @@ public class resultActivity extends AppCompatActivity {
         startActivity(intent);
     }*/
     public void startRequest(View view){
-        Request nowRequest = new Request(borrower);
-        //TODO: update book status...
+        if (currentBook.getOwner() == borrower){
+            Toast.makeText(resultActivity.this, "You are the owner of this book", Toast.LENGTH_SHORT).show();
+        } else {
+            Request nowRequest = new Request(borrower);
+            //TODO: update book status...
+            Toast.makeText(resultActivity.this, "Your request has sent", Toast.LENGTH_SHORT).show();
+        }
     }
 }
