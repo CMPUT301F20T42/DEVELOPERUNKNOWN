@@ -24,6 +24,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -40,36 +41,15 @@ public class SearchFragment extends Fragment {
     ArrayList<Book> dataList = new ArrayList<>();
     TextView searchBook;
     //String []books ={"To kill a mockingbird", "Indian Horse", "1984","1984", "Greenlight"};
-    String currentBook;
     Button search_button;
-    private CollectionReference bookcollection = db.collection("book");
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,@Nullable Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_search,container,false);
-        final List<Book> books = new ArrayList<>();
+        List<Book> books = new ArrayList<>();
 
-        final CollectionReference bookRef = db.collection("book");
-
-        bookRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        String Description = document.getString("description");
-                        String Author = document.getString("author");
-                        String Title = document.getString("title");
-                        String ISBN = document.getString("ISBN");
-                        String Status = document.getString("status");
-                        Book nowBook = new Book(Title, Author, Status, ISBN, Description);
-                        books.add(nowBook);
-                    }
-                }
-            }
-        });
-
-        resultList = (ListView)view.findViewById(R.id.result_list);
+        resultList = view.findViewById(R.id.result_list);
 
         dataList.addAll(books);
 
@@ -77,18 +57,42 @@ public class SearchFragment extends Fragment {
 
         resultList.setAdapter(bookAdapter);
 
-        searchBook = (TextView)view.findViewById(R.id.editText_book);
+        searchBook = view.findViewById(R.id.editText_book);
 
-        search_button = (Button)view.findViewById(R.id.search);
-
+        search_button = view.findViewById(R.id.search);
         search_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), resultActivity.class);
-                String currentBook = searchBook.getText().toString();
-                intent.putExtra(EXTRA_MESSAGE, currentBook);
-                startActivity(intent);
+                String keyword = searchBook.getText().toString();
+                CollectionReference BookRef = (CollectionReference) db.collectionGroup("Book");
+                //Query myQuery = db.collectionGroup("Book").whereEqualTo("description", keyword);
+                //Query query = db.collection("users").startAt(keyword).endAt(searchText+ "\uf8ff");
+                //Query myQuery = BookRef.startAt(keyword).endAt(keyword+ "\uf8ff");
+
+                //Query myQuery = BookRef.whereGreaterThanOrEqualTo("description", keyword);
+                BookRef.get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    //System.out.println("here");
+                                    dataList.clear();
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        String Description = document.getString("description");
+                                        String Author = document.getString("author");
+                                        String Title = document.getString("title");
+                                        String ISBN = document.getString("ISBN");
+                                        String Status = document.getString("status");
+                                        Book nowBook = new Book(Title, Author, Status, ISBN, Description);
+                                        dataList.add(nowBook);
+                                        bookAdapter.notifyDataSetChanged(); // Notifying the adapter to render any new data fetcheh
+                                    }
+                                    // [END_EXCLUDE]
+                                }
+                            }
+                        });
             }
-        });
+        }
+        );
 
         return view;
     }

@@ -1,11 +1,16 @@
 package com.example.developerunknown;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
@@ -19,8 +24,10 @@ public class Scanner extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.scanner);
         CodeScannerView scannerView = findViewById(R.id.scanner_view);
+
+
         mCodeScanner = new CodeScanner(this, scannerView);
         mCodeScanner.setDecodeCallback(new DecodeCallback() {
             @Override
@@ -28,7 +35,11 @@ public class Scanner extends AppCompatActivity {
                 Scanner.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        Intent intent=new Intent();
                         Toast.makeText(Scanner.this, result.getText(), Toast.LENGTH_SHORT).show();
+                        intent.putExtra("RESULT_ISBN", result.getText());
+                        setResult(Activity.RESULT_OK, intent);
+                        finish();
                     }
                 });
             }

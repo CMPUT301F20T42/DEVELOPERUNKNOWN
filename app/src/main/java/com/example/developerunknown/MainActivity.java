@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
+
 /*
                 // Create dummy user + book data
                 // TODO: replace with calls to firestore

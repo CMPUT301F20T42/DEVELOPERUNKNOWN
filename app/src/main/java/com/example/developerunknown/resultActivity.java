@@ -20,7 +20,6 @@ public class resultActivity extends AppCompatActivity {
         String currentBook = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
 
 
-
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
