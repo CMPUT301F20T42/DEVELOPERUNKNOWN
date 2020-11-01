@@ -50,7 +50,7 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,@Nullable Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_search,container,false);
         //final List<Book> books = new ArrayList<>();
-
+    
 
         resultList = (ListView)view.findViewById(R.id.result_list);
 
@@ -67,8 +67,11 @@ public class SearchFragment extends Fragment {
         search_button = (Button)view.findViewById(R.id.search);
         search_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                String keyword=searchBook.getText().toString();
-                Query myQuery = db.collectionGroup("Book").whereEqualTo("description", keyword);
+                String keyword = searchBook.getText().toString();
+                CollectionReference BookRef = (CollectionReference) db.collectionGroup("Book");
+                //Query myQuery = db.collectionGroup("Book").whereEqualTo("description", keyword);
+                //Query query = db.collection("users").startAt(keyword).endAt(searchText+ "\uf8ff");
+                Query myQuery = BookRef.startAt(keyword).endAt(keyword+ "\uf8ff");
                 myQuery.get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
@@ -85,7 +88,6 @@ public class SearchFragment extends Fragment {
                                         Book nowBook = new Book(Title, Author, Status, ISBN, Description);
                                         dataList.add(nowBook);
                                         bookAdapter.notifyDataSetChanged(); // Notifying the adapter to render any new data fetcheh
-
                                     }
                                     // [END_EXCLUDE]
                                 }}
