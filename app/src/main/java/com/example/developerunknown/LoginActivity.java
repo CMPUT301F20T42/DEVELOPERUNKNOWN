@@ -59,8 +59,10 @@ public class LoginActivity extends AppCompatActivity {
         logInButton.setOnClickListener(new View.OnClickListener() {
                                            @Override
                                            public void onClick(View v) {
-                                               userName = editUserName.getText().toString();
-                                               password = editPassword.getText().toString();
+                                               //userName = editUserName.getText().toString();
+                                               //password = editPassword.getText().toString();
+                                               userName = "XZPshaw";
+                                               password = "123456";
                                                DocumentReference uNameDocRef = unameCollectionReference.document(userName);
                                                uNameDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                                    @Override

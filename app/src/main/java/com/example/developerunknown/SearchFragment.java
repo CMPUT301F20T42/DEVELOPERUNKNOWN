@@ -1,10 +1,12 @@
 package com.example.developerunknown;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,8 +36,8 @@ import java.util.List;
 
 
 public class SearchFragment extends Fragment {
-    public static final String EXTRA_MESSAGE = "com.example.developerunknown.MESSAGE";
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    public User currentUser;
     ListView resultList;
     ArrayAdapter<Book> bookAdapter;
     ArrayList<Book> dataList = new ArrayList<>();
@@ -43,53 +45,124 @@ public class SearchFragment extends Fragment {
     //String []books ={"To kill a mockingbird", "Indian Horse", "1984","1984", "Greenlight"};
     Button search_button;
 
+    public SearchFragment(User user){this.currentUser = user;}
+
+
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,@Nullable Bundle savedInstanceState){
+    public View onCreateView(final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_search,container,false);
-        List<Book> books = new ArrayList<>();
+        //final List<Book> books = new ArrayList<>();
+    
 
-        resultList = view.findViewById(R.id.result_list);
+        resultList = (ListView)view.findViewById(R.id.result_list);
 
-        dataList.addAll(books);
+        //dataList.addAll(books);
+        final Context context= container.getContext();;
+        bookAdapter = new CustomList(context, dataList);
 
-        bookAdapter = new ArrayAdapter<>(getActivity(),R.layout.content_search, dataList);
+        //bookAdapter = new CustomList(getActivity(), dataList);
 
         resultList.setAdapter(bookAdapter);
 
-        searchBook = view.findViewById(R.id.editText_book);
+        searchBook = (TextView)view.findViewById(R.id.editText_book);
 
-        search_button = view.findViewById(R.id.search);
-        search_button.setOnClickListener(new View.OnClickListener() {
+        search_button = (Button)view.findViewById(R.id.search);
+        /*search_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 String keyword = searchBook.getText().toString();
-                CollectionReference BookRef = (CollectionReference) db.collectionGroup("Book");
+                //Query BookRef = db.collectionGroup("Book");
+                Query myQuery = db.collectionGroup("Book").whereEqualTo("Title", keyword);
                 //Query myQuery = db.collectionGroup("Book").whereEqualTo("description", keyword);
-                //Query query = db.collection("users").startAt(keyword).endAt(searchText+ "\uf8ff");
-                //Query myQuery = BookRef.startAt(keyword).endAt(keyword+ "\uf8ff");
-
-                //Query myQuery = BookRef.whereGreaterThanOrEqualTo("description", keyword);
-                BookRef.get()
+                //Query myQuery = db.collectionGroup("Book").whereLessThanOrEqualTo("description", keyword);
+                //Query myQuery = db.collectionGroup("Book").startAt(keyword).endAt(keyword+ "\uf8ff");
+                myQuery.get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    //System.out.println("here");
+                                if (task.isSuccessful()){
+                                    System.out.println("here");
                                     dataList.clear();
                                     for (QueryDocumentSnapshot document : task.getResult()) {
                                         String Description = document.getString("description");
-                                        String Author = document.getString("author");
-                                        String Title = document.getString("title");
+                                        String Author = document.getString("Author");
+                                        String Title = document.getString("Title");
                                         String ISBN = document.getString("ISBN");
-                                        String Status = document.getString("status");
+                                        String Status = document.getString("Status");
                                         Book nowBook = new Book(Title, Author, Status, ISBN, Description);
                                         dataList.add(nowBook);
                                         bookAdapter.notifyDataSetChanged(); // Notifying the adapter to render any new data fetcheh
                                     }
                                     // [END_EXCLUDE]
-                                }
+                                }}
+                        });}}); */
+        db.collectionGroup("Book").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    dataList.clear();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        String Description = document.getString("description");
+                        String Author = document.getString("Author");
+                        String Title = document.getString("Title");
+                        String ISBN = document.getString("ISBN");
+                        String Status = document.getString("Status");
+                        Book nowBook = new Book(Title, Author, Status, ISBN, Description);
+                        dataList.add(nowBook);
+                        bookAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        });
+
+        search_button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                String keyword = searchBook.getText().toString();
+                ArrayList<Book> newDataList = new ArrayList<>();
+                for(int i = 0; i < dataList.size();i++){
+                    Book thisBook = dataList.get(i);
+                    String thisString = thisBook.getTitle();
+                    if(thisString.equals(keyword)){
+                        newDataList.add(thisBook);
+                    }
+                }
+                bookAdapter = new CustomList(context,newDataList);
+                resultList.setAdapter(bookAdapter);
+            }
+        });
+
+
+        /*search_button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                String keyword = searchBook.getText().toString();
+                db.collectionGroup("Book").whereEqualTo("Title", "1984").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            dataList.clear();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String Description = document.getString("description");
+                                String Author = document.getString("Author");
+                                String Title = document.getString("Title");
+                                String ISBN = document.getString("ISBN");
+                                String Status = document.getString("Status");
+                                Book nowBook = new Book(Title, Author, Status, ISBN, Description);
+                                dataList.add(nowBook);
+                                bookAdapter.notifyDataSetChanged();
                             }
-                        });
+                        }
+                    }
+                });
+            }
+        });*/
+
+        resultList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> list, View v, int pos, long id) {
+                Intent intent = new Intent(getActivity(),resultActivity.class);
+                Book thisBook = bookAdapter.getItem(pos);
+                intent.putExtra("SelectedBook", thisBook);
+                intent.putExtra("nowUser", currentUser);
+                startActivity(intent);
             }
         }
         );
