@@ -10,12 +10,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-
-import android.widget.Spinner;
-
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -51,8 +48,6 @@ public class AddBookFragment extends Fragment {
     private EditText bookAuthor;
     private EditText bookDescription;
     private EditText bookISBN;
-    Spinner bookStatus;
-    int spinValue;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     public FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -90,33 +85,6 @@ public class AddBookFragment extends Fragment {
         //initialize add button
         addBookButton = view.findViewById(R.id.add_book_button2);
         cancelButton = view.findViewById(R.id.cancel_book_button);
-        bookStatus = view.findViewById(R.id.spinner);
-
-
-        AdapterView.OnItemSelectedListener onSpinner = new AdapterView.OnItemSelectedListener(){
-            @Override
-            public void onItemSelected(
-                    AdapterView<?> parent,
-                    View view,
-                    int position,
-                    long id) {
-                //assign to 'global' for sending to Book on ok button press
-                spinValue = position;
-            }
-
-            @Override
-            public void onNothingSelected(
-                    AdapterView<?>  parent) {
-            }
-        };
-
-        bookStatus.setOnItemSelectedListener(onSpinner);
-
-
-
-
-
-
 
         addBookButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,18 +93,15 @@ public class AddBookFragment extends Fragment {
                 bookAuthor = view.findViewById(R.id.book_author_editText);
                 bookDescription = view.findViewById(R.id.book_description_editText);
                 bookISBN = view.findViewById(R.id.book_isbn_editText);
-                //bookStatus = view.findViewById(R.id.book_status);
 
                 String title = bookTitle.getText().toString();
                 String author = bookAuthor.getText().toString();
                 String description = bookDescription.getText().toString();
                 String ISBN = bookISBN.getText().toString();
-                String status = bookStatus.getSelectedItem().toString();
 
-
-                if(title.length() > 0 && author.length() > 0 && description.length() > 0 && ISBN.length() > 0 && status.length() > 0)
+                if(title.length() > 0 && author.length() > 0 && description.length() > 0 && ISBN.length() > 0)
                 {
-                    Book book = new Book(title, author,  status, ISBN, description);
+                    Book book = new Book(title, author,  "Available", ISBN, description);
                     currentUser.addBook(book);
 
                     // Add book to book collection
@@ -145,7 +110,6 @@ public class AddBookFragment extends Fragment {
                     data.put("author", author);
                     data.put("description", description);
                     data.put("ISBN", ISBN);
-                    data.put("status", status);
 
                     userBookCollectionReference
                             .document(ISBN)
