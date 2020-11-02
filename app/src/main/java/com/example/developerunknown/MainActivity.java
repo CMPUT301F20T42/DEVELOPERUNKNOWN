@@ -24,6 +24,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 ;
 
 public class MainActivity extends AppCompatActivity {
+    public static final String EXTRA_MESSAGE = "com.example.developerunknown.MESSAGE";
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference userCollectionReference = db.collection("user");
     private FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
+
 /*
                 // Create dummy user + book data
                 // TODO: replace with calls to firestore
@@ -106,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                             selectedFragment = new HomeFragment();
                             break;
                         case R.id.nav_search:
-                            selectedFragment = new SearchFragment();
+                            selectedFragment = new SearchFragment(currentUser);
                             break;
                         case R.id.nav_booklist:
                             Bundle args = new Bundle();

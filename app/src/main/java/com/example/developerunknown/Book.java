@@ -3,6 +3,7 @@ package com.example.developerunknown;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Book implements Serializable {
     private String title;
@@ -10,27 +11,33 @@ public class Book implements Serializable {
     private String status;
     private String ISBN;
     private String description;
+    private ArrayList<Request> requestsList;
+    private User owner;
     //private Float rating;
     //private User currentBorrower;
 
-    public String getTitle () {
+    public String getTitle() {
         return this.title;
     }
 
-    public String getAuthor () {
+    public String getAuthor() {
         return this.author;
     }
 
-    public String getAvailability () {
+    public String getAvailability() {
         return status;
     }
 
-    public String getISBN () {
+    public String getISBN() {
         return ISBN;
     }
 
-    public String getDescription () {
+    public String getDescription() {
         return description;
+    }
+
+    public User getOwner() {
+        return owner;
     }
 
     public Book(String title, String author, String status, String ISBN, String description) {
@@ -39,8 +46,12 @@ public class Book implements Serializable {
         this.status = status;
         this.ISBN = ISBN;
         this.description = description;
+
+    }
+    public void requestsListPushBack(Request request){
+        this.requestsList.add(request);
     }
 
-
-
+    /*public void requestUpdate(Request nowRequest, Request targetRequest){
+    }*/
 }

@@ -55,12 +55,14 @@ public class AccountFragment extends Fragment {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference userCollectionReference = db.collection("user");
     private FirebaseAuth auth = FirebaseAuth.getInstance();
+
     private Activity activity = getActivity();
     private Uri filePath;
     ImageButton editImageButton;
     public FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private FirebaseStorage storage;
     private StorageReference storageReference;
+
     public String uid = user.getUid();
     public String updatedContactEmail;
     public String undatedContactPhone;
