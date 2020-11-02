@@ -24,7 +24,9 @@ public class Book implements Serializable {
         return this.author;
     }
 
-    public String getAvailability() {
+
+    public String getStatus () {
+
         return status;
     }
 

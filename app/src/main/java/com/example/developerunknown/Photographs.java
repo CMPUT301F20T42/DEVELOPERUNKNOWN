@@ -1,28 +1,38 @@
 package com.example.developerunknown;
-import android.media.Image;
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 
 import java.lang.String;
 import java.util.AbstractMap;
 
 public class Photographs {
-    private Image defaultPhoto;
-    private AbstractMap<String, Image> bookPhotoPair;
-    private AbstractMap<String, Image> userPhotoPair;
+    private Context context;
+    private Drawable defaultPhoto;
+    private AbstractMap<String, Drawable> bookPhotoPair;
+    private AbstractMap<String, Drawable> userPhotoPair;
 
-    public Photographs(Image defaultPhoto, AbstractMap<String, Image> bookPhotoPair) {
-        this.defaultPhoto = defaultPhoto;
-        this.bookPhotoPair = bookPhotoPair;
+
+    public Photographs(Context current, AbstractMap<String, Drawable> aPhotoPair, String type) {
+        this.context = current;
+        if (type == "U"){
+            this.userPhotoPair = aPhotoPair;
+        }
+        if (type == "B"){
+            this.bookPhotoPair = aPhotoPair;
+        }
+        defaultPhoto = context.getResources().getDrawable(R.drawable.defaultphoto);
     }
 
-    public AbstractMap<String, Image> getBookPhotoPair() {
+    public AbstractMap<String, Drawable> getBookPhotoPair() {
         return bookPhotoPair;
     }
 
-    public AbstractMap<String, Image> getUserPhotoPair() {
+    public AbstractMap<String, Drawable> getUserPhotoPair() {
         return userPhotoPair;
     }
 
-    public void attachBookPhoto(String a_book, Image a_photo){
+    public void attachBookPhoto(String a_book, Drawable a_photo){
         bookPhotoPair.put(a_book, a_photo);
 
     }
@@ -30,7 +40,7 @@ public class Photographs {
         bookPhotoPair.put(a_book, defaultPhoto);
     }
 
-    public void attachUserPhoto(String a_book, Image a_photo){
+    public void attachUserPhoto(String a_book, Drawable a_photo){
         userPhotoPair.put(a_book, a_photo);
 
     }
