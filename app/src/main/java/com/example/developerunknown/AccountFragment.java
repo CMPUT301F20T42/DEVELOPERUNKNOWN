@@ -2,8 +2,10 @@ package com.example.developerunknown;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Build;
@@ -16,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,20 +42,22 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.UUID;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
 
 public class AccountFragment extends Fragment {
-    private final int PICK_IMAGE_REQUEST = 22;
+    private static final int RESULT_LOAD_IMG = 111;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference userCollectionReference = db.collection("user");
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private Activity activity = getActivity();
     private Uri filePath;
-    private ImageButton editImageButton;
+    ImageButton editImageButton;
     public FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private FirebaseStorage storage;
     private StorageReference storageReference;
@@ -64,6 +69,8 @@ public class AccountFragment extends Fragment {
     public String searchUser;
     public String searchUid; // uid of searched user
     DocumentReference currentUserDocRef = userCollectionReference.document(uid);
+
+    final Context applicationContext = MainActivity.getContextOfApplication();
 
 
     @Nullable
@@ -91,7 +98,6 @@ public class AccountFragment extends Fragment {
         contactPhoneEdit.setEnabled(false);
         contactPhoneEdit.setClickable(false);
         editInfoButton.setClickable(false);
-        editImageButton.setClickable(false);
 
 
         currentUserDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -124,6 +130,7 @@ public class AccountFragment extends Fragment {
                 contactPhoneEdit.setClickable(true);
                 editInfoButton.setClickable(true);
                 editImageButton.setClickable(true);
+
                 editInfoButton.setVisibility(View.INVISIBLE);
                 confirmEditButton.setVisibility(View.VISIBLE);
             }
@@ -132,6 +139,7 @@ public class AccountFragment extends Fragment {
         confirmEditButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                uploadImage();
                 updatedContactEmail = contactEmailEdit.getText().toString();
                 undatedContactPhone = contactPhoneEdit.getText().toString();
                 if (Patterns.PHONE.matcher(undatedContactPhone).matches() && Patterns.EMAIL_ADDRESS.matcher(updatedContactEmail).matches() ) {
@@ -209,8 +217,7 @@ public class AccountFragment extends Fragment {
 
         editImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 selectImage();
             }
         });
@@ -220,96 +227,56 @@ public class AccountFragment extends Fragment {
     }
 
 
-
     private void selectImage() {
-
         // Defining Implicit Intent to mobile gallery
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(
-                Intent.createChooser(
-                        intent,
-                        "Select Image from here..."),
-                PICK_IMAGE_REQUEST);
+        Intent photoPickIntent = new Intent(Intent.ACTION_PICK);
+        photoPickIntent.setType("image/*");
+        startActivityForResult(photoPickIntent, RESULT_LOAD_IMG);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.P)
+
     @Override
-    public void onActivityResult(int requestCode,
-                                 int resultCode,
-                                 Intent data)
-    {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
 
-        super.onActivityResult(requestCode,
-                resultCode,
-                data);
-
-        // checking request code and result code
-        // if request code is PICK_IMAGE_REQUEST and
-        // resultCode is RESULT_OK
-        // then set image in the image view
-        if (requestCode == PICK_IMAGE_REQUEST
-                && resultCode == RESULT_OK
-                && data != null
-                && data.getData() != null) {
-
-            // Get the Uri of data
-            filePath = data.getData();
             try {
-
-                // Setting image on image view using Bitmap
-                ImageDecoder.Source source = ImageDecoder.createSource(activity.getContentResolver(),filePath);
-                Bitmap bitmap = ImageDecoder.decodeBitmap(source);
+                // Get the Uri of data
+                filePath = data.getData();
+                final InputStream imageStream = applicationContext.getContentResolver().openInputStream(filePath);
+                final Bitmap bitmap = BitmapFactory.decodeStream(imageStream);
                 editImageButton.setImageBitmap(bitmap);
             }
-
-            catch (IOException e) {
-                // Log the exception
+            catch (Exception e) {
                 e.printStackTrace();
+                Toast.makeText(applicationContext, "Something went wrong", Toast.LENGTH_LONG).show();
             }
 
 
+        }else{
+            Toast.makeText(applicationContext, "You haven't picked Image", Toast.LENGTH_SHORT).show();
         }
     }
-
     // UploadImage method
     private void uploadImage()
     {
+
         if (filePath != null) {
 
-            // Code for showing progressDialog while uploading
-            final ProgressDialog progressDialog
-                    = new ProgressDialog(activity);
-            progressDialog.setTitle("Uploading...");
-            progressDialog.show();
-
             // Defining the child of storageReference
-            StorageReference ref
-                    = storageReference
-                    .child(
-                            "images/"
-                                    + UUID.randomUUID().toString());
+            StorageReference ref = storageReference.child("profileImages/" + uid);
+
 
             // adding listeners on upload
             // or failure of image
             ref.putFile(filePath)
-                    .addOnSuccessListener(
-                            new OnSuccessListener<UploadTask.TaskSnapshot>() {
-
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                 @Override
                                 public void onSuccess(
                                         UploadTask.TaskSnapshot taskSnapshot)
                                 {
-
                                     // Image uploaded successfully
-                                    // Dismiss dialog
-                                    progressDialog.dismiss();
-                                    Toast
-                                            .makeText(activity,
-                                                    "Image Uploaded!!",
-                                                    Toast.LENGTH_SHORT)
-                                            .show();
+                                    Toast.makeText(applicationContext, "Image Uploaded!!", Toast.LENGTH_SHORT).show();
                                 }
                             })
 
@@ -317,36 +284,24 @@ public class AccountFragment extends Fragment {
                         @Override
                         public void onFailure(@NonNull Exception e)
                         {
-
                             // Error, Image not uploaded
-                            progressDialog.dismiss();
-                            Toast
-                                    .makeText(activity,
-                                            "Failed " + e.getMessage(),
-                                            Toast.LENGTH_SHORT)
-                                    .show();
+                            Toast.makeText(applicationContext, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     })
-                    .addOnProgressListener(
-                            new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
 
-                                // Progress Listener for loading
-                                // percentage on the dialog box
-                                @Override
-                                public void onProgress(
-                                        UploadTask.TaskSnapshot taskSnapshot)
-                                {
-                                    double progress
-                                            = (100.0
-                                            * taskSnapshot.getBytesTransferred()
-                                            / taskSnapshot.getTotalByteCount());
-                                    progressDialog.setMessage(
-                                            "Uploaded "
-                                                    + (int)progress + "%");
-                                }
-                            });
+                        // Progress Listener for loading
+                        // percentage on the dialog box
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            Toast.makeText(applicationContext, "In Progress ", Toast.LENGTH_SHORT).show();
+                        }
+                    });
         }
 
+
+
     }
+
 
 }
