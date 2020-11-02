@@ -36,7 +36,6 @@ import java.util.List;
 
 
 public class SearchFragment extends Fragment {
-    public static final String EXTRA_MESSAGE = "com.example.developerunknown.MESSAGE";
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     public User currentUser;
     ListView resultList;
@@ -59,7 +58,7 @@ public class SearchFragment extends Fragment {
         resultList = (ListView)view.findViewById(R.id.result_list);
 
         //dataList.addAll(books);
-        Context context= container.getContext();;
+        final Context context= container.getContext();;
         bookAdapter = new CustomList(context, dataList);
 
         //bookAdapter = new CustomList(getActivity(), dataList);
@@ -97,8 +96,43 @@ public class SearchFragment extends Fragment {
                                     // [END_EXCLUDE]
                                 }}
                         });}}); */
+        db.collectionGroup("Book").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    dataList.clear();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        String Description = document.getString("description");
+                        String Author = document.getString("Author");
+                        String Title = document.getString("Title");
+                        String ISBN = document.getString("ISBN");
+                        String Status = document.getString("Status");
+                        Book nowBook = new Book(Title, Author, Status, ISBN, Description);
+                        dataList.add(nowBook);
+                        bookAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        });
 
         search_button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                String keyword = searchBook.getText().toString();
+                ArrayList<Book> newDataList = new ArrayList<>();
+                for(int i = 0; i < dataList.size();i++){
+                    Book thisBook = dataList.get(i);
+                    String thisString = thisBook.getTitle();
+                    if(thisString.equals(keyword)){
+                        newDataList.add(thisBook);
+                    }
+                }
+                bookAdapter = new CustomList(context,newDataList);
+                resultList.setAdapter(bookAdapter);
+            }
+        });
+
+
+        /*search_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 String keyword = searchBook.getText().toString();
                 db.collectionGroup("Book").whereEqualTo("Title", "1984").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -120,7 +154,7 @@ public class SearchFragment extends Fragment {
                     }
                 });
             }
-        });
+        });*/
 
         resultList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> list, View v, int pos, long id) {
