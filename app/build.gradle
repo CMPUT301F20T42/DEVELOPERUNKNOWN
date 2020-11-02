@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.developerunknown"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 30
         multiDexEnabled true
         versionCode 1
@@ -31,7 +31,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
 
-
+    //used for firestore related
     implementation 'com.google.firebase:firebase-firestore:21.7.0'
     implementation 'com.firebaseui:firebase-ui-auth:6.2.0'
     implementation platform('com.google.firebase:firebase-bom:25.12.0')
@@ -39,6 +39,13 @@ dependencies {
     // Declare the dependency for the Firebase Authentication library
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation 'com.google.firebase:firebase-auth'
+
+    //used for ISBN scanner
+    //https://github.com/yuriy-budiyev/code-scanner
+    //https://www.youtube.com/watch?v=drH63NpSWyk
+    implementation 'com.budiyev.android:code-scanner:2.1.0'
+
+
 
 
     implementation 'com.android.support:multidex:1.0.3'
