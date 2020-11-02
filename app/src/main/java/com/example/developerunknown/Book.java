@@ -46,12 +46,12 @@ public class Book implements Serializable {
         this.status = status;
         this.ISBN = ISBN;
         this.description = description;
+
     }
     public void requestsListPushBack(Request request){
         this.requestsList.add(request);
     }
 
     /*public void requestUpdate(Request nowRequest, Request targetRequest){
-
     }*/
 }

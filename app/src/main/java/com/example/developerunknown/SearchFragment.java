@@ -164,7 +164,8 @@ public class SearchFragment extends Fragment {
                 intent.putExtra("nowUser", currentUser);
                 startActivity(intent);
             }
-        });
+        }
+        );
 
         return view;
     }

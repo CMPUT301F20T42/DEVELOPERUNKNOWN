@@ -47,7 +47,6 @@ public class resultActivity extends AppCompatActivity {
         Status.setText(currentBook.getAvailability());
 
 
-
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

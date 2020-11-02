@@ -79,8 +79,8 @@ public class SignUpActivity extends AppCompatActivity {
                 if (userName.trim().length() == 0 ) {
                     Toast.makeText(SignUpActivity.this, "userName can't be empty", Toast.LENGTH_SHORT).show();
                 }
-                else if (password.trim().length() == 0 ) {
-                    Toast.makeText(SignUpActivity.this, "password can't be empty", Toast.LENGTH_SHORT).show();
+                else if (password.trim().length() < 6 ) {
+                    Toast.makeText(SignUpActivity.this, "password must be at least 6 characters", Toast.LENGTH_SHORT).show();
                 }
                 else if (email.trim().length()==0 || !Patterns.EMAIL_ADDRESS.matcher(email).matches()){
                     Toast.makeText(SignUpActivity.this, "Warning:email format not correct", Toast.LENGTH_SHORT).show();
@@ -110,7 +110,7 @@ public class SignUpActivity extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<AuthResult> task) {
                                             if (!task.isSuccessful()){
-                                                Toast.makeText(SignUpActivity.this,"There is a error signing up",Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(SignUpActivity.this,"There is a error ,please check if this email already registered or try later",Toast.LENGTH_SHORT).show();
                                             }
                                             else{
                                                 String user_Id = auth.getCurrentUser().getUid();
