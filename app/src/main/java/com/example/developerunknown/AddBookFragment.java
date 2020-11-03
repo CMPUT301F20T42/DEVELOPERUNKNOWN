@@ -155,8 +155,7 @@ public class AddBookFragment extends Fragment {
                 }
             }
         });
-
-        /*
+        
         scanButton = view.findViewById(R.id.scan_button);
         scanButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,7 +172,7 @@ public class AddBookFragment extends Fragment {
                 }
             }
         });
-*/
+
         return view;
     }
 
