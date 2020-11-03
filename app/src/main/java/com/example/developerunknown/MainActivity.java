@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
                                 String firstName = document.getString("firstName");
                                 String lastName = document.getString("lastName");
                                 String username = document.getString("userName");
+                                currentUser.setUid(document.getId());
 
                                 Log.d("TAG", "name: " + firstName);
 

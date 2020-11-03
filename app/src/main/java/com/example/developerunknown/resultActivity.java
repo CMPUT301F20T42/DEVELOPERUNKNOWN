@@ -1,5 +1,6 @@
 package com.example.developerunknown;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,6 +13,19 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class resultActivity extends AppCompatActivity {
     TextView Title;
     TextView Author;
@@ -21,6 +35,7 @@ public class resultActivity extends AppCompatActivity {
     ImageView BookImage;
     Book currentBook;
     User borrower;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
     @Override
@@ -49,7 +64,7 @@ public class resultActivity extends AppCompatActivity {
 
     }
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item){
         if(item.getItemId() == android.R.id.home)
         {
             finish();
@@ -63,12 +78,34 @@ public class resultActivity extends AppCompatActivity {
         intent.putExtra("SelectedBook", currentBook);
         startActivity(intent);
     }*/
+
     public void startRequest(View view){
-        if (currentBook.getOwner() == borrower){
-            Toast.makeText(resultActivity.this, "You are the owner of this book", Toast.LENGTH_SHORT).show();
+        if (currentBook.getOwner() == borrower.getUid()){
+            if(currentBook.getAvailability().equals("Available") || currentBook.getAvailability().equals("Requsted")) {
+                Toast.makeText(resultActivity.this, "You cant request for this book", Toast.LENGTH_SHORT).show();
+            }
         } else {
-            Request nowRequest = new Request(borrower);
-            //TODO: update book status...
+            final Request nowRequest = new Request(borrower.getUid(), currentBook);
+            //DocumentReference docRef = db.collection("User").document(currentBook.getOwner());
+            Query query = db.collectionGroup("Book");
+            query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            if(document.getId() == currentBook.getBid()){
+                                DocumentReference docRef = db.collection("user").document(currentBook.getOwner()).collection("Book").document(currentBook.getBid());
+                                Map<String, Object> requstData = new HashMap<>();
+                                requstData.put("Borrower",nowRequest.getBorrower());
+                                requstData.put("Bookid",currentBook.getBid());
+                                requstData.put("Status",nowRequest.getStatus());
+                                docRef.collection("Request").add(requstData);
+                            }
+                        }
+                    }
+                }
+            });
+
             Toast.makeText(resultActivity.this, "Your request has sent", Toast.LENGTH_SHORT).show();
         }
     }
