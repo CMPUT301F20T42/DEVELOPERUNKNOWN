@@ -112,7 +112,7 @@ public class AddBookFragment extends Fragment {
                     data.put("ISBN", ISBN);
 
                     userBookCollectionReference
-                            .document(ISBN)
+                            .document()
                             .set(data)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
