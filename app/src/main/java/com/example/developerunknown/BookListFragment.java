@@ -101,8 +101,6 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
                 Fragment fragment = new ViewBookFragment();
                 fragment.setArguments(args);
 
-
-
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.fragment_container, fragment, "View Book Fragment");
@@ -126,7 +124,7 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
                     String description = (String) doc.getData().get("description");
                     String ISBN = (String) doc.getData().get("ISBN");
                     String status = (String) doc.getData().get("status");
-                    bookDataList.add(new Book(title, author, status, ISBN, description)); // Adding the cities and provinces from FireStore
+                    bookDataList.add(new Book(doc.getId(), title, author, status, ISBN, description)); // Adding the cities and provinces from FireStore
                 }
                 bookAdapter.notifyDataSetChanged(); // Notifying the adapter to render any new data fetcheh
             }
