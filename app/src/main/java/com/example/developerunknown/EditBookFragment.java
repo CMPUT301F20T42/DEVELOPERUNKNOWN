@@ -56,8 +56,6 @@ public class EditBookFragment extends Fragment {
         currentUser = (User) this.getArguments().getSerializable("current user");
         clickedBook = (Book) this.getArguments().getSerializable("clicked book");
 
-        final String oldISBN = clickedBook.getISBN();
-
         final View view = inflater.inflate(R.layout.fragment_edit_book, container, false);
 
         // initialize add button
@@ -101,7 +99,7 @@ public class EditBookFragment extends Fragment {
                     data.put("ISBN", ISBN);
 
                     userBookCollectionReference
-                            .document(oldISBN)
+                            .document(clickedBook.getID())
                             .set(data)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override

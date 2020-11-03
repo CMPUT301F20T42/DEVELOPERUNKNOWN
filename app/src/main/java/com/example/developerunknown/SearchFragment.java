@@ -107,7 +107,7 @@ public class SearchFragment extends Fragment {
                         String Title = document.getString("Title");
                         String ISBN = document.getString("ISBN");
                         String Status = document.getString("Status");
-                        Book nowBook = new Book(Title, Author, Status, ISBN, Description);
+                        Book nowBook = new Book(document.getId(), Title, Author, Status, ISBN, Description);
                         dataList.add(nowBook);
                         bookAdapter.notifyDataSetChanged();
                     }

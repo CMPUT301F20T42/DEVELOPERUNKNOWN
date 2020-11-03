@@ -92,7 +92,7 @@ public class ViewBookFragment extends Fragment {
                 // Delete book from user collection
                 Log.d("delete book", "delete button clicked");
                 userBookCollectionReference
-                        .document(clickedBook.getISBN())
+                        .document(clickedBook.getID())
                         .delete()
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override

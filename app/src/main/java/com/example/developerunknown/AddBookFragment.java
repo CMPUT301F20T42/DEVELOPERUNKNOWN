@@ -99,9 +99,11 @@ public class AddBookFragment extends Fragment {
                 String description = bookDescription.getText().toString();
                 String ISBN = bookISBN.getText().toString();
 
-                if(title.length() > 0 && author.length() > 0 && description.length() > 0 && ISBN.length() > 0)
-                {
-                    Book book = new Book(title, author,  "Available", ISBN, description);
+                if(title.length() > 0 && author.length() > 0 && description.length() > 0 && ISBN.length() > 0) {
+                    // Create new document
+                    DocumentReference newRef = userBookCollectionReference.document();
+                    String id = newRef.getId();
+                    Book book = new Book(id, title, author,  "Available", ISBN, description);
                     currentUser.addBook(book);
 
                     // Add book to book collection
@@ -111,9 +113,7 @@ public class AddBookFragment extends Fragment {
                     data.put("description", description);
                     data.put("ISBN", ISBN);
 
-                    userBookCollectionReference
-                            .document(ISBN)
-                            .set(data)
+                    newRef.set(data)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
@@ -155,7 +155,7 @@ public class AddBookFragment extends Fragment {
                 }
             }
         });
-        
+
         scanButton = view.findViewById(R.id.scan_button);
         scanButton.setOnClickListener(new View.OnClickListener() {
             @Override
