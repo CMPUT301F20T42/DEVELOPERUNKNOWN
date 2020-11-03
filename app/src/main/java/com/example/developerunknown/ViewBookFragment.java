@@ -29,6 +29,7 @@ public class ViewBookFragment extends Fragment {
 
     public Button editBookButton;
     public Button deleteBookButton;
+    public Button backButton;
 
     private TextView bookTitle;
     private TextView bookAuthor;
@@ -52,6 +53,7 @@ public class ViewBookFragment extends Fragment {
         // Assign buttons
         editBookButton = view.findViewById(R.id.editButton);
         deleteBookButton = view.findViewById(R.id.deleteButton);
+        backButton = view.findViewById(R.id.backButton);
 
         // Display clicked book
         bookTitle = view.findViewById(R.id.viewTitle);
@@ -67,7 +69,20 @@ public class ViewBookFragment extends Fragment {
         editBookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("View Book Fragment", "Clicked on Edit Button");
                 // Create new fragment
+                Bundle args = new Bundle();
+                args.putSerializable("current user", currentUser);
+                args.putSerializable("clicked book", clickedBook);
+
+                Fragment fragment = new EditBookFragment();
+                fragment.setArguments(args);
+
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, fragment, "Edit Book Fragment");
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
 
@@ -93,25 +108,20 @@ public class ViewBookFragment extends Fragment {
                         });
 
                 // Close fragment
-                destroy_current_fragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager.popBackStack();
+            }
+        });
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager.popBackStack();
             }
         });
 
         return view;
     }
 
-    public void destroy_current_fragment() {
-
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.remove(fragmentManager.findFragmentByTag("View Book Fragment"));
-
-        Bundle args = new Bundle();
-        args.putSerializable("current user", currentUser);
-        Fragment fragment = new BookListFragment();
-        fragment.setArguments(args);
-        fragmentTransaction.replace(R.id.fragment_container, fragment, "Booklist Fragment");
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
-    }
 }
