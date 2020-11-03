@@ -72,8 +72,8 @@ public class SignUpActivity extends AppCompatActivity {
                 userName = registerUserName.getText().toString();
                 password = registerPassword.getText().toString();
                 email = registerEmail.getText().toString();
-                firstName=registerFirstName.getText().toString();
-                lastName =registerLastName.getText().toString();
+                firstName= registerFirstName.getText().toString();
+                lastName = registerLastName.getText().toString();
                 contactPhone = registerPhone.getText().toString();
 
                 if (userName.trim().length() == 0 ) {
@@ -110,7 +110,7 @@ public class SignUpActivity extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<AuthResult> task) {
                                             if (!task.isSuccessful()){
-                                                Toast.makeText(SignUpActivity.this,"There is a error ,please check if this email already registered or try later",Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(SignUpActivity.this,"There is a error, please check if this email already registered or try later",Toast.LENGTH_SHORT).show();
                                             }
                                             else{
                                                 String user_Id = auth.getCurrentUser().getUid();

@@ -1,44 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/viewTitle"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Title"/>
+        android:text="Title"
+        android:textSize="30sp" />
 
     <TextView
         android:id="@+id/viewAuthor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Author"/>
+        android:text="Author"
+        android:textSize="30sp"/>
 
     <TextView
         android:id="@+id/viewDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Description"/>
+        android:text="Description"
+        android:textSize="30sp"/>
 
     <TextView
         android:id="@+id/viewISBN"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="ISBN"/>
+        android:text="ISBN"
+        android:textSize="30sp"/>
 
     <Button
         android:id="@+id/editButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Edit"/>
+        android:text="Edit Book" />
 
     <Button
         android:id="@+id/deleteButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Delete"/>
+        android:text="Delete" />
+
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Back" />
 
 </LinearLayout>
