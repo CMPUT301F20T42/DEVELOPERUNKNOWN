@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -38,6 +39,10 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
     Context context;
     User currentUser;
 
+    Spinner filterSelection;
+    ArrayAdapter<String> filterAdapter;
+    ArrayList<String> filterList;
+
     //########################## this part is needed for the below blocking part.
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -59,6 +64,20 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
 
         bookAdapter = new CustomList(context, bookDataList);
         bookList.setAdapter(bookAdapter);
+
+        filterSelection = (Spinner) view.findViewById(R.id.filter_spinner);
+
+        filterList = new ArrayList<String>();
+
+        filterList.add("All");
+        filterList.add("Accepted");
+        filterList.add("Available");
+        filterList.add("Borrowed");
+        filterList.add("Requested");
+
+        filterAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, filterList);
+        filterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        filterSelection.setAdapter(filterAdapter);
 
         return view;
     }
@@ -106,6 +125,37 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
                 fragmentTransaction.replace(R.id.fragment_container, fragment, "View Book Fragment");
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
+            }
+        });
+
+        filterSelection.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            String filter;
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // Get filter
+                filter = filterList.get(position);
+                // Apply filter
+                if (!filter.equals("All")) {
+                    // Reset bookDataList
+                    bookDataList = currentUser.getFilteredBookList(filter);
+                    // Test these two lines first
+                    // Currently not working
+
+                    bookAdapter = new CustomList(context, bookDataList);
+                    bookList.setAdapter(bookAdapter);
+
+                } else {
+                    bookDataList = currentUser.getBookList();
+                }
+                // Why is this not updating?
+                bookAdapter = new CustomList(context, bookDataList);
+                bookList.setAdapter(bookAdapter);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+               // Do nothing? Reset?
             }
         });
 

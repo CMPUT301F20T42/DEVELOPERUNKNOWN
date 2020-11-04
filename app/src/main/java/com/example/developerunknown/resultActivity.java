@@ -89,26 +89,29 @@ public class resultActivity extends AppCompatActivity {
     }*/
 
     public void startRequest(View view){
-        if (currentBook.getOwner() == borrower.getUid()){
-            if(currentBook.getStatus().equals("Available") || currentBook.getStatus().equals("Requsted")) {
+        if (currentBook.getOwnerId() == borrower.getUid()){
                 Toast.makeText(resultActivity.this, "You cant request for this book", Toast.LENGTH_SHORT).show();
-            }
         } else {
-            final Request nowRequest = new Request(borrower.getUid(), currentBook);
-            //DocumentReference docRef = db.collection("User").document(currentBook.getOwner());
-            Query query = db.collectionGroup("Book");
-            query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            if(document.getId() == currentBook.getBid()){
-                                DocumentReference docRef = db.collection("user").document(currentBook.getOwner()).collection("Book").document(currentBook.getBid());
-                                Map<String, Object> requstData = new HashMap<>();
-                                requstData.put("Borrower",nowRequest.getBorrower());
-                                requstData.put("Bookid",currentBook.getBid());
-                                requstData.put("Status",nowRequest.getStatus());
-                                docRef.collection("Request").add(requstData);
+            if (currentBook.getStatus().equals("Available") || currentBook.getStatus().equals("Requsted")) {
+                final Request nowRequest = new Request(borrower.getUid(), currentBook);
+                //DocumentReference docRef = db.collection("User").document(currentBook.getOwner());
+                Query query = db.collectionGroup("Book");
+                query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                if (document.getId() == currentBook.getID()) {
+                                    DocumentReference docRef = db.collection("user").document(currentBook.getOwnerId()).collection("Book").document(currentBook.getID());
+                                    Map<String, Object> requstData = new HashMap<>();
+                                    requstData.put("Borrower", nowRequest.getBorrower());
+                                    requstData.put("Bookid", currentBook.getID());
+                                    requstData.put("Status", nowRequest.getStatus());
+                                    docRef.collection("Request").add(requstData);
+                                    Map<String, Object> newbookData = new HashMap<>();
+                                    newbookData.put("Status", "Requested");
+                                    docRef.update(newbookData);
+                                }
                             }
                         }
                     }
@@ -116,35 +119,35 @@ public class resultActivity extends AppCompatActivity {
             });
 
             //send notification
-//if getOwner return userName
-            /*
-            DocumentReference docIdRef = db.collection("userName").document(currentBook.getOwner());
-            docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                     @Override
-                                                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                         if (task.isSuccessful()) {
-                                                             DocumentSnapshot document = task.getResult();
-                                                             ownerId = document.getString("uid");
+    //if getOwner return userName
+                /*
+                DocumentReference docIdRef = db.collection("userName").document(currentBook.getOwner());
+                docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                         @Override
+                                                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                             if (task.isSuccessful()) {
+                                                                 DocumentSnapshot document = task.getResult();
+                                                                 ownerId = document.getString("uid");
+                                                             }
                                                          }
-                                                     }
-                                                 });
-*/
+                                                     });
+    */
 
-// if getOwner return uid
+    // if getOwner return uid
             
-            DocumentReference userNotificationRef = db.collection("user").document(currentBook.getOwner()).collection("Notification").document();
+                DocumentReference userNotificationRef = db.collection("user").document(currentBook.getOwner()).collection("Notification").document();
 
-            String notificationId = userNotificationRef.getId();
+                String notificationId = userNotificationRef.getId();
 
-            Map notiData = new HashMap<>();
-            notiData.put("sender", borrower.getUsername());
-            notiData.put("type","Requested");
-            notiData.put("book",currentBook.getTitle());
-            notiData.put("id",notificationId);
+                Map notiData = new HashMap<>();
+                notiData.put("sender", borrower.getUsername());
+                notiData.put("type","Requested");
+                notiData.put("book",currentBook.getTitle());
+                notiData.put("id",notificationId);
 
-            userNotificationRef.set(notiData);
+                userNotificationRef.set(notiData);
 
-            Toast.makeText(resultActivity.this, "Your request has sent", Toast.LENGTH_SHORT).show();
-        }
+                Toast.makeText(resultActivity.this, "Your request has sent", Toast.LENGTH_SHORT).show();
+            }
     }
 }

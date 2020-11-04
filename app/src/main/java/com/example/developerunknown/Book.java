@@ -16,7 +16,7 @@ public class Book implements Serializable {
     private String description;
     private ArrayList<Request> requestsList;
     private String ownerId;
-    private String Bid;
+    private String ownerUname;
     //private Float rating;
     //private User currentBorrower;
 
@@ -38,6 +38,22 @@ public class Book implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public void setOwnerUname(String ownerUname) {
+        this.ownerUname = ownerUname;
+    }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public String getOwnerUname() {
+        return ownerUname;
     }
 
     public String getID() { return this.id; }
@@ -62,20 +78,15 @@ public class Book implements Serializable {
         return description;
     }
 
-    public String getBid() {
-        return Bid;
-    }
+    //public String getBid() { return Bid; }
 
-    public String getOwner() {
-        return ownerId;
-    }
+    //public String getOwner() {return ownerId;}
 
-    public void setBid(String bid) {
-        Bid = bid;
-    }
+    //public void setBid(String bid) {Bid = bid;}
 
 
-    public Book(String id, String title, String author, String status, String ISBN, String description) {
+
+    public Book(String id,String title, String author, String status, String ISBN, String description) {
         this.title = title;
         this.author = author;
         this.status = status;

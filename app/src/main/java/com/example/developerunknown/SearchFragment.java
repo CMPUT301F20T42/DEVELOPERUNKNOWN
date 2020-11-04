@@ -53,7 +53,7 @@ public class SearchFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_search,container,false);
         //final List<Book> books = new ArrayList<>();
-    
+
 
         resultList = (ListView)view.findViewById(R.id.result_list);
 
@@ -109,8 +109,12 @@ public class SearchFragment extends Fragment {
                         String Title = document.getString("Title");
                         String ISBN = document.getString("ISBN");
                         String Status = document.getString("Status");
-                        String id = document.getId();
-                        Book nowBook = new Book(id,Title, Author, Status, ISBN, Description);
+                        String OwnerId = document.getString("OwnerId");
+                        String OwnerUname = document.getString("OwnerUname");
+
+                        Book nowBook = new Book(document.getId(),Title, Author, Status, ISBN, Description);
+                        nowBook.setOwnerId(OwnerId);
+                        nowBook.setOwnerUname(OwnerUname);
                         dataList.add(nowBook);
                         bookAdapter.notifyDataSetChanged();
                     }
