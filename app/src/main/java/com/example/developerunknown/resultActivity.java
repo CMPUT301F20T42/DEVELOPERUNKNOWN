@@ -80,7 +80,7 @@ public class resultActivity extends AppCompatActivity {
     }*/
 
     public void startRequest(View view){
-        if (currentBook.getOwner() == borrower.getUid()){
+        if (currentBook.getOwnerId() == borrower.getUid()){
                 Toast.makeText(resultActivity.this, "You cant request for this book", Toast.LENGTH_SHORT).show();
         } else {
             if (currentBook.getStatus().equals("Available") || currentBook.getStatus().equals("Requsted")) {
@@ -93,7 +93,7 @@ public class resultActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 if (document.getId() == currentBook.getID()) {
-                                    DocumentReference docRef = db.collection("user").document(currentBook.getOwner()).collection("Book").document(currentBook.getID());
+                                    DocumentReference docRef = db.collection("user").document(currentBook.getOwnerId()).collection("Book").document(currentBook.getID());
                                     Map<String, Object> requstData = new HashMap<>();
                                     requstData.put("Borrower", nowRequest.getBorrower());
                                     requstData.put("Bookid", currentBook.getID());

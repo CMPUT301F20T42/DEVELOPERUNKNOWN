@@ -108,10 +108,12 @@ public class AddBookFragment extends Fragment {
 
                     // Add book to book collection
                     HashMap<String, String> data = new HashMap<>();
-                    data.put("title", title);
-                    data.put("author", author);
-                    data.put("description", description);
+                    data.put("Title", title);
+                    data.put("Author", author);
+                    data.put("Description", description);
                     data.put("ISBN", ISBN);
+                    data.put("OwnerId", uid);
+                    data.put("OwnerUname", currentUser.getUsername());
 
                     userBookCollectionReference
                             .document()

@@ -23,6 +23,10 @@ public class User implements Serializable {
         return Uid;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
     public void setUid(String uid) {
         Uid = uid;
     }
