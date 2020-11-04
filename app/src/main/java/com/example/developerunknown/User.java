@@ -7,6 +7,7 @@ public class User implements Serializable {
     private String name;
     private String username;
     private String contact;
+    private String Uid;
     private ArrayList<Book> bookList;
 
     // TODO: images
@@ -16,6 +17,14 @@ public class User implements Serializable {
         this.username = username;
         this.contact = contact;
         this.bookList = new ArrayList<Book>();
+    }
+
+    public String getUid() {
+        return Uid;
+    }
+
+    public void setUid(String uid) {
+        Uid = uid;
     }
 
     public void addBook(Book book) {
