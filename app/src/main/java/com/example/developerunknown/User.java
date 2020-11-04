@@ -19,6 +19,7 @@ public class User implements Serializable {
         this.bookList = new ArrayList<Book>();
     }
 
+    public String getUsername(){return username;}
     public String getUid() {
         return Uid;
     }

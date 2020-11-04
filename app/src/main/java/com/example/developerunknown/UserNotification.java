@@ -16,13 +16,13 @@ public class UserNotification {
             this.type = type;
             this.book = book;
             this.id = id;
-            if (type.equals("accept")) {
+            if (type.equals("Accepted")) {
                 description = sender + " accepted your request of book "+book;
             }
-            else if (type.equals("request")){
+            else if (type.equals("Requested")){
                 description = sender + " requested on your book "+book;
             }
-            else if (type.equals("deny")){
+            else if (type.equals("Denied")){
                 description = sender+ " denied your request on book "+book;
             }
         }

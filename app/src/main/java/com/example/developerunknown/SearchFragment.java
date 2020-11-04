@@ -58,7 +58,7 @@ public class SearchFragment extends Fragment {
         resultList = (ListView)view.findViewById(R.id.result_list);
 
         //dataList.addAll(books);
-        final Context context= container.getContext();;
+        final Context context= container.getContext();
         bookAdapter = new CustomList(context, dataList);
 
         //bookAdapter = new CustomList(getActivity(), dataList);
@@ -109,9 +109,8 @@ public class SearchFragment extends Fragment {
                         String Title = document.getString("Title");
                         String ISBN = document.getString("ISBN");
                         String Status = document.getString("Status");
-
-                        Book nowBook = new Book(Title, Author, Status, ISBN, Description);
-                        nowBook.setBid(document.getId());
+                        String id = document.getId();
+                        Book nowBook = new Book(id,Title, Author, Status, ISBN, Description);
                         dataList.add(nowBook);
                         bookAdapter.notifyDataSetChanged();
                     }

@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,10 +15,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -35,7 +42,9 @@ public class resultActivity extends AppCompatActivity {
     ImageView BookImage;
     Book currentBook;
     User borrower;
+
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
 
 
     @Override
@@ -81,7 +90,7 @@ public class resultActivity extends AppCompatActivity {
 
     public void startRequest(View view){
         if (currentBook.getOwner() == borrower.getUid()){
-            if(currentBook.getAvailability().equals("Available") || currentBook.getAvailability().equals("Requsted")) {
+            if(currentBook.getStatus().equals("Available") || currentBook.getStatus().equals("Requsted")) {
                 Toast.makeText(resultActivity.this, "You cant request for this book", Toast.LENGTH_SHORT).show();
             }
         } else {
@@ -105,6 +114,35 @@ public class resultActivity extends AppCompatActivity {
                     }
                 }
             });
+
+            //send notification
+//if getOwner return userName
+            /*
+            DocumentReference docIdRef = db.collection("userName").document(currentBook.getOwner());
+            docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                     @Override
+                                                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                         if (task.isSuccessful()) {
+                                                             DocumentSnapshot document = task.getResult();
+                                                             ownerId = document.getString("uid");
+                                                         }
+                                                     }
+                                                 });
+*/
+
+// if getOwner return uid
+            
+            DocumentReference userNotificationRef = db.collection("user").document(currentBook.getOwner()).collection("Notification").document();
+
+            String notificationId = userNotificationRef.getId();
+
+            Map notiData = new HashMap<>();
+            notiData.put("sender", borrower.getUsername());
+            notiData.put("type","Requested");
+            notiData.put("book",currentBook.getTitle());
+            notiData.put("id",notificationId);
+
+            userNotificationRef.set(notiData);
 
             Toast.makeText(resultActivity.this, "Your request has sent", Toast.LENGTH_SHORT).show();
         }
