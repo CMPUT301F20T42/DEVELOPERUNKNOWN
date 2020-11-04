@@ -93,12 +93,15 @@ public class resultActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 if (document.getId() == currentBook.getID()) {
-                                    DocumentReference docRef = db.collection("user").document(currentBook.getOwner()).collection("Book").document(currentBook.getBid());
+                                    DocumentReference docRef = db.collection("user").document(currentBook.getOwner()).collection("Book").document(currentBook.getID());
                                     Map<String, Object> requstData = new HashMap<>();
                                     requstData.put("Borrower", nowRequest.getBorrower());
-                                    requstData.put("Bookid", currentBook.getBid());
+                                    requstData.put("Bookid", currentBook.getID());
                                     requstData.put("Status", nowRequest.getStatus());
                                     docRef.collection("Request").add(requstData);
+                                    Map<String, Object> newbookData = new HashMap<>();
+                                    newbookData.put("Status", "Requested");
+                                    docRef.update(newbookData);
                                 }
                             }
                         }
