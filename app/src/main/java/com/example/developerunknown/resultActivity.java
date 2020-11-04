@@ -92,7 +92,7 @@ public class resultActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                if (document.getId() == currentBook.getBid()) {
+                                if (document.getId() == currentBook.getID()) {
                                     DocumentReference docRef = db.collection("user").document(currentBook.getOwner()).collection("Book").document(currentBook.getBid());
                                     Map<String, Object> requstData = new HashMap<>();
                                     requstData.put("Borrower", nowRequest.getBorrower());
