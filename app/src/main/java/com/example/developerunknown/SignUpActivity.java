@@ -93,8 +93,11 @@ public class SignUpActivity extends AppCompatActivity {
                 }
                 else if (!userName.matches("[a-zA-Z0-9]+")){
                     Toast.makeText(SignUpActivity.this, "UserName must be alphanumerical", Toast.LENGTH_SHORT).show();
-
                 }
+                else if (userName.length()>12){
+                    Toast.makeText(SignUpActivity.this, "UserName can be maximum 12 characters", Toast.LENGTH_SHORT).show();
+                }
+
                 else{
                     DocumentReference docIdRef = userCollectionReference.document(userName);
                     docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

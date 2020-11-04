@@ -1,5 +1,7 @@
 package com.example.developerunknown;
 
+import android.widget.ArrayAdapter;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.Serializable;
@@ -13,7 +15,8 @@ public class Book implements Serializable {
     private String ISBN;
     private String description;
     private ArrayList<Request> requestsList;
-    private User owner;
+    private String ownerId;
+    private String ownerUname;
     //private Float rating;
     //private User currentBorrower;
 
@@ -35,6 +38,22 @@ public class Book implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public void setOwnerUname(String ownerUname) {
+        this.ownerUname = ownerUname;
+    }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public String getOwnerUname() {
+        return ownerUname;
     }
 
     public String getID() { return this.id; }
@@ -59,17 +78,21 @@ public class Book implements Serializable {
         return description;
     }
 
-    public User getOwner() {
-        return owner;
-    }
+    //public String getBid() { return Bid; }
 
-    public Book(String id, String title, String author, String status, String ISBN, String description) {
-        this.id = id;
+    //public String getOwner() {return ownerId;}
+
+    //public void setBid(String bid) {Bid = bid;}
+
+
+
+    public Book(String id,String title, String author, String status, String ISBN, String description) {
         this.title = title;
         this.author = author;
         this.status = status;
         this.ISBN = ISBN;
         this.description = description;
+        this.id = id;
 
     }
     public void requestsListPushBack(Request request){
