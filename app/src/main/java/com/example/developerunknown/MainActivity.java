@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
                 user = FirebaseAuth.getInstance().getCurrentUser();
 
-                String uID = user.getUid();
+                final String uID = user.getUid();
                 final DocumentReference userDocRef = userCollectionReference.document(uID);
                 userDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -52,11 +52,11 @@ public class MainActivity extends AppCompatActivity {
                                 String firstName = document.getString("firstName");
                                 String lastName = document.getString("lastName");
                                 String username = document.getString("userName");
-                                currentUser.setUid(document.getId());
 
                                 Log.d("TAG", "name: " + firstName);
 
                                 currentUser = new User(firstName + " " + lastName, username, email);
+                                currentUser.setUid(document.getId());
 
                             } else {
                                 Log.d("check email", "user does not exist");
