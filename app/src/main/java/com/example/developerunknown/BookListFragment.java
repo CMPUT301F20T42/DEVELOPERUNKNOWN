@@ -40,8 +40,11 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
     User currentUser;
 
     Spinner filterSelection;
+    Spinner selectList;
     ArrayAdapter<String> filterAdapter;
     ArrayList<String> filterList;
+
+    UserBorrowedListFragment listFragment;
 
     //########################## this part is needed for the below blocking part.
 
@@ -107,6 +110,10 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
         });
 
 
+
+
+
+
         bookList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View view, int position, long id) {
                 Log.d("BookList Message", "Successfully clicked book");
@@ -158,6 +165,53 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
                // Do nothing? Reset?
             }
         });
+
+
+
+        //this is the spinner for the list selection
+        selectList = view.findViewById(R.id.list_spinner);
+        selectList.setOnItemSelectedListener((new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected (AdapterView<?> parent, View view, int position, long id){
+                UserBorrowedListFragment fragment = null;
+                switch (position){
+                    case 0:
+                        //Owned book list
+                        //automatically starts on this page
+                        break;
+
+                    case 1:
+                        //Borrowed list
+                        //add a request to users borrowed list fragment
+                        fragment = new UserBorrowedListFragment(); // for the time being im using the accpeted fragmnet
+                        break;
+
+                    default:
+                        break;
+                }
+
+                if (fragment != null) {
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.fragment_container, fragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                    //Toast.makeText(context, selectStatus.getSelectedItem().toString()+"is working", Toast.LENGTH_LONG).show();
+
+
+                } else {
+                    // error in creating fragment
+                    Log.e("Book list fragment", "Error in creating fragment");
+                }
+            }
+            @Override
+            public void onNothingSelected (AdapterView<?> parent) {
+
+            }
+
+        }));
+
+
 
         //################################### this part retrieves book from online data base and automatically update ################################
 
