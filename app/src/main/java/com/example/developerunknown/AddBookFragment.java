@@ -108,22 +108,21 @@ public class AddBookFragment extends Fragment {
                     DocumentReference newRef = userBookCollectionReference.document();
                     String id = newRef.getId();
                     Book book = new Book(id, title, author, status, ISBN, description);
+                    //Book book = new Book(id, title, author, status, ISBN, description,uid,currentUser.getUsername());
                     currentUser.addBook(book);
 
                     // Add book to book collection
                     HashMap<String, String> data = new HashMap<>();
-
-                    data.put("Title", title);
-                    data.put("Author", author);
-                    data.put("Status", status);
-                    data.put("Description", description);
+                    data.put("Bookid",id);
+                    data.put("title", title);
+                    data.put("author", author);
+                    data.put("status", status);
+                    data.put("description", description);
                     data.put("ISBN", ISBN);
-                    data.put("OwnerId", uid);
-                    data.put("OwnerUname", currentUser.getUsername());
+                    data.put("ownerId", uid);
+                    data.put("ownerUname", currentUser.getUsername());
 
-                    userBookCollectionReference
-                            .document()
-                            .set(data)
+                    newRef.set(data)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {

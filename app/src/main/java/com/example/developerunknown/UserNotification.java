@@ -10,6 +10,8 @@ public class UserNotification {
         private String id;
         private String description;
 
+
+
         public UserNotification(String sender, Timestamp timestamp, String type, String book,String id) {
             this.sender = sender;
             this.timestamp = timestamp;

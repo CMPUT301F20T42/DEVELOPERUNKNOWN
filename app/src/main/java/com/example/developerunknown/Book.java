@@ -84,9 +84,7 @@ public class Book implements Serializable {
 
     //public void setBid(String bid) {Bid = bid;}
 
-
-
-    public Book(String id,String title, String author, String status, String ISBN, String description) {
+    public Book(String id,String title, String author, String status, String ISBN, String description){
         this.title = title;
         this.author = author;
         this.status = status;
@@ -95,6 +93,19 @@ public class Book implements Serializable {
         this.id = id;
 
     }
+
+    public Book(String id,String title, String author, String status, String ISBN, String description, String ownerId, String ownerUname) {
+        this.title = title;
+        this.author = author;
+        this.status = status;
+        this.ISBN = ISBN;
+        this.description = description;
+        this.id = id;
+        this.ownerId = ownerId;
+        this.ownerUname=ownerUname;
+    }
+
+
     public void requestsListPushBack(Request request){
         this.requestsList.add(request);
     }

@@ -105,13 +105,14 @@ public class SearchFragment extends Fragment {
                     dataList.clear();
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         String Description = document.getString("description");
-                        String Author = document.getString("Author");
-                        String Title = document.getString("Title");
+                        String Author = document.getString("author");
+                        String Title = document.getString("aitle");
                         String ISBN = document.getString("ISBN");
-                        String Status = document.getString("Status");
-                        String OwnerId = document.getString("OwnerId");
-                        String OwnerUname = document.getString("OwnerUname");
+                        String Status = document.getString("status");
+                        String OwnerId = document.getString("ownerId");
+                        String OwnerUname = document.getString("ownerUname");
 
+                        //Book nowBook = new Book(document.getId(), Title, Author, Status, ISBN, Description,uid,OwnerId.OwnerUname);
                         Book nowBook = new Book(document.getId(),Title, Author, Status, ISBN, Description);
                         nowBook.setOwnerId(OwnerId);
                         nowBook.setOwnerUname(OwnerUname);

@@ -46,7 +46,6 @@ public class resultActivity extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,10 +71,10 @@ public class resultActivity extends AppCompatActivity {
 
 
     }
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        if(item.getItemId() == android.R.id.home)
-        {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
         }
@@ -88,11 +87,11 @@ public class resultActivity extends AppCompatActivity {
         startActivity(intent);
     }*/
 
-    public void startRequest(View view){
-        if (currentBook.getOwnerId() == borrower.getUid()){
-                Toast.makeText(resultActivity.this, "You cant request for this book", Toast.LENGTH_SHORT).show();
+    public void startRequest(View view) {
+        if (currentBook.getOwnerId() == borrower.getUid()) {
+            Toast.makeText(resultActivity.this, "You cant request for this book", Toast.LENGTH_SHORT).show();
         } else {
-            if (currentBook.getStatus().equals("Available") || currentBook.getStatus().equals("Requsted")) {
+            if (currentBook.getStatus().equals("Available") || currentBook.getStatus().equals("Requested")) {
                 final Request nowRequest = new Request(borrower.getUid(), currentBook);
                 //DocumentReference docRef = db.collection("User").document(currentBook.getOwner());
                 Query query = db.collectionGroup("Book");
@@ -106,20 +105,18 @@ public class resultActivity extends AppCompatActivity {
                                     Map<String, Object> requstData = new HashMap<>();
                                     requstData.put("Borrower", nowRequest.getBorrower());
                                     requstData.put("Bookid", currentBook.getID());
-                                    requstData.put("Status", nowRequest.getStatus());
+                                    requstData.put("status", nowRequest.getStatus());
                                     docRef.collection("Request").add(requstData);
                                     Map<String, Object> newbookData = new HashMap<>();
-                                    newbookData.put("Status", "Requested");
+                                    newbookData.put("status", "Requested");
                                     docRef.update(newbookData);
                                 }
                             }
                         }
                     }
-                }
-            });
-
-            //send notification
-    //if getOwner return userName
+                });
+                //send notification
+                //if getOwner return userName
                 /*
                 DocumentReference docIdRef = db.collection("userName").document(currentBook.getOwner());
                 docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -133,21 +130,22 @@ public class resultActivity extends AppCompatActivity {
                                                      });
     */
 
-    // if getOwner return uid
-            
-                DocumentReference userNotificationRef = db.collection("user").document(currentBook.getOwner()).collection("Notification").document();
+                // if getOwner return uid
+
+                DocumentReference userNotificationRef = db.collection("user").document(currentBook.getOwnerId()).collection("Notification").document();
 
                 String notificationId = userNotificationRef.getId();
 
                 Map notiData = new HashMap<>();
                 notiData.put("sender", borrower.getUsername());
-                notiData.put("type","Requested");
-                notiData.put("book",currentBook.getTitle());
-                notiData.put("id",notificationId);
+                notiData.put("type", "Requested");
+                notiData.put("book", currentBook.getTitle());
+                notiData.put("id", notificationId);
 
                 userNotificationRef.set(notiData);
 
                 Toast.makeText(resultActivity.this, "Your request has sent", Toast.LENGTH_SHORT).show();
             }
+        }
     }
 }
