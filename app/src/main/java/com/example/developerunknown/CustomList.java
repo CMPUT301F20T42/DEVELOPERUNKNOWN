@@ -40,7 +40,7 @@ public class CustomList extends ArrayAdapter<Book> {
         //TextView bookISBN = view.findViewById(R.id.book_isbn);
 
         bookName.setText(book.getTitle());
-//        authorName.setText(book.getAuthor());
+        authorName.setText(book.getAuthor());
         bookStatus.setText(book.getStatus());
         bookDescription.setText(book.getDescription());
         //bookISBN.setText(book.getISBN());
