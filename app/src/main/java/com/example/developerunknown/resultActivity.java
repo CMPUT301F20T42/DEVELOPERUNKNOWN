@@ -88,12 +88,13 @@ public class resultActivity extends AppCompatActivity {
     }*/
 
     public void startRequest(View view) {
-        if (currentBook.getOwnerId() == borrower.getUid()) {
-            Toast.makeText(resultActivity.this, "You cant request for this book", Toast.LENGTH_SHORT).show();
+        if (currentBook.getOwnerId().equals(borrower.getUid())) {
+            Toast.makeText(resultActivity.this, "You can't request for your own book", Toast.LENGTH_SHORT).show();
         } else {
             if (currentBook.getStatus().equals("Available") || currentBook.getStatus().equals("Requested")) {
                 final Request nowRequest = new Request(borrower.getUid(), currentBook);
                 //DocumentReference docRef = db.collection("User").document(currentBook.getOwner());
+/*
                 Query query = db.collectionGroup("Book");
                 query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -115,22 +116,28 @@ public class resultActivity extends AppCompatActivity {
                         }
                     }
                 });
+*/
+                DocumentReference requestedBookRef = db.collection("user"). document(currentBook.getOwnerId()).
+                        collection("Book").document(currentBook.getID());
+                requestedBookRef.update("status","Requested");
+
+                DocumentReference requestRef = db.collection("user").
+                        document(currentBook.getOwnerId()).collection("Book").
+                        document(currentBook.getID()).collection("Request").document();
+                String requestId = requestRef.getId();
+
+                Map requestData = new HashMap<>();
+                requestData.put("id", requestId);
+                requestData.put("Borrower",borrower.getUid());
+                requestData.put("Bookid",currentBook.getID());
+                requestData.put("BorrowerUname", borrower.getUsername());
+
+
+                requestRef.set(requestData);
+
+
                 //send notification
                 //if getOwner return userName
-                /*
-                DocumentReference docIdRef = db.collection("userName").document(currentBook.getOwner());
-                docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                         @Override
-                                                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                             if (task.isSuccessful()) {
-                                                                 DocumentSnapshot document = task.getResult();
-                                                                 ownerId = document.getString("uid");
-                                                             }
-                                                         }
-                                                     });
-    */
-
-                // if getOwner return uid
 
                 DocumentReference userNotificationRef = db.collection("user").document(currentBook.getOwnerId()).collection("Notification").document();
 

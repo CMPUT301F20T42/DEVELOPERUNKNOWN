@@ -66,10 +66,11 @@ public class HomeFragment extends Fragment {
                     String type = (String)doc.getData().get("type");
                     String sender = (String) doc.getData().get("sender");
                     String book = (String) doc.getData().get("book");
-                    Timestamp time = (Timestamp) doc.getData().get("time");
+                    //Timestamp time = (Timestamp) doc.getData().get("time");
                     String id = doc.getId();
+                    notificationDataList.add(new UserNotification(sender, type, book,id) ); // Adding the cities and provinces from FireStore
 
-                    notificationDataList.add(new UserNotification(sender, time, type, book,id) ); // Adding the cities and provinces from FireStore
+                    //notificationDataList.add(new UserNotification(sender, time, type, book,id) ); // Adding the cities and provinces from FireStore
                 }
                 notificationAdapter.notifyDataSetChanged(); // Notifying the adapter to render any new data fetch
             }

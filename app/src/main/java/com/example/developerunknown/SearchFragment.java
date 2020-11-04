@@ -106,7 +106,7 @@ public class SearchFragment extends Fragment {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         String Description = document.getString("description");
                         String Author = document.getString("author");
-                        String Title = document.getString("aitle");
+                        String Title = document.getString("title");
                         String ISBN = document.getString("ISBN");
                         String Status = document.getString("status");
                         String OwnerId = document.getString("ownerId");
@@ -140,44 +140,49 @@ public class SearchFragment extends Fragment {
             }
         });
 
-
-
-
-
-        /*search_button.setOnClickListener(new View.OnClickListener() {
+/*      A alternate approach
+        search_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                String keyword = searchBook.getText().toString();
-                db.collectionGroup("Book").whereEqualTo("Title", "1984").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                final String keyword = searchBook.getText().toString();
+                db.collectionGroup("Book").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             dataList.clear();
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String Description = document.getString("description");
-                                String Author = document.getString("Author");
-                                String Title = document.getString("Title");
+                                String Author = document.getString("author");
+                                String Title = document.getString("title");
                                 String ISBN = document.getString("ISBN");
-                                String Status = document.getString("Status");
-                                Book nowBook = new Book(Title, Author, Status, ISBN, Description);
-                                dataList.add(nowBook);
-                                bookAdapter.notifyDataSetChanged();
+                                String Status = document.getString("status");
+                                String OwnerId = document.getString("ownerId");
+                                String OwnerUname = document.getString("ownerUname");
+                                //if (Description.toLowerCase().contains(keyword.toLowerCase()) || title.toLowerCase().contains(keyword..toLowerCase())))
+                                if (Status.equals("Available") || Status.equals("Requested")) {
+                                    if (Description.toLowerCase().contains(keyword.toLowerCase())) {
+                                        Book nowBook = new Book(document.getId(), Title, Author, Status, ISBN, Description, OwnerId, OwnerUname);
+                                        dataList.add(nowBook);                      //dataList stores all valid book
+                                    }
+                                }
                             }
+                            bookAdapter = new CustomList(context,dataList);
+                            resultList.setAdapter(bookAdapter);   //result list is the list view
                         }
                     }
                 });
             }
-        });*/
-
+        });
+*/
         resultList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> list, View v, int pos, long id) {
                 Intent intent = new Intent(getActivity(),resultActivity.class);
                 Book thisBook = bookAdapter.getItem(pos);
+
                 intent.putExtra("SelectedBook", thisBook);
                 intent.putExtra("nowUser", currentUser);
                 startActivity(intent);
             }
         });
-
 
 
         return view;
