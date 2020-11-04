@@ -1,31 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
 
-
-    <ListView
-        android:id="@+id/user_book_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="100dp"/>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_book_button"
+    <Spinner
+        android:id="@+id/filter_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="20dp"
-        android:clickable="true"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown"/>
 
-        android:focusable="true"
-        app:backgroundTint="#A3D977"
-        app:srcCompat="@android:drawable/ic_input_add"
-        android:contentDescription="TODO" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ListView
+            android:id="@+id/user_book_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_book_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            android:clickable="true"
+
+            android:focusable="true"
+            app:backgroundTint="#A3D977"
+            app:srcCompat="@android:drawable/ic_input_add" />
 
     <Spinner
         android:id="@+id/list_spinner"
@@ -34,12 +44,9 @@
         android:layout_width="match_parent"
         android:layout_height="50dp" />
 
-    <Spinner
-        android:id="@+id/select_status_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:entries="@array/select_status_array"
-        android:layout_marginTop="50dp"/>
+   
+    </FrameLayout>
 
 
-</FrameLayout>
+
+</LinearLayout>

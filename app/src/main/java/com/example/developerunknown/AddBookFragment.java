@@ -10,11 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-
 import android.widget.Spinner;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,11 +50,15 @@ public class AddBookFragment extends Fragment {
     public String ISBN;
     private EditText bookTitle;
     private EditText bookAuthor;
+    private Spinner bookStatus;
     private EditText bookDescription;
     private EditText bookISBN;
+
     private User currentBorrower;
     Spinner bookStatus;
     int spinValue;
+
+
 
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -91,71 +94,59 @@ public class AddBookFragment extends Fragment {
 
         final View view = inflater.inflate(R.layout.fragment_add_book, container, false);
 
-        //initialize add button
+        // initialize add button
         addBookButton = view.findViewById(R.id.add_book_button2);
         cancelButton = view.findViewById(R.id.cancel_book_button);
-        bookStatus = view.findViewById(R.id.spinner);
-
-
-        AdapterView.OnItemSelectedListener onSpinner = new AdapterView.OnItemSelectedListener(){
-            @Override
-            public void onItemSelected(
-                    AdapterView<?> parent,
-                    View view,
-                    int position,
-                    long id) {
-                //assign to 'global' for sending to Book on ok button press
-                spinValue = position;
-            }
-
-            @Override
-            public void onNothingSelected(
-                    AdapterView<?>  parent) {
-            }
-        };
-
-        bookStatus.setOnItemSelectedListener(onSpinner);
-
-
-
-
-
-
 
         addBookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v) {
                 bookTitle = view.findViewById(R.id.book_title_editText);
                 bookAuthor = view.findViewById(R.id.book_author_editText);
+                bookStatus = view.findViewById(R.id.spinner);
                 bookDescription = view.findViewById(R.id.book_description_editText);
                 bookISBN = view.findViewById(R.id.book_isbn_editText);
+
                 //bookStatus = view.findViewById(R.id.book_status);
                 //currentBorrower = findViewById(R.id.book_borrower);
 
+
                 String title = bookTitle.getText().toString();
                 String author = bookAuthor.getText().toString();
+                String status = bookStatus.getSelectedItem().toString();
                 String description = bookDescription.getText().toString();
                 String ISBN = bookISBN.getText().toString();
+
                 String status = bookStatus.getSelectedItem().toString();
                 //User currentBorrower=
 
 
-                if(title.length() > 0 && author.length() > 0 && description.length() > 0 && ISBN.length() > 0 && status.length() > 0)
-                {
-                    Book book = new Book(title, author,  status, ISBN, description);
+
+                if(title.length() > 0 && author.length() > 0 && description.length() > 0 && ISBN.length() > 0) {
+                    // Create new document
+                    DocumentReference newRef = userBookCollectionReference.document();
+                    String id = newRef.getId();
+                    Book book = new Book(id, title, author, status, ISBN, description);
                     currentUser.addBook(book);
 
                     // Add book to book collection
                     HashMap<String, String> data = new HashMap<>();
-                    data.put("title", title);
-                    data.put("author", author);
-                    data.put("description", description);
+
+                    data.put("Title", title);
+                    data.put("Author", author);
+                    data.put("Status", status);
+                    data.put("Description", description);
                     data.put("ISBN", ISBN);
+
                     data.put("status", status);
                     //data.put("borrower",currentBorrower);
+                  
+                    data.put("OwnerId", uid);
+                    data.put("OwnerUname", currentUser.getUsername());
+
 
                     userBookCollectionReference
-                            .document(ISBN)
+                            .document()
                             .set(data)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
@@ -199,7 +190,6 @@ public class AddBookFragment extends Fragment {
             }
         });
 
-        /*
         scanButton = view.findViewById(R.id.scan_button);
         scanButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -216,7 +206,7 @@ public class AddBookFragment extends Fragment {
                 }
             }
         });
-*/
+
         return view;
     }
 
@@ -250,7 +240,7 @@ public class AddBookFragment extends Fragment {
             }
         }}
 */
-        @Nullable
+    @Nullable
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -259,17 +249,20 @@ public class AddBookFragment extends Fragment {
 
     public void destroy_current_fragment() {
 
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.remove(fragmentManager.findFragmentByTag("Add Book Fragment"));
+//        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.remove(fragmentManager.findFragmentByTag("Add Book Fragment"));
+//
+//        Bundle args = new Bundle();
+//        args.putSerializable("current user", currentUser);
+//        Fragment fragment = new BookListFragment();
+//        fragment.setArguments(args);
+//        fragmentTransaction.replace(R.id.fragment_container, fragment, "Booklist Fragment");
+//        fragmentTransaction.addToBackStack(null);
+//        fragmentTransaction.commit();
 
-        Bundle args = new Bundle();
-        args.putSerializable("current user", currentUser);
-        Fragment fragment = new BookListFragment();
-        fragment.setArguments(args);
-        fragmentTransaction.replace(R.id.fragment_container, fragment, "Booklist Fragment");
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        fragmentManager.popBackStack();
     }
 
 

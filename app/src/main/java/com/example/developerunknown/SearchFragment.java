@@ -96,6 +96,8 @@ public class SearchFragment extends Fragment {
                                     // [END_EXCLUDE]
                                 }}
                         });}}); */
+
+
         db.collectionGroup("Book").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -107,7 +109,12 @@ public class SearchFragment extends Fragment {
                         String Title = document.getString("Title");
                         String ISBN = document.getString("ISBN");
                         String Status = document.getString("Status");
-                        Book nowBook = new Book(Title, Author, Status, ISBN, Description);
+                        String OwnerId = document.getString("OwnerId");
+                        String OwnerUname = document.getString("OwnerUname");
+
+                        Book nowBook = new Book(document.getId(),Title, Author, Status, ISBN, Description);
+                        nowBook.setOwnerId(OwnerId);
+                        nowBook.setOwnerUname(OwnerUname);
                         dataList.add(nowBook);
                         bookAdapter.notifyDataSetChanged();
                     }
@@ -122,6 +129,7 @@ public class SearchFragment extends Fragment {
                 for(int i = 0; i < dataList.size();i++){
                     Book thisBook = dataList.get(i);
                     String thisString = thisBook.getTitle();
+
                     if(thisString.equals(keyword)){
                         newDataList.add(thisBook);
                     }
@@ -130,6 +138,9 @@ public class SearchFragment extends Fragment {
                 resultList.setAdapter(bookAdapter);
             }
         });
+
+
+
 
 
         /*search_button.setOnClickListener(new View.OnClickListener() {
@@ -164,8 +175,9 @@ public class SearchFragment extends Fragment {
                 intent.putExtra("nowUser", currentUser);
                 startActivity(intent);
             }
-        }
-        );
+        });
+
+
 
         return view;
     }

@@ -78,7 +78,8 @@ public class AccountFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,@Nullable Bundle savedInstanceState){
-        View view= inflater.inflate(R.layout.fragment_account,container,false);
+
+        View view= inflater.inflate(R.layout.fragment_account,container,false);            //initialize view
         final TextView uNameTextView = view.findViewById(R.id.userName);
         final TextView uEmailTextView = view.findViewById(R.id.userEmail);
         final TextView uFirstNameTextView = view.findViewById(R.id.userFirstName);
@@ -133,7 +134,7 @@ public class AccountFragment extends Fragment {
                 editInfoButton.setClickable(true);
                 editImageButton.setClickable(true);
 
-                editInfoButton.setVisibility(View.INVISIBLE);
+                editInfoButton.setVisibility(View.INVISIBLE);           //make sure user could not click edit button during edition
                 confirmEditButton.setVisibility(View.VISIBLE);
             }
         });
