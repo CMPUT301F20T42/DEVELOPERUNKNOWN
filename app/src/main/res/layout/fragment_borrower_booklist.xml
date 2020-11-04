@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
+    <ListView
+        android:id="@+id/borrower_book_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp"/>
+
+    <Spinner
+        android:id="@+id/list_spinner"
+        android:entries="@array/book_list_array"
+        android:duplicateParentState="true"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
+    <Spinner
+        android:id="@+id/select_status_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:entries="@array/select_status_array"
+        android:layout_marginTop="50dp"/>
+
+
+</FrameLayout>

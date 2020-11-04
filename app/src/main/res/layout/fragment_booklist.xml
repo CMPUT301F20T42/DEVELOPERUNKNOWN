@@ -5,12 +5,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
+
     <Spinner
         android:id="@+id/filter_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:drawable/btn_dropdown"
         android:spinnerMode="dropdown"/>
+
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -35,7 +37,16 @@
             app:backgroundTint="#A3D977"
             app:srcCompat="@android:drawable/ic_input_add" />
 
+    <Spinner
+        android:id="@+id/list_spinner"
+        android:entries="@array/book_list_array"
+        android:duplicateParentState="true"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
+   
     </FrameLayout>
+
 
 
 </LinearLayout>
