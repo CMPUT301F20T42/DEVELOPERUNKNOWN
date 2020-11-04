@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -46,6 +47,7 @@ public class AddBookFragment extends Fragment {
     public String ISBN;
     private EditText bookTitle;
     private EditText bookAuthor;
+    private Spinner bookStatus;
     private EditText bookDescription;
     private EditText bookISBN;
 
@@ -91,11 +93,13 @@ public class AddBookFragment extends Fragment {
             public void onClick (View v) {
                 bookTitle = view.findViewById(R.id.book_title_editText);
                 bookAuthor = view.findViewById(R.id.book_author_editText);
+                bookStatus = view.findViewById(R.id.spinner);
                 bookDescription = view.findViewById(R.id.book_description_editText);
                 bookISBN = view.findViewById(R.id.book_isbn_editText);
 
                 String title = bookTitle.getText().toString();
                 String author = bookAuthor.getText().toString();
+                String status = bookStatus.getSelectedItem().toString();
                 String description = bookDescription.getText().toString();
                 String ISBN = bookISBN.getText().toString();
 
@@ -103,13 +107,15 @@ public class AddBookFragment extends Fragment {
                     // Create new document
                     DocumentReference newRef = userBookCollectionReference.document();
                     String id = newRef.getId();
-                    Book book = new Book(id, title, author,  "Available", ISBN, description);
+                    Book book = new Book(id, title, author, status, ISBN, description);
                     currentUser.addBook(book);
 
                     // Add book to book collection
                     HashMap<String, String> data = new HashMap<>();
+
                     data.put("Title", title);
                     data.put("Author", author);
+                    data.put("Status", status);
                     data.put("Description", description);
                     data.put("ISBN", ISBN);
                     data.put("OwnerId", uid);
