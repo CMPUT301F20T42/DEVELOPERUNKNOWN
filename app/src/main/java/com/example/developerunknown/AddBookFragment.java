@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
@@ -51,8 +53,10 @@ public class AddBookFragment extends Fragment {
     private EditText bookAuthor;
     private EditText bookDescription;
     private EditText bookISBN;
+    private User currentBorrower;
     Spinner bookStatus;
     int spinValue;
+
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     public FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -126,12 +130,14 @@ public class AddBookFragment extends Fragment {
                 bookDescription = view.findViewById(R.id.book_description_editText);
                 bookISBN = view.findViewById(R.id.book_isbn_editText);
                 //bookStatus = view.findViewById(R.id.book_status);
+                //currentBorrower = findViewById(R.id.book_borrower);
 
                 String title = bookTitle.getText().toString();
                 String author = bookAuthor.getText().toString();
                 String description = bookDescription.getText().toString();
                 String ISBN = bookISBN.getText().toString();
                 String status = bookStatus.getSelectedItem().toString();
+                //User currentBorrower=
 
 
                 if(title.length() > 0 && author.length() > 0 && description.length() > 0 && ISBN.length() > 0 && status.length() > 0)
@@ -146,6 +152,7 @@ public class AddBookFragment extends Fragment {
                     data.put("description", description);
                     data.put("ISBN", ISBN);
                     data.put("status", status);
+                    //data.put("borrower",currentBorrower);
 
                     userBookCollectionReference
                             .document(ISBN)

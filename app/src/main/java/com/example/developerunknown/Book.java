@@ -14,7 +14,7 @@ public class Book implements Serializable {
     private ArrayList<Request> requestsList;
     private User owner;
     //private Float rating;
-    //private User currentBorrower;
+    private User currentBorrower;
 
     public String getTitle() {
         return this.title;
@@ -42,12 +42,17 @@ public class Book implements Serializable {
         return owner;
     }
 
+    public User getCurrentBorrower() {
+        return currentBorrower;
+    }
+
     public Book(String title, String author, String status, String ISBN, String description) {
         this.title = title;
         this.author = author;
         this.status = status;
         this.ISBN = ISBN;
         this.description = description;
+        //this.currentBorrower = currentBorrower;
 
     }
     public void requestsListPushBack(Request request){

@@ -1,7 +1,6 @@
 package com.example.developerunknown;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,8 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -21,7 +21,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-import com.example.developerunknown.AddBookFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -37,6 +36,12 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
     ArrayList<Book> bookDataList;
     Context context;
     User currentUser;
+
+
+    Spinner selectStatus;
+    Spinner selectList;
+    RequestedListFragment requestedListFragment;
+
 
     //########################## this part is needed for the below blocking part.
 
@@ -60,8 +65,104 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
         bookAdapter = new CustomList(context, bookDataList);
         bookList.setAdapter(bookAdapter);
 
+
+        //Used so the spinner items can be selected for the different status, causing a fragment change
+        selectStatus = view.findViewById(R.id.select_status_spinner);
+        selectStatus.setOnItemSelectedListener((new AdapterView.OnItemSelectedListener() {
+           @Override
+           public void onItemSelected (AdapterView<?> parent, View view, int position, long id){
+               Fragment fragment = null;
+               switch (position){
+/*
+                   case 0:
+                       //Show all books
+                      break;
+
+                   case 1:
+                       //calls the available fragment
+                       fragment = new AvailableBookFragment();
+                       break;
+*/
+                   default:
+                       break;
+               }
+
+               if (fragment != null) {
+                   FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                   FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                   fragmentTransaction.replace(R.id.fragment_container, fragment);
+                   fragmentTransaction.addToBackStack(null);
+                   fragmentTransaction.commit();
+                   Toast.makeText(context, selectStatus.getSelectedItem().toString()+"is working", Toast.LENGTH_LONG).show();
+
+
+               } else {
+                   // error in creating fragment
+                   Log.e("Book list fragment", "Error in creating fragment");
+               }
+               }
+            @Override
+            public void onNothingSelected (AdapterView<?> parent) {
+
+            }
+
+        }));
+
+
+
+        //this is the spinner for the list selection
+        selectList = view.findViewById(R.id.list_spinner);
+        selectList.setOnItemSelectedListener((new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected (AdapterView<?> parent, View view, int position, long id){
+                Fragment fragment = null;
+                switch (position){
+                   case 0:
+                       //Owned book list
+                       //automatically starts on this page
+                       break;
+
+                   case 1:
+                       //Borrowed list
+                       //add a request to users borrowed list fragment
+                       fragment = new RequestedListFragment(); // for the time being im using the accpeted fragmnet
+                       break;
+
+                    default:
+                        break;
+                }
+
+                if (fragment != null) {
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.fragment_container, fragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                    //Toast.makeText(context, selectStatus.getSelectedItem().toString()+"is working", Toast.LENGTH_LONG).show();
+
+
+                } else {
+                    // error in creating fragment
+                    Log.e("Book list fragment", "Error in creating fragment");
+                }
+            }
+            @Override
+            public void onNothingSelected (AdapterView<?> parent) {
+
+            }
+
+        }));
+
+
+
+
+
+
+
+
         return view;
     }
+
 
     @Nullable
     @Override
@@ -111,7 +212,15 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
             }
         });
 
-        //################################### this part retrieves book from online data base and automatically update ################################
+
+
+
+
+
+
+
+
+//################################### this part retrieves book from online data base and automatically update ################################
 
         userBookCollectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -126,6 +235,7 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
                     String description = (String) doc.getData().get("description");
                     String ISBN = (String) doc.getData().get("ISBN");
                     String status = (String) doc.getData().get("status");
+                    User currentBorrower = (User) doc.getData().get("borrower");
                     bookDataList.add(new Book(title, author, status, ISBN, description)); // Adding the cities and provinces from FireStore
                 }
                 bookAdapter.notifyDataSetChanged(); // Notifying the adapter to render any new data fetcheh

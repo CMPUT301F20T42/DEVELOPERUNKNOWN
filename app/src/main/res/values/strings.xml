@@ -17,7 +17,19 @@
         <item>Accepted</item>
         <item>Borrowed</item>
         <item>Requested</item>
+    </string-array>
 
+    <string-array name="select_status_array">
+        <item>All Statuses</item>
+        <item>Available</item>
+        <item>Accepted</item>
+        <item>Borrowed</item>
+        <item>Requested</item>
+    </string-array>
+
+    <string-array name="book_list_array">
+        <item>My Owned Books</item>
+        <item>My Borrowed Books</item>
     </string-array>
 
 
