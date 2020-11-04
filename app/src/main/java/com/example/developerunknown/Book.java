@@ -1,5 +1,7 @@
 package com.example.developerunknown;
 
+import android.widget.ArrayAdapter;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.Serializable;
@@ -13,7 +15,8 @@ public class Book implements Serializable {
     private String ISBN;
     private String description;
     private ArrayList<Request> requestsList;
-    private User owner;
+    private String ownerId;
+    private String Bid;
     //private Float rating;
     //private User currentBorrower;
 
@@ -59,12 +62,21 @@ public class Book implements Serializable {
         return description;
     }
 
-    public User getOwner() {
-        return owner;
+    public String getBid() {
+        return Bid;
     }
 
-    public Book(String id, String title, String author, String status, String ISBN, String description) {
-        this.id = id;
+    public String getOwner() {
+        return ownerId;
+    }
+
+    public void setBid(String bid) {
+        Bid = bid;
+    }
+
+
+
+    public Book(String title, String author, String status, String ISBN, String description) {
         this.title = title;
         this.author = author;
         this.status = status;
