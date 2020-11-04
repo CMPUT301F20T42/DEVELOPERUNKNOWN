@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Book implements Serializable {
+    private String id;
     private String title;
     private String author;
     private String status;
@@ -19,6 +20,28 @@ public class Book implements Serializable {
     //private Float rating;
     //private User currentBorrower;
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setStatus (String status) {
+        this.status = status;
+    }
+
+    public void setISBN(String ISBN) {
+        this.ISBN = ISBN;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getID() { return this.id; }
+
     public String getTitle() {
         return this.title;
     }
@@ -27,8 +50,8 @@ public class Book implements Serializable {
         return this.author;
     }
 
-    public String getAvailability() {
-        return status;
+    public String getStatus () {
+        return this.status;
     }
 
     public String getISBN() {

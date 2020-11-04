@@ -82,7 +82,7 @@ public class AddBookFragment extends Fragment {
 
         final View view = inflater.inflate(R.layout.fragment_add_book, container, false);
 
-        //initialize add button
+        // initialize add button
         addBookButton = view.findViewById(R.id.add_book_button2);
         cancelButton = view.findViewById(R.id.cancel_book_button);
 
@@ -99,9 +99,11 @@ public class AddBookFragment extends Fragment {
                 String description = bookDescription.getText().toString();
                 String ISBN = bookISBN.getText().toString();
 
-                if(title.length() > 0 && author.length() > 0 && description.length() > 0 && ISBN.length() > 0)
-                {
-                    Book book = new Book(title, author,  "Available", ISBN, description);
+                if(title.length() > 0 && author.length() > 0 && description.length() > 0 && ISBN.length() > 0) {
+                    // Create new document
+                    DocumentReference newRef = userBookCollectionReference.document();
+                    String id = newRef.getId();
+                    Book book = new Book(id, title, author,  "Available", ISBN, description);
                     currentUser.addBook(book);
 
                     // Add book to book collection
@@ -112,7 +114,7 @@ public class AddBookFragment extends Fragment {
                     data.put("ISBN", ISBN);
 
                     userBookCollectionReference
-                            .document(ISBN)
+                            .document()
                             .set(data)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
@@ -156,7 +158,6 @@ public class AddBookFragment extends Fragment {
             }
         });
 
-        /*
         scanButton = view.findViewById(R.id.scan_button);
         scanButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,7 +174,7 @@ public class AddBookFragment extends Fragment {
                 }
             }
         });
-*/
+
         return view;
     }
 
@@ -207,7 +208,7 @@ public class AddBookFragment extends Fragment {
             }
         }}
 */
-        @Nullable
+    @Nullable
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -216,17 +217,20 @@ public class AddBookFragment extends Fragment {
 
     public void destroy_current_fragment() {
 
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.remove(fragmentManager.findFragmentByTag("Add Book Fragment"));
+//        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.remove(fragmentManager.findFragmentByTag("Add Book Fragment"));
+//
+//        Bundle args = new Bundle();
+//        args.putSerializable("current user", currentUser);
+//        Fragment fragment = new BookListFragment();
+//        fragment.setArguments(args);
+//        fragmentTransaction.replace(R.id.fragment_container, fragment, "Booklist Fragment");
+//        fragmentTransaction.addToBackStack(null);
+//        fragmentTransaction.commit();
 
-        Bundle args = new Bundle();
-        args.putSerializable("current user", currentUser);
-        Fragment fragment = new BookListFragment();
-        fragment.setArguments(args);
-        fragmentTransaction.replace(R.id.fragment_container, fragment, "Booklist Fragment");
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        fragmentManager.popBackStack();
     }
 
 

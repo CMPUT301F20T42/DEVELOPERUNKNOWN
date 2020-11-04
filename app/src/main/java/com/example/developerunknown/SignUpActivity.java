@@ -72,8 +72,8 @@ public class SignUpActivity extends AppCompatActivity {
                 userName = registerUserName.getText().toString();
                 password = registerPassword.getText().toString();
                 email = registerEmail.getText().toString();
-                firstName=registerFirstName.getText().toString();
-                lastName =registerLastName.getText().toString();
+                firstName= registerFirstName.getText().toString();
+                lastName = registerLastName.getText().toString();
                 contactPhone = registerPhone.getText().toString();
 
                 if (userName.trim().length() == 0 ) {
@@ -93,8 +93,11 @@ public class SignUpActivity extends AppCompatActivity {
                 }
                 else if (!userName.matches("[a-zA-Z0-9]+")){
                     Toast.makeText(SignUpActivity.this, "UserName must be alphanumerical", Toast.LENGTH_SHORT).show();
-
                 }
+                else if (userName.length()>12){
+                    Toast.makeText(SignUpActivity.this, "UserName can be maximum 12 characters", Toast.LENGTH_SHORT).show();
+                }
+
                 else{
                     DocumentReference docIdRef = userCollectionReference.document(userName);
                     docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -110,7 +113,7 @@ public class SignUpActivity extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<AuthResult> task) {
                                             if (!task.isSuccessful()){
-                                                Toast.makeText(SignUpActivity.this,"There is a error ,please check if this email already registered or try later",Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(SignUpActivity.this,"There is a error, please check if this email already registered or try later",Toast.LENGTH_SHORT).show();
                                             }
                                             else{
                                                 String user_Id = auth.getCurrentUser().getUid();

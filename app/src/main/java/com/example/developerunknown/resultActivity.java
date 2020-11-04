@@ -59,7 +59,7 @@ public class resultActivity extends AppCompatActivity {
         Author.setText(currentBook.getAuthor());
         ISBN.setText(currentBook.getISBN());
         Description.setText(currentBook.getDescription());
-        Status.setText(currentBook.getAvailability());
+        Status.setText(currentBook.getStatus());
 
 
     }

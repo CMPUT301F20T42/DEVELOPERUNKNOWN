@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".requestActicity"></activity>
         <activity android:name=".resultActivity" />
-        <activity android:name=".Test_Photo" />
+
         <activity
             android:name=".SignUpActivity"
             android:label="@string/title_activity_sign_up_" />
