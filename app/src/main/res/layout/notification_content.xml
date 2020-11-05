@@ -9,7 +9,7 @@
     <TextView
         android:id="@+id/notificationType"
         android:layout_width="240dp"
-        android:layout_height="64dp"
+        android:layout_height="50dp"
         android:background="#2196F3"
         android:padding="10dp"
         android:text="notificationType"
@@ -21,26 +21,26 @@
 
     <TextView
         android:id="@+id/notificationTime"
-        android:layout_width="0dp"
-        android:layout_height="56dp"
+        android:layout_width="171dp"
+        android:layout_height="50dp"
 
         android:padding="10dp"
         android:text="Time"
-        android:textSize="25sp"
+        android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/notificationType"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/Notificationdescription"
-        android:layout_width="0dp"
-        android:layout_height="52dp"
+        android:layout_width="412dp"
+        android:layout_height="60dp"
         android:padding="10dp"
         android:text="Description"
-        android:textSize="20sp"
+        android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/notificationType"/>
+        app:layout_constraintTop_toBottomOf="@+id/notificationType" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

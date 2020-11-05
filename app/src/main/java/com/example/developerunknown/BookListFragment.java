@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -38,6 +39,13 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
     Context context;
     User currentUser;
 
+    Spinner filterSelection;
+    Spinner selectList;
+    ArrayAdapter<String> filterAdapter;
+    ArrayList<String> filterList;
+
+    UserBorrowedListFragment listFragment;
+
     //########################## this part is needed for the below blocking part.
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -59,6 +67,20 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
 
         bookAdapter = new CustomList(context, bookDataList);
         bookList.setAdapter(bookAdapter);
+
+        filterSelection = (Spinner) view.findViewById(R.id.filter_spinner);
+
+        filterList = new ArrayList<String>();
+
+        filterList.add("All");
+        filterList.add("Accepted");
+        filterList.add("Available");
+        filterList.add("Borrowed");
+        filterList.add("Requested");
+
+        filterAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, filterList);
+        filterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        filterSelection.setAdapter(filterAdapter);
 
         return view;
     }
@@ -88,6 +110,10 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
         });
 
 
+
+
+
+
         bookList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View view, int position, long id) {
                 Log.d("BookList Message", "Successfully clicked book");
@@ -109,6 +135,84 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
             }
         });
 
+        filterSelection.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            String filter;
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // Get filter
+                filter = filterList.get(position);
+                // Apply filter
+                if (!filter.equals("All")) {
+                    // Reset bookDataList
+                    bookDataList = currentUser.getFilteredBookList(filter);
+                    // Test these two lines first
+                    // Currently not working
+
+                    bookAdapter = new CustomList(context, bookDataList);
+                    bookList.setAdapter(bookAdapter);
+
+                } else {
+                    bookDataList = currentUser.getBookList();
+                }
+                // Why is this not updating?
+                bookAdapter = new CustomList(context, bookDataList);
+                bookList.setAdapter(bookAdapter);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+               // Do nothing? Reset?
+            }
+        });
+
+
+
+        //this is the spinner for the list selection
+        selectList = view.findViewById(R.id.list_spinner);
+        selectList.setOnItemSelectedListener((new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected (AdapterView<?> parent, View view, int position, long id){
+                UserBorrowedListFragment fragment = null;
+                switch (position){
+                    case 0:
+                        //Owned book list
+                        //automatically starts on this page
+                        break;
+
+                    case 1:
+                        //Borrowed list
+                        //add a request to users borrowed list fragment
+                        fragment = new UserBorrowedListFragment(); // for the time being im using the accpeted fragmnet
+                        break;
+
+                    default:
+                        break;
+                }
+
+                if (fragment != null) {
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.fragment_container, fragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                    //Toast.makeText(context, selectStatus.getSelectedItem().toString()+"is working", Toast.LENGTH_LONG).show();
+
+
+                } else {
+                    // error in creating fragment
+                    Log.e("Book list fragment", "Error in creating fragment");
+                }
+            }
+            @Override
+            public void onNothingSelected (AdapterView<?> parent) {
+
+            }
+
+        }));
+
+
+
         //################################### this part retrieves book from online data base and automatically update ################################
 
         userBookCollectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -124,6 +228,7 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
                     String description = (String) doc.getData().get("description");
                     String ISBN = (String) doc.getData().get("ISBN");
                     String status = (String) doc.getData().get("status");
+
                     bookDataList.add(new Book(doc.getId(), title, author, status, ISBN, description)); // Adding the cities and provinces from FireStore
                 }
                 bookAdapter.notifyDataSetChanged(); // Notifying the adapter to render any new data fetcheh
