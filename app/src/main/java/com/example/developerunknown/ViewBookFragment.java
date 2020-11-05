@@ -29,6 +29,7 @@ public class ViewBookFragment extends Fragment {
 
     public Button editBookButton;
     public Button deleteBookButton;
+    public Button requestButton;
     public Button backButton;
 
     private TextView bookTitle;
@@ -42,7 +43,6 @@ public class ViewBookFragment extends Fragment {
     public CollectionReference userBookCollectionReference = db.collection("user").document(uid).collection("Book");
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d("ViewBook Message", "Successfully entered fragment");
 
         currentUser = (User) this.getArguments().getSerializable("current user");
         clickedBook = (Book) this.getArguments().getSerializable("clicked book");
@@ -51,9 +51,10 @@ public class ViewBookFragment extends Fragment {
         context = container.getContext();
 
         // Assign buttons
-        editBookButton = view.findViewById(R.id.editButton);
-        deleteBookButton = view.findViewById(R.id.deleteButton);
-        backButton = view.findViewById(R.id.backButton);
+        editBookButton = view.findViewById(R.id.edit_button);
+        deleteBookButton = view.findViewById(R.id.delete_button);
+        requestButton = view.findViewById(R.id.requests_button);
+        backButton = view.findViewById(R.id.back_button);
 
         // Display clicked book
         bookTitle = view.findViewById(R.id.viewTitle);
@@ -110,6 +111,26 @@ public class ViewBookFragment extends Fragment {
                 // Close fragment
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentManager.popBackStack();
+            }
+        });
+
+        requestButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("View Book Fragment", "Clicked on View Requests Button");
+                // Create new fragment
+                Bundle args = new Bundle();
+                args.putSerializable("current user", currentUser);
+                args.putSerializable("clicked book", clickedBook);
+
+                Fragment fragment = new ViewRequestsFragment();
+                fragment.setArguments(args);
+
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, fragment, "View Requests Fragment");
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
 
