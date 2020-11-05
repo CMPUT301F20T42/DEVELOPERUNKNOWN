@@ -5,6 +5,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,7 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
+
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,11 +38,19 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.InputStream;
 import java.util.HashMap;
+
+import static android.app.Activity.RESULT_OK;
 
 public class AddBookFragment extends Fragment {
 
+    private static final int RESULT_LOAD_IMG = 111;
     public Button addBookButton;
     public Button cancelButton;
 
@@ -50,13 +63,17 @@ public class AddBookFragment extends Fragment {
     private Spinner bookStatus;
     private EditText bookDescription;
     private EditText bookISBN;
+    private Uri filePath;
+    private ImageButton addPhotoButton;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     public FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private FirebaseStorage storage;
+    private StorageReference storageReference;
     public String uid = user.getUid();
     public CollectionReference userBookCollectionReference = db.collection("user").document(uid).collection("Book");
 
-    Context context;
+    final Context applicationContext = MainActivity.getContextOfApplication();
     User currentUser;
 
     public interface OnFragmentInteractionListener {
@@ -74,6 +91,28 @@ public class AddBookFragment extends Fragment {
                 bookISBN.setText(result);
             }
         }
+
+        if (requestCode == RESULT_LOAD_IMG)
+            if (resultCode == RESULT_OK) {
+
+                try {
+                    // Get the Uri of data
+                    filePath = data.getData();
+                    final InputStream imageStream = applicationContext.getContentResolver().openInputStream(filePath);
+                    final Bitmap bitmap = BitmapFactory.decodeStream(imageStream);
+                    addPhotoButton.setImageBitmap(bitmap);
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(applicationContext, "Something went wrong", Toast.LENGTH_LONG).show();
+                }
+
+
+            }else{
+                Toast.makeText(applicationContext, "You haven't picked Image", Toast.LENGTH_SHORT).show();
+            }
+
+
     }
 
     @Override
@@ -84,13 +123,18 @@ public class AddBookFragment extends Fragment {
 
         final View view = inflater.inflate(R.layout.fragment_add_book, container, false);
 
-        // initialize add button
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
+        //initialize add button
+
         addBookButton = view.findViewById(R.id.add_book_button2);
         cancelButton = view.findViewById(R.id.cancel_book_button);
+        addPhotoButton = view.findViewById(R.id.editImageButton);
 
         addBookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v) {
+                //uploadImage();
                 bookTitle = view.findViewById(R.id.book_title_editText);
                 bookAuthor = view.findViewById(R.id.book_author_editText);
                 bookStatus = view.findViewById(R.id.spinner);
@@ -164,6 +208,16 @@ public class AddBookFragment extends Fragment {
                 }
             }
         });
+
+
+        addPhotoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectImage();
+            }
+        });
+
+        /*
 
         scanButton = view.findViewById(R.id.scan_button);
         scanButton.setOnClickListener(new View.OnClickListener() {
@@ -239,6 +293,63 @@ public class AddBookFragment extends Fragment {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         fragmentManager.popBackStack();
     }
+
+    private void selectImage() {
+        // Defining Implicit Intent to mobile gallery
+        Intent photoPickIntent = new Intent(Intent.ACTION_PICK);
+        photoPickIntent.setType("image/*");
+        startActivityForResult(photoPickIntent, RESULT_LOAD_IMG);
+    }
+
+    /*
+    // UploadImage method
+    private void uploadImage()
+    {
+
+        if (filePath != null) {
+
+            // Defining the child of storageReference
+            StorageReference ref = storageReference.child("BookImages/" + ISBN);
+
+
+            // adding listeners on upload
+            // or failure of image
+            ref.putFile(filePath)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(
+                                UploadTask.TaskSnapshot taskSnapshot)
+                        {
+                            // Image uploaded successfully
+                            Toast.makeText(applicationContext, "Image Uploaded!!", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e)
+                        {
+                            // Error, Image not uploaded
+                            Toast.makeText(applicationContext, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+
+                        // Progress Listener for loading
+                        // percentage on the dialog box
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            Toast.makeText(applicationContext, "In Progress ", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+
+
+
+    }
+     */
+
+
 
 
 
