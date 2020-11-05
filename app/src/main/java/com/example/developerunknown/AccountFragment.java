@@ -58,7 +58,7 @@ public class AccountFragment extends Fragment {
 
     private Activity activity = getActivity();
     private Uri filePath;
-    ImageButton editImageButton;
+    private ImageButton editImageButton;
     public FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private FirebaseStorage storage;
     private StorageReference storageReference;
