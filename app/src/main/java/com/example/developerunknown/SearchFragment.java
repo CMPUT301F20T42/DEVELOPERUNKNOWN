@@ -35,7 +35,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class SearchFragment extends Fragment {
+public class    SearchFragment extends Fragment {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     public User currentUser;
     ListView resultList;
