@@ -128,14 +128,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/book_isbn_editText" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/editImageButton"
         android:layout_width="148dp"
         android:layout_height="148dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/defaultphoto"
         tools:layout_editor_absoluteY="126dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
