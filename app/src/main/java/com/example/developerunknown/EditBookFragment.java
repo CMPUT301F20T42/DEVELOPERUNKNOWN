@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -50,7 +52,7 @@ public class EditBookFragment extends Fragment {
 
     public Button addBookButton;
     public Button cancelButton;
-    public ImageButton editImageButton;
+    public ImageView editImageButton;
 
     private EditText bookTitle;
     private EditText bookAuthor;
@@ -62,7 +64,6 @@ public class EditBookFragment extends Fragment {
     public FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     public String uid = user.getUid();
     public CollectionReference userBookCollectionReference = db.collection("user").document(uid).collection("Book");
-    public String bid = userBookCollectionReference.document().getId();
 
     private Uri filePath;
     private FirebaseStorage storage;
@@ -83,6 +84,7 @@ public class EditBookFragment extends Fragment {
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
+
         final View view = inflater.inflate(R.layout.fragment_edit_book, container, false);
 
         // initialize add button
@@ -101,6 +103,17 @@ public class EditBookFragment extends Fragment {
         bookStatus.setSelection(((ArrayAdapter) bookStatus.getAdapter()).getPosition(clickedBook.getStatus()));
         bookDescription.setText(clickedBook.getDescription());
         bookISBN.setText(clickedBook.getISBN());
+
+        storageReference.child("BookImages/"+clickedBook.getID()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                GlideApp.with(applicationContext)
+                        .load(uri)
+                        .placeholder(new ColorDrawable(Color.GRAY))
+                        .error(R.drawable.defaultphoto)
+                        .into(editImageButton);
+            }
+        });
 
         addBookButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -233,7 +246,7 @@ public class EditBookFragment extends Fragment {
         if (filePath != null) {
 
             // Defining the child of storageReference
-            StorageReference ref = storageReference.child("BookImages/" + bid);
+            StorageReference ref = storageReference.child("BookImages/" + clickedBook.getID());
 
             // adding listeners on upload
             // or failure of image
