@@ -20,8 +20,8 @@ public class NotificationList extends ArrayAdapter<UserNotification> {
 
     public NotificationList(Context context,ArrayList<UserNotification> userNotifications){
         super(context,0,userNotifications);
-        this.context=context;
-        this.userNotifications=userNotifications;
+        this.context = context;
+        this.userNotifications = userNotifications;
 
     }
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -33,11 +33,12 @@ public class NotificationList extends ArrayAdapter<UserNotification> {
 
         UserNotification currentNotification = userNotifications.get(position);
         TextView notificationType = view.findViewById(R.id.notificationType);
-        TextView notificationDescription = view.findViewById(R.id.Notificationdescription);
-        TextView notificationTime = view.findViewById(R.id.notificationTime);
+        TextView notificationBook = view.findViewById(R.id.notificationBook);
+        TextView notificationSender = view.findViewById(R.id.notificationSender);
 
         notificationType.setText(currentNotification.getType());
-        notificationDescription.setText(currentNotification.getDescription());
+        notificationBook.setText(currentNotification.getBook());
+        notificationSender.setText(currentNotification.getSender());
 
         return view;
     }

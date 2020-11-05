@@ -21,7 +21,7 @@ public class UserNotification {
             if (type.equals("Accepted")) {
                 description = sender + " accepted your request of book "+book;
             }
-            else if (type.equals("Requested")){
+            else if (type.equals("Request")){
                 description = sender + " requested on your book "+book;
             }
             else if (type.equals("Denied")){
@@ -38,8 +38,8 @@ public class UserNotification {
             if (type.equals("Accepted")) {
                 description = sender + " accepted your request of book "+book;
             }
-            else if (type.equals("Requested")){
-                description = sender + " requested on your book "+book;
+            else if (type.equals("Request")){
+                description = sender + " requested on your book "+ book;
             }
             else if (type.equals("Denied")){
                 description = sender+ " denied your request on book "+book;
