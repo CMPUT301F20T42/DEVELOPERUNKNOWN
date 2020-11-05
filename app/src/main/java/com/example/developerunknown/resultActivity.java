@@ -151,7 +151,30 @@ public class resultActivity extends AppCompatActivity {
 
                 userNotificationRef.set(notiData);
 
+                DocumentReference borrowerBookRef = db.collection("user").document(borrower.getUid()).collection("RequestedBook").document(currentBook.getID());
+
+
+                Map requestedBookData = new HashMap<>();
+                requestedBookData.put("Bookid", currentBook.getID());
+                requestedBookData.put("book", currentBook.getTitle());
+                requestedBookData.put("ownerUname", currentBook.getOwnerUname());
+                requestedBookData.put("ownerId",currentBook.getOwnerId());
+                requestedBookData.put("title",currentBook.getTitle());
+                requestedBookData.put("description", currentBook.getDescription());
+                requestedBookData.put("ISBN",currentBook.getISBN());
+                requestedBookData.put("requester",borrower.getUsername());
+
+                borrowerBookRef.set(requestedBookData);
+
+
+
+
+
                 Toast.makeText(resultActivity.this, "Your request has sent", Toast.LENGTH_SHORT).show();
+
+
+
+
             }
         }
     }
