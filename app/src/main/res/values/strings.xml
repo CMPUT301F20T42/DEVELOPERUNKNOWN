@@ -10,4 +10,19 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+
+
+    <string-array name="status_array">
+        <item>Available</item>
+        <item>Accepted</item>
+        <item>Borrowed</item>
+        <item>Requested</item>
+    </string-array>
+
+    <string-array name="book_list_array">
+        <item>My Owned Books</item>
+        <item>My Borrowed Books</item>
+    </string-array>
+
+
 </resources>

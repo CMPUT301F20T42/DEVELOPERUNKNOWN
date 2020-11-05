@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
+
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -52,12 +54,13 @@ public class AddBookFragment extends Fragment {
     public Button addBookButton;
     public Button cancelButton;
 
-    //new added code
+    // new added code
     public Button scanButton;
 
     public String ISBN;
     private EditText bookTitle;
     private EditText bookAuthor;
+    private Spinner bookStatus;
     private EditText bookDescription;
     private EditText bookISBN;
     private Uri filePath;
@@ -123,6 +126,7 @@ public class AddBookFragment extends Fragment {
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
         //initialize add button
+
         addBookButton = view.findViewById(R.id.add_book_button2);
         cancelButton = view.findViewById(R.id.cancel_book_button);
         addPhotoButton = view.findViewById(R.id.editImageButton);
@@ -133,29 +137,36 @@ public class AddBookFragment extends Fragment {
                 //uploadImage();
                 bookTitle = view.findViewById(R.id.book_title_editText);
                 bookAuthor = view.findViewById(R.id.book_author_editText);
+                bookStatus = view.findViewById(R.id.spinner);
                 bookDescription = view.findViewById(R.id.book_description_editText);
                 bookISBN = view.findViewById(R.id.book_isbn_editText);
 
                 String title = bookTitle.getText().toString();
                 String author = bookAuthor.getText().toString();
+                String status = bookStatus.getSelectedItem().toString();
                 String description = bookDescription.getText().toString();
                 String ISBN = bookISBN.getText().toString();
 
-                if(title.length() > 0 && author.length() > 0 && description.length() > 0 && ISBN.length() > 0)
-                {
-                    Book book = new Book(title, author,  "Available", ISBN, description);
+                if(title.length() > 0 && author.length() > 0 && description.length() > 0 && ISBN.length() > 0) {
+                    // Create new document
+                    DocumentReference newRef = userBookCollectionReference.document();
+                    String id = newRef.getId();
+                    Book book = new Book(id, title, author, status, ISBN, description);
+                    //Book book = new Book(id, title, author, status, ISBN, description,uid,currentUser.getUsername());
                     currentUser.addBook(book);
 
                     // Add book to book collection
                     HashMap<String, String> data = new HashMap<>();
+                    data.put("Bookid",id);
                     data.put("title", title);
                     data.put("author", author);
+                    data.put("status", status);
                     data.put("description", description);
                     data.put("ISBN", ISBN);
+                    data.put("ownerId", uid);
+                    data.put("ownerUname", currentUser.getUsername());
 
-                    userBookCollectionReference
-                            .document(ISBN)
-                            .set(data)
+                    newRef.set(data)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
@@ -198,6 +209,7 @@ public class AddBookFragment extends Fragment {
             }
         });
 
+
         addPhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -206,6 +218,7 @@ public class AddBookFragment extends Fragment {
         });
 
         /*
+
         scanButton = view.findViewById(R.id.scan_button);
         scanButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -222,7 +235,7 @@ public class AddBookFragment extends Fragment {
                 }
             }
         });
-*/
+
         return view;
     }
 
@@ -256,7 +269,7 @@ public class AddBookFragment extends Fragment {
             }
         }}
 */
-        @Nullable
+    @Nullable
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -265,17 +278,20 @@ public class AddBookFragment extends Fragment {
 
     public void destroy_current_fragment() {
 
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.remove(fragmentManager.findFragmentByTag("Add Book Fragment"));
+//        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.remove(fragmentManager.findFragmentByTag("Add Book Fragment"));
+//
+//        Bundle args = new Bundle();
+//        args.putSerializable("current user", currentUser);
+//        Fragment fragment = new BookListFragment();
+//        fragment.setArguments(args);
+//        fragmentTransaction.replace(R.id.fragment_container, fragment, "Booklist Fragment");
+//        fragmentTransaction.addToBackStack(null);
+//        fragmentTransaction.commit();
 
-        Bundle args = new Bundle();
-        args.putSerializable("current user", currentUser);
-        Fragment fragment = new BookListFragment();
-        fragment.setArguments(args);
-        fragmentTransaction.replace(R.id.fragment_container, fragment, "Booklist Fragment");
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        fragmentManager.popBackStack();
     }
 
     private void selectImage() {
