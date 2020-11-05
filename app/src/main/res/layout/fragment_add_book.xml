@@ -110,12 +110,12 @@
         app:layout_constraintBottom_toTopOf="@+id/add_book_button2"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
+    <ImageButton
         android:id="@+id/add_photo_button"
-        android:layout_width="356dp"
-        android:layout_height="47dp"
+        android:layout_width="203dp"
+        android:layout_height="190dp"
         android:layout_marginBottom="16dp"
-        android:text="Add Photo"
+        android:src="@drawable/defaultphoto"
         app:layout_constraintBottom_toTopOf="@+id/book_title_editText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.527"
