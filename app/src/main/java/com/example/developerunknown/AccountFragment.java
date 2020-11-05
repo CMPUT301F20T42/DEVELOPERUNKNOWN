@@ -63,7 +63,7 @@ public class AccountFragment extends Fragment {
 
     private Activity activity = getActivity();
     private Uri filePath;
-    private ImageButton editImageButton;
+    private ImageView editImageButton;
     public FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private FirebaseStorage storage;
     private StorageReference storageReference;
@@ -107,11 +107,18 @@ public class AccountFragment extends Fragment {
         contactPhoneEdit.setClickable(false);
         editInfoButton.setClickable(false);
 
-        GlideApp.with(applicationContext)
-                .load(storageReference.child("profileImages/" + uid).getDownloadUrl().toString())
-                .placeholder(new ColorDrawable(Color.WHITE))
-                .error(R.drawable.defaultphoto)
-                .into(editImageButton);
+        storageReference.child("profileImages/"+uid).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                GlideApp.with(applicationContext)
+                        .load(uri)
+                        .placeholder(new ColorDrawable(Color.GRAY))
+                        .error(R.drawable.defaultphoto)
+                        .into(editImageButton);
+            }
+        });
+
+
 
 
         currentUserDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
