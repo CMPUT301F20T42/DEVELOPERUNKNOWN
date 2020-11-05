@@ -1,9 +1,7 @@
 package com.example.developerunknown;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -17,18 +15,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -52,6 +46,7 @@ public class EditBookFragment extends Fragment {
 
     public Button addBookButton;
     public Button cancelButton;
+    public Button deletePhotoButton;
     public ImageView editImageButton;
 
     private EditText bookTitle;
@@ -91,6 +86,7 @@ public class EditBookFragment extends Fragment {
         addBookButton = view.findViewById(R.id.add_book_button2);
         cancelButton = view.findViewById(R.id.cancel_book_button);
         editImageButton = view.findViewById(R.id.editImageButton);
+        deletePhotoButton = view.findViewById(R.id.deletePhotoButton);
 
         bookTitle = view.findViewById(R.id.book_title_editText);
         bookAuthor = view.findViewById(R.id.book_author_editText);
@@ -175,6 +171,32 @@ public class EditBookFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 selectImage();
+            }
+        });
+
+        deletePhotoButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                storageReference.child("BookImages/"+clickedBook.getID()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        StorageReference photoRef = storage.getReferenceFromUrl(uri.toString());
+                        photoRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                // File deleted successfully
+                                Log.d("delete photo", "onSuccess: deleted file");
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                // Uh-oh, an error occurred!
+                                Log.d("delete photo", "onFailure: did not delete file");
+                            }
+                        });
+                    }
+                });
+                editImageButton.setImageResource(android.R.color.transparent);
             }
         });
 
