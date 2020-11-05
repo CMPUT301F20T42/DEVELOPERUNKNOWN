@@ -27,6 +27,8 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -41,6 +43,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -101,6 +104,13 @@ public class AccountFragment extends Fragment {
         contactPhoneEdit.setEnabled(false);
         contactPhoneEdit.setClickable(false);
         editInfoButton.setClickable(false);
+
+        try {
+            Glide.with(applicationContext)
+                    .load(storageReference.child("profileImages/" + uid))
+                    .into(editImageButton);
+        }catch (Exception e){
+        }
 
 
         currentUserDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -301,8 +311,6 @@ public class AccountFragment extends Fragment {
                         }
                     });
         }
-
-
 
     }
 
