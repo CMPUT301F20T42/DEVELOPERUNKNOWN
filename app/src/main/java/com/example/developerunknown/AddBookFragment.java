@@ -41,7 +41,7 @@ public class AddBookFragment extends Fragment {
     public Button addBookButton;
     public Button cancelButton;
 
-    //new added code
+    // new added code
     public Button scanButton;
 
     public String ISBN;

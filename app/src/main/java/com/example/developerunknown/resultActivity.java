@@ -89,7 +89,7 @@ public class resultActivity extends AppCompatActivity {
 
     public void startRequest(View view) {
         if (currentBook.getOwnerId().equals(borrower.getUid())) {
-            Toast.makeText(resultActivity.this, "You can't request for your own book", Toast.LENGTH_SHORT).show();
+            Toast.makeText(resultActivity.this, "You can't request your own book", Toast.LENGTH_SHORT).show();
         } else {
             if (currentBook.getStatus().equals("Available") || currentBook.getStatus().equals("Requested")) {
                 final Request nowRequest = new Request(borrower.getUid(), currentBook);
@@ -128,8 +128,8 @@ public class resultActivity extends AppCompatActivity {
 
                 Map requestData = new HashMap<>();
                 requestData.put("id", requestId);
-                requestData.put("Borrower",borrower.getUid());
-                requestData.put("Bookid",currentBook.getID());
+                requestData.put("Borrower", borrower.getUid());
+                requestData.put("Bookid", currentBook.getID());
                 requestData.put("BorrowerUname", borrower.getUsername());
 
 
@@ -145,7 +145,7 @@ public class resultActivity extends AppCompatActivity {
 
                 Map notiData = new HashMap<>();
                 notiData.put("sender", borrower.getUsername());
-                notiData.put("type", "Requested");
+                notiData.put("type", "Request");
                 notiData.put("book", currentBook.getTitle());
                 notiData.put("id", notificationId);
 
