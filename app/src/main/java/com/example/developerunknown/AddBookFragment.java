@@ -64,7 +64,7 @@ public class AddBookFragment extends Fragment {
     private EditText bookDescription;
     private EditText bookISBN;
     private Uri filePath;
-    private ImageButton addPhotoButton;
+    ImageButton addPhotoButton;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     public FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -113,6 +113,7 @@ public class AddBookFragment extends Fragment {
             }
 
 
+
     }
 
     @Override
@@ -129,12 +130,12 @@ public class AddBookFragment extends Fragment {
 
         addBookButton = view.findViewById(R.id.add_book_button2);
         cancelButton = view.findViewById(R.id.cancel_book_button);
-        addPhotoButton = view.findViewById(R.id.editImageButton);
+        addPhotoButton = view.findViewById(R.id.add_photo_button);
 
         addBookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //uploadImage();
+                uploadImage();
                 bookTitle = view.findViewById(R.id.book_title_editText);
                 bookAuthor = view.findViewById(R.id.book_author_editText);
                 bookStatus = view.findViewById(R.id.spinner);
@@ -299,7 +300,7 @@ public class AddBookFragment extends Fragment {
             startActivityForResult(photoPickIntent, RESULT_LOAD_IMG);
         }
 
-    /*
+
     // UploadImage method
     private void uploadImage()
     {
@@ -307,6 +308,8 @@ public class AddBookFragment extends Fragment {
         if (filePath != null) {
 
             // Defining the child of storageReference
+            DocumentReference newRef = userBookCollectionReference.document();
+            String id = newRef.getId();
             StorageReference ref = storageReference.child("BookImages/" + id);
 
 
@@ -345,7 +348,6 @@ public class AddBookFragment extends Fragment {
 
 
     }
-     */
 
 
     }
