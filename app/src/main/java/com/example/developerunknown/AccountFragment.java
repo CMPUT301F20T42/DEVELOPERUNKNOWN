@@ -288,7 +288,6 @@ public class AccountFragment extends Fragment {
             // Defining the child of storageReference
             StorageReference ref = storageReference.child("profileImages/" + uid);
 
-
             // adding listeners on upload
             // or failure of image
             ref.putFile(filePath)
