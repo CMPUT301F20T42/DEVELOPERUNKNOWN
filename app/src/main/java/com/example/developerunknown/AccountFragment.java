@@ -6,7 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.ImageDecoder;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -105,12 +107,11 @@ public class AccountFragment extends Fragment {
         contactPhoneEdit.setClickable(false);
         editInfoButton.setClickable(false);
 
-        try {
-            Glide.with(applicationContext)
-                    .load(storageReference.child("profileImages/" + uid))
-                    .into(editImageButton);
-        }catch (Exception e){
-        }
+        GlideApp.with(applicationContext)
+                .load(storageReference.child("profileImages/" + uid).getDownloadUrl().toString())
+                .placeholder(new ColorDrawable(Color.WHITE))
+                .error(R.drawable.defaultphoto)
+                .into(editImageButton);
 
 
         currentUserDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
