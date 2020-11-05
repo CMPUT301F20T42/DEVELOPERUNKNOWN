@@ -133,7 +133,7 @@ public class AddBookFragment extends Fragment {
 
         addBookButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick (View v) {
+            public void onClick(View v) {
                 //uploadImage();
                 bookTitle = view.findViewById(R.id.book_title_editText);
                 bookAuthor = view.findViewById(R.id.book_author_editText);
@@ -147,7 +147,7 @@ public class AddBookFragment extends Fragment {
                 String description = bookDescription.getText().toString();
                 String ISBN = bookISBN.getText().toString();
 
-                if(title.length() > 0 && author.length() > 0 && description.length() > 0 && ISBN.length() > 0) {
+                if (title.length() > 0 && author.length() > 0 && description.length() > 0 && ISBN.length() > 0) {
                     // Create new document
                     DocumentReference newRef = userBookCollectionReference.document();
                     String id = newRef.getId();
@@ -157,7 +157,7 @@ public class AddBookFragment extends Fragment {
 
                     // Add book to book collection
                     HashMap<String, String> data = new HashMap<>();
-                    data.put("Bookid",id);
+                    data.put("Bookid", id);
                     data.put("title", title);
                     data.put("author", author);
                     data.put("status", status);
@@ -197,12 +197,10 @@ public class AddBookFragment extends Fragment {
         scanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ContextCompat.checkSelfPermission(getActivity(),Manifest.permission.CAMERA)== PackageManager.PERMISSION_DENIED)
-                {
+                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
                     Toast.makeText(getActivity(), "Scan functionality can work only when CAMERA permission is granded", Toast.LENGTH_SHORT).show();
                     ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, 445);
-                }
-                else {
+                } else {
                     Intent intent = new Intent(getActivity(), Scanner.class);
                     startActivityForResult(intent, 325);
                 }
@@ -217,8 +215,8 @@ public class AddBookFragment extends Fragment {
             }
         });
 
-        /*
 
+        /*
         scanButton = view.findViewById(R.id.scan_button);
         scanButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -235,7 +233,7 @@ public class AddBookFragment extends Fragment {
                 }
             }
         });
-
+        */
         return view;
     }
 
@@ -269,14 +267,14 @@ public class AddBookFragment extends Fragment {
             }
         }}
 */
-    @Nullable
-    @Override
-    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        @Nullable
+        @Override
+        public void onViewCreated ( final View view, @Nullable Bundle savedInstanceState){
+            super.onCreate(savedInstanceState);
 
-    }
+        }
 
-    public void destroy_current_fragment() {
+        public void destroy_current_fragment () {
 
 //        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 //        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -290,16 +288,16 @@ public class AddBookFragment extends Fragment {
 //        fragmentTransaction.addToBackStack(null);
 //        fragmentTransaction.commit();
 
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentManager.popBackStack();
-    }
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            fragmentManager.popBackStack();
+        }
 
-    private void selectImage() {
-        // Defining Implicit Intent to mobile gallery
-        Intent photoPickIntent = new Intent(Intent.ACTION_PICK);
-        photoPickIntent.setType("image/*");
-        startActivityForResult(photoPickIntent, RESULT_LOAD_IMG);
-    }
+        private void selectImage () {
+            // Defining Implicit Intent to mobile gallery
+            Intent photoPickIntent = new Intent(Intent.ACTION_PICK);
+            photoPickIntent.setType("image/*");
+            startActivityForResult(photoPickIntent, RESULT_LOAD_IMG);
+        }
 
     /*
     // UploadImage method
@@ -309,7 +307,7 @@ public class AddBookFragment extends Fragment {
         if (filePath != null) {
 
             // Defining the child of storageReference
-            StorageReference ref = storageReference.child("BookImages/" + ISBN);
+            StorageReference ref = storageReference.child("BookImages/" + id);
 
 
             // adding listeners on upload
@@ -350,7 +348,4 @@ public class AddBookFragment extends Fragment {
      */
 
 
-
-
-
-}
+    }
