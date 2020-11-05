@@ -39,7 +39,6 @@ public class SearchUserDialogFragment extends DialogFragment {
     public SearchUserDialogFragment(String uid){
         super();
         this.resultUid = uid;
-
     }
 
     @NonNull
