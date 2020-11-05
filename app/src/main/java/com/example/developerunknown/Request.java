@@ -1,28 +1,34 @@
 package com.example.developerunknown;
 
 public class Request {
-    private String borrower;
-    private Book tagetBook;
+    // private String requestID;
+    private String borrowerID;
+    private String borrowerUname;
+    private Book targetBook;
     private String Status = "Requested";
 
-    public Request(String borrower, Book tagetBook) {
-        this.borrower = borrower;
-        this.tagetBook = tagetBook;
+    public Request(String borrowerID, String borrowerUname, Book targetBook) {
+        // this.requestID = requestID;
+        this.borrowerID = borrowerID;
+        this.borrowerUname = borrowerUname;
+        this.targetBook = targetBook;
     }
 
-    public String getBorrower() {
-        return borrower;
+    public String getBorrowerID() {
+        return this.borrowerID;
     }
 
-    public Book getTagetBook() {
-        return tagetBook;
+    public String getBorrowerUname() { return this.borrowerUname; }
+
+    public Book getTargetBook() {
+        return this.targetBook;
     }
 
     public String getStatus() {
-        return Status;
+        return this.Status;
     }
 
     public void setStatus(String status) {
-        Status = status;
+        this.Status = status;
     }
 }
