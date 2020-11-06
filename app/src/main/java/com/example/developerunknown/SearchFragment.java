@@ -68,37 +68,6 @@ public class    SearchFragment extends Fragment {
         searchBook = (TextView)view.findViewById(R.id.editText_book);
 
         search_button = (Button)view.findViewById(R.id.search);
-        /*
-        search_button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                String keyword = searchBook.getText().toString();
-                //Query BookRef = db.collectionGroup("Book");
-                Query myQuery = db.collectionGroup("Book").whereEqualTo("Title", keyword);
-                //Query myQuery = db.collectionGroup("Book").whereEqualTo("description", keyword);
-                //Query myQuery = db.collectionGroup("Book").whereLessThanOrEqualTo("description", keyword);
-                //Query myQuery = db.collectionGroup("Book").startAt(keyword).endAt(keyword+ "\uf8ff");
-                myQuery.get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()){
-                                    System.out.println("here");
-                                    dataList.clear();
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                        String Description = document.getString("description");
-                                        String Author = document.getString("Author");
-                                        String Title = document.getString("Title");
-                                        String ISBN = document.getString("ISBN");
-                                        String Status = document.getString("Status");
-                                        Book nowBook = new Book(Title, Author, Status, ISBN, Description);
-                                        dataList.add(nowBook);
-                                        bookAdapter.notifyDataSetChanged(); // Notifying the adapter to render any new data fetcheh
-                                    }
-                                    // [END_EXCLUDE]
-                                }}
-                        });}});
-
-*/
 /*
         db.collectionGroup("Book").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -144,7 +113,6 @@ public class    SearchFragment extends Fragment {
 
 */
 
-  //    A alternate approach
         //Fetch book date from firestore
         search_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {

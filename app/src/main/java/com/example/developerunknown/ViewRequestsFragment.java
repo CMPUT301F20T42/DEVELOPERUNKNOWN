@@ -80,13 +80,10 @@ public class ViewRequestsFragment extends Fragment {
                     String bookid = (String)doc.getData().get("Bookid");
                     String borrower = (String) doc.getData().get("Borrower");
                     String borrowerUname = (String) doc.getData().get("BorrowerUname");
-                    //Timestamp time = (Timestamp) doc.getData().get("time");
+                    //Timestamp time = (Timestamp) doc.getData().get("time"); //discard for now
                     String Rid = doc.getId();
                     requestDataList.add(new Request(borrower, borrowerUname, bookid,Rid));
-
-                    //requestDataList.add(new UserNotification(sender, time, type, book,id) ); // Adding the cities and provinces from FireStore
                 }
-                //requestDataList.notifyDataSetChanged(); // Notifying the adapter to render any new data fetch
             }
         });
 
