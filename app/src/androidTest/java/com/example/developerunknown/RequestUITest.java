@@ -39,21 +39,19 @@ public class RequestUITest {
 
     @Test
     public void LoginTest() throws InterruptedException {
-        LoginActivity loginActivity = (LoginActivity) solo.getCurrentActivity();
         solo.enterText((EditText)solo.getView(R.id.editUsername),"XZPshaw");
         solo.enterText((EditText)solo.getView(R.id.editPassward),"123456");
         solo.clickOnButton("LOGIN");
-        solo.wait(5);
+        solo.wait();
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
     }
 
     @Test
     public void SearchTest() throws InterruptedException {
-        LoginActivity loginActivity = (LoginActivity) solo.getCurrentActivity();
         solo.enterText((EditText)solo.getView(R.id.editUsername),"XZPshaw");
         solo.enterText((EditText)solo.getView(R.id.editPassward),"123456");
         solo.clickOnButton("LOGIN");
-        solo.wait(5);
+        solo.waitForActivity(MainActivity.class);
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
 
         solo.clickOnText("Search");
