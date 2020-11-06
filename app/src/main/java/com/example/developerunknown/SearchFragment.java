@@ -145,7 +145,7 @@ public class    SearchFragment extends Fragment {
 */
 
   //    A alternate approach
-
+        //Fetch book date from firestore
         search_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 final String keyword = searchBook.getText().toString();
