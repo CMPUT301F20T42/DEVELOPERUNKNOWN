@@ -103,7 +103,6 @@ public class resultActivity extends AppCompatActivity {
         } else {
             if (currentBook.getStatus().equals("Available") || currentBook.getStatus().equals("Requested")) {
                 final Request nowRequest = new Request(borrower.getUid(), borrower.getUsername(), currentBook);
-                currentBook.requestsListPushBack(nowRequest);
                 //DocumentReference docRef = db.collection("User").document(currentBook.getOwner());
 /*
                 Query query = db.collectionGroup("Book");
