@@ -97,7 +97,7 @@ public class    SearchFragment extends Fragment {
                                 }}
                         });}}); */
 
-
+/*
         db.collectionGroup("Book").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -140,7 +140,9 @@ public class    SearchFragment extends Fragment {
             }
         });
 
-/*      A alternate approach
+
+ */
+  //    A alternate approach
         search_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 final String keyword = searchBook.getText().toString();
@@ -159,7 +161,7 @@ public class    SearchFragment extends Fragment {
                                 String OwnerUname = document.getString("ownerUname");
                                 //if (Description.toLowerCase().contains(keyword.toLowerCase()) || title.toLowerCase().contains(keyword..toLowerCase())))
                                 if (Status.equals("Available") || Status.equals("Requested")) {
-                                    if (Description.toLowerCase().contains(keyword.toLowerCase())) {
+                                    if (Description.toLowerCase().contains(keyword.toLowerCase())|| Title.toLowerCase().contains(keyword.toLowerCase())) {
                                         Book nowBook = new Book(document.getId(), Title, Author, Status, ISBN, Description, OwnerId, OwnerUname);
                                         dataList.add(nowBook);                      //dataList stores all valid book
                                     }
@@ -172,7 +174,7 @@ public class    SearchFragment extends Fragment {
                 });
             }
         });
-*/
+
         resultList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> list, View v, int pos, long id) {
                 Intent intent = new Intent(getActivity(),resultActivity.class);

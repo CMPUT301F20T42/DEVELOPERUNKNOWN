@@ -1,7 +1,10 @@
 package com.example.developerunknown;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -21,6 +24,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -48,6 +53,7 @@ public class EditBookFragment extends Fragment {
     public Button cancelButton;
     public Button deletePhotoButton;
     public ImageView editImageButton;
+    public Button editScanButton;
 
     private EditText bookTitle;
     private EditText bookAuthor;
@@ -87,6 +93,7 @@ public class EditBookFragment extends Fragment {
         cancelButton = view.findViewById(R.id.cancel_book_button);
         editImageButton = view.findViewById(R.id.editImageButton);
         deletePhotoButton = view.findViewById(R.id.deletePhotoButton);
+        editScanButton = view.findViewById(R.id.scan_button);
 
         bookTitle = view.findViewById(R.id.book_title_editText);
         bookAuthor = view.findViewById(R.id.book_author_editText);
@@ -174,6 +181,19 @@ public class EditBookFragment extends Fragment {
             }
         });
 
+
+        editScanButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
+                    Toast.makeText(getActivity(), "Scan functionality can work only when CAMERA permission is granded", Toast.LENGTH_SHORT).show();
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, 445);
+                } else {
+                    Intent intent = new Intent(getActivity(), Scanner.class);
+                    startActivityForResult(intent, 325);
+                }
+            }
+        });
         deletePhotoButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -241,6 +261,16 @@ public class EditBookFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 325) {
+            if (resultCode == Activity.RESULT_OK) {
+                String result = data.getStringExtra("RESULT_ISBN");
+                bookISBN = getView().findViewById(R.id.book_isbn_editText);
+                bookISBN.setText(result);
+            }
+        }
+
+
         if (requestCode == RESULT_LOAD_IMG) {
             if (resultCode == RESULT_OK) {
 

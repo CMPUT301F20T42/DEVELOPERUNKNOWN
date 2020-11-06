@@ -33,7 +33,8 @@ public class LoginActivity extends AppCompatActivity {
     private CollectionReference unameCollectionReference = db.collection("userName");
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private String email;
-    public boolean userExist;
+
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
