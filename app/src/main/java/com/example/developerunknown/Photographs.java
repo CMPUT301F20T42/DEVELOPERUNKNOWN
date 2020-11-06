@@ -27,10 +27,24 @@ import java.util.AbstractMap;
 
 import static android.app.Activity.RESULT_OK;
 
+/**
+ * This is a class that do upload, delete, and view functions on Image
+ */
 public class Photographs {
 
+    /**
+     * Constructor is empty
+     */
     public Photographs() {}
 
+    /**
+     * This is a class that upload image to the firebase storage
+     * @param type  User image or Book image
+     * @param id    book id or user id
+     * @param filePath  filepath of image, from the phone gallery
+     * @param storageReference  storageReference = firebaseStorage.getReference()
+     * @param context   Context
+     */
     public static void uploadImage(String type, String id, Uri filePath, StorageReference storageReference, final Context context){
         if (type == "U"){
             if (filePath != null) {
@@ -110,6 +124,14 @@ public class Photographs {
             }
         }
     }
+
+    /**
+     * This is a class tht delete image in firebase storage
+     * @param type  User image or Book image
+     * @param id    book id or user id
+     * @param storageReference  storageReference = firebaseStorage.getReference()
+     * @param storage storage = FirebaseStorage.getInstance
+     */
     public static void deleteImage(String type, String id, StorageReference storageReference, final FirebaseStorage storage) {
         if (type == "U"){
             storageReference.child("profileImages/"+id).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -153,6 +175,15 @@ public class Photographs {
             });
         }
     }
+
+    /**
+     * This class retrieve the image from firebase storage and show it on the provided ImageView
+     * @param type  User image or Book image
+     * @param id    book id or user id
+     * @param storageReference  storageReference = firebaseStorage.getReference()
+     * @param context   Context
+     * @param imageView provided ImageView
+     */
     public static void viewImage(String type, String id, StorageReference storageReference, final Context context, final ImageView imageView) {
         if (type == "U") {
             storageReference.child("profileImages/" + id).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
