@@ -138,7 +138,7 @@ public class    SearchFragment extends Fragment {
                                     }
                                 }
                             }
-                            bookAdapter = new CustomList(context,dataList);
+                            bookAdapter = new BookList(context,dataList);
                             resultList.setAdapter(bookAdapter);   //result list is the list view
                         }
                     }

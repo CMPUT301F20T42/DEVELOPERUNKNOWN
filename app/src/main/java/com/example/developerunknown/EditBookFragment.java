@@ -138,6 +138,10 @@ public class EditBookFragment extends Fragment {
                     data.put("description", description);
                     // What if user updates the ISBN?
                     data.put("ISBN", ISBN);
+                    data.put("Bookid", clickedBook.getID());
+                    data.put("ownerId", currentUser.getUid());
+                    data.put("ownerUname", currentUser.getUsername());
+
 
                     userBookCollectionReference
                             .document(clickedBook.getID())
