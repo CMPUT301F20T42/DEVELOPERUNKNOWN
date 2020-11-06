@@ -59,8 +59,6 @@ public class SearchUserDialogFragment extends DialogFragment {
         resultUserProfile = view.findViewById(R.id.imageView);
         DocumentReference resultUserDocRef = userCollectionReference.document(resultUid);
 
-        Photographs.viewImage("B", resultUid, storageReference, applicationContext, resultUserProfile);
-
         resultUserDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -70,6 +68,7 @@ public class SearchUserDialogFragment extends DialogFragment {
                     resultUserFullName.setText(document.getString("firstName")+' '+document.getString("lastName"));
                     resultUserEmail.setText(document.getString("contactEmail"));
                     resultUserPhone.setText(document.getString("contactPhone"));
+                    Photographs.viewImage("U", resultUid, storageReference, applicationContext, resultUserProfile);
                 }
                 else {
                     Log.d("check userProfile", "user profile error");
