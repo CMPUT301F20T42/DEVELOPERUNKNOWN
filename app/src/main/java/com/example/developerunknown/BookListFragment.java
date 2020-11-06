@@ -167,8 +167,6 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
                 if (!filter.equals("All")) {
                     // Reset bookDataList
                     bookDataList = currentUser.getFilteredBookList(filter);
-                    // Test these two lines first
-                    // Currently not working
 
                     bookAdapter = new CustomList(context, bookDataList);
                     bookList.setAdapter(bookAdapter);
@@ -176,14 +174,13 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
                 } else {
                     bookDataList = currentUser.getBookList();
                 }
-                // Why is this not updating?
                 bookAdapter = new CustomList(context, bookDataList);
                 bookList.setAdapter(bookAdapter);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-               // Do nothing? Reset?
+               // Do nothing?
             }
         });
 
@@ -198,8 +195,6 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
                 if (!select.equals("My Owned Books")) {
                     // Reset bookDataList
                     bookDataList = currentUser.getFilteredBookList(select);
-                    // Test these two lines first
-                    // Currently not working
 
                     bookAdapter = new CustomList(context, bookDataList);
                     bookList.setAdapter(bookAdapter);
@@ -238,7 +233,7 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
                     String ISBN = (String) doc.getData().get("ISBN");
                     String status = (String) doc.getData().get("status");
 
-                    bookDataList.add(new Book(doc.getId(), title, author, status, ISBN, description)); // Adding the cities and provinces from FireStore
+                    bookDataList.add(new Book(doc.getId(), title, author, status, ISBN, description)); // Adding the books from FireStore
                 }
                 bookAdapter.notifyDataSetChanged(); // Notifying the adapter to render any new data fetcheh
             }
