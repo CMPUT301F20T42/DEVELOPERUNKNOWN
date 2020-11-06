@@ -47,15 +47,24 @@ public class RequestUITest {
     }
 
     @Test
-    public void SearchTest() throws InterruptedException {
+    public void SearchAndRequstTest() throws InterruptedException {
         solo.enterText((EditText)solo.getView(R.id.editUsername),"XZPshaw");
         solo.enterText((EditText)solo.getView(R.id.editPassward),"123456");
         solo.clickOnButton("LOGIN");
         solo.waitForActivity(MainActivity.class);
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
 
-        solo.clickOnText("Search");
+        solo.clickOnView(solo.getView(R.id.nav_search));
 
+        solo.enterText((EditText)solo.getView(R.id.editText_book),"criminal");
+
+        solo.clickLongInList(1);
+
+        solo.assertCurrentActivity("Wrong Activity", resultActivity.class);
+
+        solo.clickOnButton("REQUEST IT!");
+
+        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
     }
 
 

@@ -23,7 +23,7 @@
         android:layout_marginTop="48dp"
         android:layout_marginEnd="50dp"
         android:text="BookTitle"
-        android:textSize="30sp"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/BookImage"
         app:layout_constraintTop_toTopOf="parent" />
