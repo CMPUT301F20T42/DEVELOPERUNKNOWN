@@ -68,7 +68,8 @@ public class SearchFragment extends Fragment {
         searchBook = (TextView)view.findViewById(R.id.editText_book);
 
         search_button = (Button)view.findViewById(R.id.search);
-        /*search_button.setOnClickListener(new View.OnClickListener() {
+        /*
+        search_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 String keyword = searchBook.getText().toString();
                 //Query BookRef = db.collectionGroup("Book");
@@ -95,8 +96,9 @@ public class SearchFragment extends Fragment {
                                     }
                                     // [END_EXCLUDE]
                                 }}
-                        });}}); */
+                        });}});
 
+*/
 /*
         db.collectionGroup("Book").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -140,9 +142,10 @@ public class SearchFragment extends Fragment {
             }
         });
 
+*/
 
- */
   //    A alternate approach
+
         search_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 final String keyword = searchBook.getText().toString();

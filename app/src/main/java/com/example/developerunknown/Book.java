@@ -114,6 +114,7 @@ public class Book implements Serializable {
         this.requestList.add(request);
     }
 
+
     /*public void requestUpdate(Request nowRequest, Request targetRequest){
     }*/
 }

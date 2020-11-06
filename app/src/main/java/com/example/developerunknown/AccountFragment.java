@@ -101,11 +101,11 @@ public class AccountFragment extends Fragment {
         storageReference = storage.getReference();
 
         confirmEditButton.setVisibility(View.INVISIBLE);
+        editImageButton.setClickable(false);
         contactEmailEdit.setEnabled(false);
         contactEmailEdit.setClickable(false);
         contactPhoneEdit.setEnabled(false);
         contactPhoneEdit.setClickable(false);
-        editInfoButton.setClickable(false);
 
         storageReference.child("profileImages/"+uid).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
@@ -195,7 +195,6 @@ public class AccountFragment extends Fragment {
                 contactEmailEdit.setClickable(false);
                 contactPhoneEdit.setEnabled(false);
                 contactPhoneEdit.setClickable(false);
-                editInfoButton.setClickable(false);
                 editImageButton.setClickable(false);
                 confirmEditButton.setVisibility(View.INVISIBLE);
                 editInfoButton.setVisibility(View.VISIBLE);
