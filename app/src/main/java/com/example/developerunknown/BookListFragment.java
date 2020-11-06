@@ -40,11 +40,17 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
     User currentUser;
 
     Spinner filterSelection;
-    Spinner selectList;
+
     ArrayAdapter<String> filterAdapter;
     ArrayList<String> filterList;
 
-    UserBorrowedListFragment listFragment;
+
+
+    Spinner selectSelector;
+    ArrayAdapter<String> selectAdapter;
+    ArrayList<String> selectList;
+
+
 
     //########################## this part is needed for the below blocking part.
 
@@ -68,6 +74,9 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
         bookAdapter = new CustomList(context, bookDataList);
         bookList.setAdapter(bookAdapter);
 
+
+
+
         filterSelection = (Spinner) view.findViewById(R.id.filter_spinner);
 
         filterList = new ArrayList<String>();
@@ -81,6 +90,20 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
         filterAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, filterList);
         filterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         filterSelection.setAdapter(filterAdapter);
+
+//////////////////////////////////////////////////
+
+        selectSelector = (Spinner) view.findViewById(R.id.list_spinner);
+        selectList = new ArrayList<String>();
+
+        //selectList.add("All");
+        selectList.add("My Owned Books");
+        selectList.add("Books Wishlist");
+
+
+        selectAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, selectList);
+        selectAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        selectSelector.setAdapter(selectAdapter);
 
         return view;
     }
@@ -108,9 +131,6 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
             }
 
         });
-
-
-
 
 
 
@@ -166,50 +186,38 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
             }
         });
 
+        selectSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            String select;
 
-
-        //this is the spinner for the list selection
-        selectList = view.findViewById(R.id.list_spinner);
-        selectList.setOnItemSelectedListener((new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected (AdapterView<?> parent, View view, int position, long id){
-                UserBorrowedListFragment fragment = null;
-                switch (position){
-                    case 0:
-                        //Owned book list
-                        //automatically starts on this page
-                        break;
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // Get filter
+                select = selectList.get(position);
+                // Apply filter
+                if (!select.equals("My Owned Books")) {
+                    // Reset bookDataList
+                    bookDataList = currentUser.getFilteredBookList(select);
+                    // Test these two lines first
+                    // Currently not working
 
-                    case 1:
-                        //Borrowed list
-                        //add a request to users borrowed list fragment
-                        fragment = new UserBorrowedListFragment(); // for the time being im using the accpeted fragmnet
-                        break;
-
-                    default:
-                        break;
-                }
-
-                if (fragment != null) {
-                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.fragment_container, fragment);
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
-                    //Toast.makeText(context, selectStatus.getSelectedItem().toString()+"is working", Toast.LENGTH_LONG).show();
-
+                    bookAdapter = new CustomList(context, bookDataList);
+                    bookList.setAdapter(bookAdapter);
 
                 } else {
-                    // error in creating fragment
-                    Log.e("Book list fragment", "Error in creating fragment");
+                    bookDataList = currentUser.getBookList();
                 }
+
+                bookAdapter = new CustomList(context, bookDataList);
+                bookList.setAdapter(bookAdapter);
             }
+
             @Override
-            public void onNothingSelected (AdapterView<?> parent) {
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
+        });
 
-        }));
+
 
 
 
