@@ -99,7 +99,7 @@ public class SignUpActivity extends AppCompatActivity {
                 }
 
                 else{
-                    DocumentReference docIdRef = userCollectionReference.document(userName);
+                    DocumentReference docIdRef = unameCollectionReference.document(userName);
                     docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -107,6 +107,8 @@ public class SignUpActivity extends AppCompatActivity {
                                 DocumentSnapshot document = task.getResult();
                                 if (document.exists()) {
                                     Log.d("check userName", "userName exists!");
+                                    Toast.makeText(SignUpActivity.this,"This user name is already used,please change one",Toast.LENGTH_SHORT).show();
+
                                 } else {
                                     Log.d("check userName", "userName available");
                                     auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
