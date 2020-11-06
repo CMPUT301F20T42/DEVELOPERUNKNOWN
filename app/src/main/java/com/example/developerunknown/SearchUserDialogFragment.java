@@ -43,6 +43,7 @@ public class SearchUserDialogFragment extends DialogFragment {
     final Context applicationContext = MainActivity.getContextOfApplication();
     private CollectionReference userCollectionReference = db.collection("user");
 
+
     public SearchUserDialogFragment(String uid){
         super();
         this.resultUid = uid;
@@ -58,6 +59,9 @@ public class SearchUserDialogFragment extends DialogFragment {
         resultUserPhone = view.findViewById(R.id.searchUserContactPhone);
         resultUserProfile = view.findViewById(R.id.imageView);
         DocumentReference resultUserDocRef = userCollectionReference.document(resultUid);
+
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
 
         resultUserDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
