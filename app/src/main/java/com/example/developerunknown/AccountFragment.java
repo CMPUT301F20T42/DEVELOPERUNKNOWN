@@ -150,7 +150,6 @@ public class AccountFragment extends Fragment {
         confirmEditButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //uploadImage();
                 Photographs.uploadImage("U", uid, filePath, storageReference, applicationContext);
 
                 updatedContactEmail = contactEmailEdit.getText().toString();
