@@ -101,7 +101,6 @@ public class Book implements Serializable {
         this.id = id;
         this.ownerId = ownerId;
         this.ownerUname = ownerUname;
-        this.requestList = new ArrayList<>();
     }
 
 
