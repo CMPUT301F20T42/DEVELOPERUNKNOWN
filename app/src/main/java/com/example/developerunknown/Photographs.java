@@ -192,7 +192,7 @@ public class Photographs {
                     GlideApp.with(context)
                             .load(uri)
                             .placeholder(new ColorDrawable(Color.GRAY))
-                            .error(R.drawable.defaultphoto)
+                            .fallback(R.drawable.defaultphoto)
                             .into(imageView);
                 }
             });
@@ -203,7 +203,7 @@ public class Photographs {
                     GlideApp.with(context)
                             .load(uri)
                             .placeholder(new ColorDrawable(Color.GRAY))
-                            .error(R.drawable.defaultphoto)
+                            .fallback(R.drawable.defaultphoto)
                             .into(imageView);
                 }
             });

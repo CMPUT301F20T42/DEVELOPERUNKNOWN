@@ -52,6 +52,7 @@ public class AddBookFragment extends Fragment {
 
     // new added code
     public Button scanButton;
+    public String id;
 
     public String ISBN;
     private EditText bookTitle;
@@ -132,7 +133,9 @@ public class AddBookFragment extends Fragment {
         addBookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                uploadImage();
+
+                Photographs.uploadImage("B", id, filePath, storageReference, applicationContext);
+
                 bookTitle = view.findViewById(R.id.book_title_editText);
                 bookAuthor = view.findViewById(R.id.book_author_editText);
                 bookStatus = view.findViewById(R.id.spinner);
@@ -148,7 +151,7 @@ public class AddBookFragment extends Fragment {
                 if (title.length() > 0 && author.length() > 0 && description.length() > 0 && ISBN.length() > 0) {
                     // Create new document
                     DocumentReference newRef = userBookCollectionReference.document();
-                    String id = newRef.getId();
+                    id = newRef.getId();
                     Book book = new Book(id, title, author, status, ISBN, description);
                     //Book book = new Book(id, title, author, status, ISBN, description,uid,currentUser.getUsername());
                     currentUser.addBook(book);
@@ -280,53 +283,6 @@ public class AddBookFragment extends Fragment {
         }
 
 
-    // UploadImage method
-    private void uploadImage()
-    {
-
-        if (filePath != null) {
-
-            // Defining the child of storageReference
-            DocumentReference newRef = userBookCollectionReference.document();
-            String id = newRef.getId();
-            StorageReference ref = storageReference.child("BookImages/" + id);
-
-
-            // adding listeners on upload
-            // or failure of image
-            ref.putFile(filePath)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(
-                                UploadTask.TaskSnapshot taskSnapshot)
-                        {
-                            // Image uploaded successfully
-                            Toast.makeText(applicationContext, "Image Uploaded!!", Toast.LENGTH_SHORT).show();
-                        }
-                    })
-
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e)
-                        {
-                            // Error, Image not uploaded
-                            Toast.makeText(applicationContext, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-
-                        // Progress Listener for loading
-                        // percentage on the dialog box
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            Toast.makeText(applicationContext, "In Progress ", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }
-
-
-
-    }
 
 
     }
