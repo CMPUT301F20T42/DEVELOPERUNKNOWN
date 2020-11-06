@@ -1,11 +1,13 @@
 package com.example.developerunknown;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -30,6 +32,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class ViewRequestsFragment extends Fragment {
@@ -88,17 +91,22 @@ public class ViewRequestsFragment extends Fragment {
         });
 
 
-
-        // TODO: set up snapshot listener
-
         // Display requests
         requestAdapter = new RequestList(context, requestDataList);
         requestList.setAdapter(requestAdapter);
 
+        // Click oh item listener
+        requestList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> list, View v, int pos, long id) {
+                Intent intent = new Intent(getActivity(),requestActicity.class);
+                Request thisRequest = requestAdapter.getItem(pos);
+                intent.putExtra("Request", (Serializable) thisRequest);
+                startActivity(intent);
+            }
+        });
+
         // Get Back Button
         backButton = view.findViewById(R.id.back_button);
-
-
 
         return view;
     }
