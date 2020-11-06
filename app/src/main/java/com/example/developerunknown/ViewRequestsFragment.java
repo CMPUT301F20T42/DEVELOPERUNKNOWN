@@ -57,7 +57,7 @@ public class ViewRequestsFragment extends Fragment {
         clickedBook = (Book) this.getArguments().getSerializable("clicked book");
 
         bookid = clickedBook.getID();
-        // Look at this
+        
         bookRequestCollectionReference = db.collection("user").
                 document(uid).collection("Book").
                 document(bookid).collection("Request");
