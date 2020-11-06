@@ -16,7 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:duplicateParentState="true"
-        android:entries="@array/book_list_array" />
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown"/>
 
     <FrameLayout
         android:layout_width="match_parent"

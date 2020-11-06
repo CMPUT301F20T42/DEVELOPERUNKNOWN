@@ -191,7 +191,7 @@ public class Photographs {
                 public void onSuccess(Uri uri) {
                     GlideApp.with(context)
                             .load(uri)
-                            .placeholder(new ColorDrawable(Color.GRAY))
+                            .placeholder(R.drawable.defaultphoto)
                             .error(R.drawable.defaultphoto)
                             .into(imageView);
                 }
@@ -202,7 +202,7 @@ public class Photographs {
                 public void onSuccess(Uri uri) {
                     GlideApp.with(context)
                             .load(uri)
-                            .placeholder(new ColorDrawable(Color.GRAY))
+                            .placeholder(R.drawable.defaultphoto)
                             .error(R.drawable.defaultphoto)
                             .into(imageView);
                 }

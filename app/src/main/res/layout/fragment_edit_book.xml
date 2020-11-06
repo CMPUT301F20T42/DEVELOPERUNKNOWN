@@ -125,6 +125,7 @@
         android:layout_marginLeft="28dp"
         android:layout_marginTop="8dp"
         android:entries="@array/status_array"
+        android:background="@android:color/darker_gray"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/book_isbn_editText" />
 

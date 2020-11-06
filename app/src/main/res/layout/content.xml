@@ -54,7 +54,7 @@
         android:layout_width="204dp"
         android:layout_height="60dp"
         android:padding="20dp"
-        android:text="Current Borrower"
+        android:text="Current Borrower:"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/book_status" />
 </androidx.constraintlayout.widget.ConstraintLayout>
