@@ -168,6 +168,7 @@ public class resultActivity extends AppCompatActivity {
 
 
                 Toast.makeText(resultActivity.this, "Your request has sent", Toast.LENGTH_SHORT).show();
+                finish();
 
             }
         }
