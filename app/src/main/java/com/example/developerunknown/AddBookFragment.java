@@ -52,6 +52,7 @@ public class AddBookFragment extends Fragment {
 
     // new added code
     public Button scanButton;
+    public String id;
 
     public String ISBN;
     private EditText bookTitle;
@@ -148,7 +149,7 @@ public class AddBookFragment extends Fragment {
                 if (title.length() > 0 && author.length() > 0 && description.length() > 0 && ISBN.length() > 0) {
                     // Create new document
                     DocumentReference newRef = userBookCollectionReference.document();
-                    String id = newRef.getId();
+                    id = newRef.getId();
                     Book book = new Book(id, title, author, status, ISBN, description);
                     //Book book = new Book(id, title, author, status, ISBN, description,uid,currentUser.getUsername());
                     currentUser.addBook(book);
@@ -287,8 +288,6 @@ public class AddBookFragment extends Fragment {
         if (filePath != null) {
 
             // Defining the child of storageReference
-            DocumentReference newRef = userBookCollectionReference.document();
-            String id = newRef.getId();
             StorageReference ref = storageReference.child("BookImages/" + id);
 
 
