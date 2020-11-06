@@ -54,8 +54,9 @@ import java.util.UUID;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
-
-//this class generally displays all current user information related stuff and also
+/**
+ *this class generally displays all current user information related stuff
+ */
 public class AccountFragment extends Fragment {
     private static final int RESULT_LOAD_IMG = 111;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -95,6 +96,14 @@ public class AccountFragment extends Fragment {
 
     @Nullable
     @Override
+    /**
+     * This displays the view of the class
+     * @param inflater creates view
+     * @param container contains the layout view
+     * @param savedInstanceState contains the recent data
+     * @return
+     * Return the view of the Account Fragment
+     */
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,@Nullable Bundle savedInstanceState){
 
         View view= inflater.inflate(R.layout.fragment_account,container,false);            //initialize view
@@ -122,7 +131,7 @@ public class AccountFragment extends Fragment {
         Photographs.viewImage("U", uid, storageReference, applicationContext, editImageButton);
 
 
-        //retrieve user information from firestore
+
         currentUserDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -140,11 +149,14 @@ public class AccountFragment extends Fragment {
                     Toast.makeText(getActivity(), "There is a error showing the profile", Toast.LENGTH_SHORT).show();
                 }
             }
-        }); 
+        });
 
-        //allow user to edit contact info and image
         editInfoButton.setOnClickListener(new View.OnClickListener() {
             @Override
+            /**
+             * allow user to edit contact info and image
+             * @param v
+             */
             public void onClick(View v) {
                 contactEmail = contactEmailEdit.getText().toString();
                 contactPhone = contactPhoneEdit.getText().toString();  //current contactEmail and contactPhone,used for backup if update fails
@@ -162,6 +174,10 @@ public class AccountFragment extends Fragment {
 
         confirmEditButton.setOnClickListener(new View.OnClickListener() {
             @Override
+            /**
+             * allow user to click on items
+             * @param v
+             */
             public void onClick(View v) {
                 Photographs.uploadImage("U", uid, filePath, storageReference, applicationContext);
 
@@ -172,6 +188,10 @@ public class AccountFragment extends Fragment {
                             "contactPhone", undatedContactPhone)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
+                                /**
+                                 * method called when the task is completed successfully
+                                 * @param aVoid
+                                 */
                                 public void onSuccess(Void aVoid) {
                                     Log.d(TAG, "DocumentSnapshot successfully updated!");
                                     Toast.makeText(getActivity(), "New contact info is saved", Toast.LENGTH_SHORT).show();
@@ -180,6 +200,10 @@ public class AccountFragment extends Fragment {
                             })
                             .addOnFailureListener(new OnFailureListener() {
                                 @Override
+                                /**
+                                 * method called when the task is failed
+                                 * @param e
+                                 */
                                 public void onFailure(@NonNull Exception e) {
                                     Log.w(TAG, "Error updating document", e);
                                     contactEmailEdit.setText(contactEmail);    //use original contact email and contactPhone
@@ -261,6 +285,11 @@ public class AccountFragment extends Fragment {
 
     //handle stuff related to image
     @Override
+    /**
+     * takes photo and saves it, and returns back to activity
+     * @param requestCode retrieves code
+     * @param data current data
+     */
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {

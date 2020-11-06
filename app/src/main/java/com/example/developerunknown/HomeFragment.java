@@ -29,8 +29,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
-
-//HomeFragment is used to display notification of user,it is also the default interface when user logged in
+/**
+*HomeFragment is used to display notification of user,it is also the default interface when user logged in
+ */
 public class HomeFragment extends Fragment {
     ListView notificationList;
     ArrayAdapter<UserNotification> notificationAdapter;
@@ -58,6 +59,11 @@ public class HomeFragment extends Fragment {
 
         userNotificationCollectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
+            /**
+             * Retrieves information from Firebase
+             * @param queryDocumentSnapshots holds and retrieves information from fB
+             * @param error status that holds the exception
+             */
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable
                     FirebaseFirestoreException error) {
 

@@ -12,7 +12,9 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-
+/**
+ * Similar to BookList- extends ArrayAdapter
+ */
 public class CustomList extends ArrayAdapter<Book> {
     private final Context context;
     private ArrayList<Book> books;

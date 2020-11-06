@@ -21,7 +21,9 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
+/**
+ * Controls the user login activity
+ */
 public class LoginActivity extends AppCompatActivity {
     public Button logInButton;
     public Button signUpButton;
@@ -49,6 +51,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
+    /**
+     * creates the view for the activity by setting it to a R.layout
+     * @param savedInstanceState
+     */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
@@ -92,8 +98,11 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
-    //use firebaseAuth to login user,then return to main
+    /**
+    * use firebaseAuth to login user,then return to main
+     * @param email user email
+     * @param password password used for app signin
+     */
     public void login(String email, String password){
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override

@@ -27,7 +27,9 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
+/**
+ * allows user to view book information in detail
+ */
 public class ViewBookFragment extends Fragment {
     Context context;
     User currentUser;

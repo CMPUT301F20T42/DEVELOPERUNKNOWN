@@ -43,7 +43,9 @@ import java.io.InputStream;
 import java.util.HashMap;
 
 import static android.app.Activity.RESULT_OK;
-
+/**
+ * This is a class allows user to add book to booklist and extends fragment
+ */
 public class AddBookFragment extends Fragment {
 
     private static final int RESULT_LOAD_IMG = 111;
@@ -236,11 +238,20 @@ public class AddBookFragment extends Fragment {
 */
         @Nullable
         @Override
+        /**
+         * runs after the view has been created, and adds implementation
+         * @param view holds the view/layout of the fragment
+         * @param savedInstanceState most current data
+         * references view created by onCreateView
+         */
         public void onViewCreated ( final View view, @Nullable Bundle savedInstanceState){
             super.onCreate(savedInstanceState);
 
         }
 
+    /**
+     * accesses the fragment manager and pops the current one back into the stack
+     */
         public void destroy_current_fragment () {
 
 //        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -259,6 +270,9 @@ public class AddBookFragment extends Fragment {
             fragmentManager.popBackStack();
         }
 
+    /**
+     * Allows user to select a new image
+     */
         private void selectImage () {
             // Defining Implicit Intent to mobile gallery
             Intent photoPickIntent = new Intent(Intent.ACTION_PICK);

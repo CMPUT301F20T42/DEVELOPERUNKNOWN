@@ -13,11 +13,19 @@ import androidx.annotation.Nullable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
+/**
+ * holds the view for the requestlist
+ */
 public class RequestList extends ArrayAdapter<Request> {
     private ArrayList<Request> requests;
     private Context context;
 
+
+    /**
+     * creates references to the current object
+     * @param context current app environment
+     * @param requests requests for books
+     */
     public RequestList(Context context, ArrayList<Request> requests){
         super(context,0, requests);
         this.context = context;

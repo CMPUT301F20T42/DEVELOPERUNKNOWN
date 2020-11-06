@@ -22,7 +22,9 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 ;
-
+/**
+ * Controls main fragments such as Home, BookListFragment and Login-activity
+ */
 public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "com.example.developerunknown.MESSAGE";
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -98,7 +100,12 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
     }
-
+    /**
+     * Allows bottom screen navigation to function - Switch's fragments
+     * @param item
+     * @return
+     *  Returns true
+     */
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
@@ -130,6 +137,11 @@ public class MainActivity extends AppCompatActivity {
                 };
 
     public static Context contextOfApplication;
+    /**
+     * creates context on the current activity, allowing activties to start and intent calls
+     * @return
+     *  Returns contextOfApplication
+     */
     public static Context getContextOfApplication()
     {
         return contextOfApplication;

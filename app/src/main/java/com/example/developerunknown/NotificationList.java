@@ -13,11 +13,18 @@ import androidx.annotation.Nullable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
+/**
+ * Creates a list of user Notifications
+ */
 public class NotificationList extends ArrayAdapter<UserNotification> {
     private ArrayList<UserNotification> userNotifications;
     private Context context;
 
+    /**
+     * This is a class that keeps track of a list of city objects
+     * @param context context of notification list
+     * @param userNotifications ArrayList for notifications
+     */
     public NotificationList(Context context,ArrayList<UserNotification> userNotifications){
         super(context,0,userNotifications);
         this.context = context;
