@@ -167,13 +167,7 @@ public class resultActivity extends AppCompatActivity {
                 borrowerBookRef.set(requestedBookData);
 
 
-
-
-
                 Toast.makeText(resultActivity.this, "Your request has sent", Toast.LENGTH_SHORT).show();
-
-
-
 
             }
         }
