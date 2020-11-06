@@ -106,6 +106,7 @@ public class AccountFragment extends Fragment {
         contactPhoneEdit.setEnabled(false);
         contactPhoneEdit.setClickable(false);
         editInfoButton.setClickable(false);
+        editImageButton.setEnabled(false);
 
         storageReference.child("profileImages/"+uid).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
@@ -150,7 +151,7 @@ public class AccountFragment extends Fragment {
                 contactPhoneEdit.setEnabled(true);
                 contactPhoneEdit.setClickable(true);
                 editInfoButton.setClickable(true);
-                editImageButton.setClickable(true);
+                editImageButton.setEnabled(true);
 
                 editInfoButton.setVisibility(View.INVISIBLE);           //make sure user could not click edit button during edition
                 confirmEditButton.setVisibility(View.VISIBLE);
@@ -196,7 +197,7 @@ public class AccountFragment extends Fragment {
                 contactPhoneEdit.setEnabled(false);
                 contactPhoneEdit.setClickable(false);
                 editInfoButton.setClickable(false);
-                editImageButton.setClickable(false);
+                editImageButton.setEnabled(false);
                 confirmEditButton.setVisibility(View.INVISIBLE);
                 editInfoButton.setVisibility(View.VISIBLE);
             }
