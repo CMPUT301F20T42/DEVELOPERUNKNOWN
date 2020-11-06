@@ -6,7 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.ImageDecoder;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -61,7 +63,7 @@ public class AccountFragment extends Fragment {
 
     private Activity activity = getActivity();
     private Uri filePath;
-    private ImageButton editImageButton;
+    private ImageView editImageButton;
     public FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private FirebaseStorage storage;
     private StorageReference storageReference;
@@ -105,12 +107,18 @@ public class AccountFragment extends Fragment {
         contactPhoneEdit.setClickable(false);
         editInfoButton.setClickable(false);
 
-        try {
-            Glide.with(applicationContext)
-                    .load(storageReference.child("profileImages/" + uid))
-                    .into(editImageButton);
-        }catch (Exception e){
-        }
+        storageReference.child("profileImages/"+uid).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                GlideApp.with(applicationContext)
+                        .load(uri)
+                        .placeholder(new ColorDrawable(Color.GRAY))
+                        .error(R.drawable.defaultphoto)
+                        .into(editImageButton);
+            }
+        });
+
+
 
 
         currentUserDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -236,6 +244,7 @@ public class AccountFragment extends Fragment {
         });
 
 
+
         return view;
     }
 
@@ -278,7 +287,6 @@ public class AccountFragment extends Fragment {
 
             // Defining the child of storageReference
             StorageReference ref = storageReference.child("profileImages/" + uid);
-
 
             // adding listeners on upload
             // or failure of image

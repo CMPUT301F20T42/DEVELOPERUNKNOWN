@@ -5,9 +5,9 @@
     android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FBFBFB">
+    android:background="#B9DDF6">
 
-    <ImageButton
+    <ImageView
         android:id="@+id/editImageButton"
         android:layout_width="155dp"
         android:layout_height="142dp"
@@ -182,7 +182,7 @@
         android:id="@+id/searchUnameEdit"
         android:layout_width="275dp"
         android:layout_height="48dp"
-        android:background="#05F3A0"
+        android:background="#8C909C"
         android:ems="10"
         android:hint="Enter the user you want to know"
         android:inputType="textPersonName"

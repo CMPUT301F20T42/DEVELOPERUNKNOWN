@@ -103,7 +103,7 @@
         app:layout_constraintBottom_toTopOf="@+id/add_book_button2"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/add_photo_button"
         android:layout_width="203dp"
         android:layout_height="190dp"
