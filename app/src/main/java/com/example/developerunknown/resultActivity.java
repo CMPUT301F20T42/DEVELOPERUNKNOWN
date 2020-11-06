@@ -30,6 +30,7 @@ public class resultActivity extends AppCompatActivity {
     TextView ISBN;
     TextView Description;
     TextView Status;
+    TextView OwnerUname;
     ImageView BookImage;
     Book currentBook;
     User borrower;
@@ -61,12 +62,14 @@ public class resultActivity extends AppCompatActivity {
         Description = findViewById(R.id.rbook_description);
         Status = findViewById(R.id.rbook_status);
         BookImage = findViewById(R.id.BookImage);
+        OwnerUname = findViewById(R.id.displayOwner);
 
         Title.setText(currentBook.getTitle());
         Author.setText(currentBook.getAuthor());
         ISBN.setText(currentBook.getISBN());
         Description.setText(currentBook.getDescription());
         Status.setText(currentBook.getStatus());
+        OwnerUname.setText("Owner:"+currentBook.getOwnerUname());
 
         Photographs.viewImage("B", currentBook.getID(), storageReference, applicationContext, BookImage);
 
