@@ -38,7 +38,7 @@ import java.util.ArrayList;
 public class ViewRequestsFragment extends Fragment {
     ListView requestList;
     ArrayAdapter<Request> requestAdapter;
-    ArrayList<Request> requestDataList;
+    ArrayList<Request> requestDataList = new ArrayList<>();
     Context context;
     User currentUser;
     Book clickedBook;
@@ -63,7 +63,7 @@ public class ViewRequestsFragment extends Fragment {
                 document(bookid).collection("Request");
 
         View view = inflater.inflate(R.layout.fragment_view_requests, container,false);
-        context = container.getContext();
+        final Context context= container.getContext();
 
         requestList = view.findViewById(R.id.request_list);
 
