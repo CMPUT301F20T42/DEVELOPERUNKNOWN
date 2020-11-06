@@ -37,13 +37,13 @@ public class CustomList extends ArrayAdapter<Book> {
         TextView authorName = view.findViewById(R.id.book_author2);
         TextView bookStatus = view.findViewById(R.id.book_status);
         TextView bookDescription = view.findViewById(R.id.book_description);
-        TextView owner = view.findViewById(R.id.book_owner);
+        //TextView owner = view.findViewById(R.id.book_owner);
 
         bookName.setText(book.getTitle());
         authorName.setText(book.getAuthor());
         bookStatus.setText(book.getStatus());
         bookDescription.setText(book.getDescription());
-        owner.setText(book.getOwnerUname());
+        //owner.setText(book.getOwnerUname());
 
 
 

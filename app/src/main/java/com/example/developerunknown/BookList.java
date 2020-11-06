@@ -12,14 +12,16 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-public class BookList extends ArrayAdapter<Book> {
-    private ArrayList<Book> books;
-    private Context context;
 
-    public BookList(Context context, ArrayList<Book> books) {
-        super(context,0,books);
-        this.books = books;
+public class BookList extends ArrayAdapter<Book> {
+    private final Context context;
+    private ArrayList<Book> books;
+    //private Context context;
+
+    public BookList (Context context, ArrayList<Book> books) {
+        super(context, 0, books);
         this.context = context;
+        this.books = books;
     }
 
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -31,9 +33,18 @@ public class BookList extends ArrayAdapter<Book> {
 
         Book book = books.get(position);
 
-        TextView name = view.findViewById(R.id.content_view);
+        TextView bookName = view.findViewById(R.id.book_title);
+        TextView authorName = view.findViewById(R.id.book_author2);
+        TextView bookStatus = view.findViewById(R.id.book_status);
+        TextView bookDescription = view.findViewById(R.id.book_description);
+        TextView owner = view.findViewById(R.id.book_owner);
 
-        name.setText(book.getTitle());
+        bookName.setText(book.getTitle());
+        authorName.setText(book.getAuthor());
+        bookStatus.setText(book.getStatus());
+        bookDescription.setText(book.getDescription());
+        owner.setText(book.getOwnerUname());
+
 
 
         return view;

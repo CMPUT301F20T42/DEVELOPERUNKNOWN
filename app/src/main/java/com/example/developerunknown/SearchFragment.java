@@ -59,7 +59,7 @@ public class    SearchFragment extends Fragment {
 
         //dataList.addAll(books);
         final Context context= container.getContext();
-        bookAdapter = new CustomList(context, dataList);
+        bookAdapter = new BookList(context, dataList);
 
         //bookAdapter = new CustomList(getActivity(), dataList);
 
