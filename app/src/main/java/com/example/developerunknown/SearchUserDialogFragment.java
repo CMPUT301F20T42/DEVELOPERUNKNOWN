@@ -3,12 +3,14 @@ package com.example.developerunknown;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,9 +25,11 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class SearchUserDialogFragment extends DialogFragment {
-    private Image resultUserProfile;
+    private ImageView resultUserProfile;
     private TextView resultUserName;
     private TextView resultUserFullName;
     private TextView resultUserEmail;
@@ -34,6 +38,9 @@ public class SearchUserDialogFragment extends DialogFragment {
     private FragmentActivity myContext;
     public DocumentReference resultUserDocRef;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseStorage storage;
+    private StorageReference storageReference;
+    final Context applicationContext = MainActivity.getContextOfApplication();
     private CollectionReference userCollectionReference = db.collection("user");
 
     public SearchUserDialogFragment(String uid){
@@ -49,7 +56,10 @@ public class SearchUserDialogFragment extends DialogFragment {
         resultUserFullName = view.findViewById(R.id.searchUserFullName);
         resultUserEmail = view.findViewById(R.id.searchUserContactMail);
         resultUserPhone = view.findViewById(R.id.searchUserContactPhone);
+        resultUserProfile = view.findViewById(R.id.imageView);
         DocumentReference resultUserDocRef = userCollectionReference.document(resultUid);
+
+        Photographs.viewImage("B", resultUid, storageReference, applicationContext, resultUserProfile);
 
         resultUserDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
