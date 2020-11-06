@@ -108,7 +108,7 @@
         android:layout_width="203dp"
         android:layout_height="190dp"
         android:layout_marginBottom="16dp"
-        android:src="@drawable/defaultphoto"
+        android:background="@android:color/darker_gray"
         app:layout_constraintBottom_toTopOf="@+id/book_title_editText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.527"
