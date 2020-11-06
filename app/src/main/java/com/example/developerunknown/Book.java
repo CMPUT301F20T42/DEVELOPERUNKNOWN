@@ -14,7 +14,6 @@ public class Book implements Serializable {
     private String status;
     private String ISBN;
     private String description;
-    private ArrayList<Request> requestList;
     private String ownerId;
     private String ownerUname;
     //private Float rating;
@@ -78,10 +77,6 @@ public class Book implements Serializable {
         return description;
     }
 
-    public ArrayList<Request> getRequestList() {
-        return this.requestList;
-    }
-
     //public String getBid() { return Bid; }
 
     //public String getOwner() {return ownerId;}
@@ -95,7 +90,6 @@ public class Book implements Serializable {
         this.ISBN = ISBN;
         this.description = description;
         this.id = id;
-        this.requestList = new ArrayList<>();
     }
 
     public Book(String id,String title, String author, String status, String ISBN, String description, String ownerId, String ownerUname) {
@@ -109,12 +103,4 @@ public class Book implements Serializable {
         this.ownerUname=ownerUname;
     }
 
-
-    public void requestsListPushBack(Request request){
-        this.requestList.add(request);
-    }
-
-
-    /*public void requestUpdate(Request nowRequest, Request targetRequest){
-    }*/
 }

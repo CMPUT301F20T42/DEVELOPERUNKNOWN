@@ -126,7 +126,7 @@ public class AccountFragment extends Fragment {
                     Toast.makeText(getActivity(), "There is a error showing the profile", Toast.LENGTH_SHORT).show();
                 }
             }
-        });
+        }); 
 
         editInfoButton.setOnClickListener(new View.OnClickListener() {
             @Override

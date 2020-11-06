@@ -2,6 +2,7 @@ package com.example.developerunknown;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 public class requestActicity extends AppCompatActivity {
@@ -10,5 +11,10 @@ public class requestActicity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request_acticity);
+
+        Intent intent = getIntent();
+        Request request = (Request) intent.getSerializableExtra("Request");
+
+        
     }
 }
