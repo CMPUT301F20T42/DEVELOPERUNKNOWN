@@ -100,22 +100,15 @@ public class EditBookFragment extends Fragment {
         bookDescription.setText(clickedBook.getDescription());
         bookISBN.setText(clickedBook.getISBN());
 
-        storageReference.child("BookImages/"+clickedBook.getID()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                GlideApp.with(applicationContext)
-                        .load(uri)
-                        .placeholder(new ColorDrawable(Color.GRAY))
-                        .error(R.drawable.defaultphoto)
-                        .into(editImageButton);
-            }
-        });
+
+        Photographs.viewImage("B", clickedBook.getID(), storageReference, applicationContext, editImageButton);
+
 
         addBookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                uploadImage();
+                Photographs.uploadImage("B", clickedBook.getID(), filePath, storageReference, applicationContext);
                 String title = bookTitle.getText().toString();
                 String author = bookAuthor.getText().toString();
                 String status = bookStatus.getSelectedItem().toString();
@@ -177,7 +170,7 @@ public class EditBookFragment extends Fragment {
         deletePhotoButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                storageReference.child("BookImages/"+clickedBook.getID()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                /*storageReference.child("BookImages/"+clickedBook.getID()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
                         StorageReference photoRef = storage.getReferenceFromUrl(uri.toString());
@@ -196,6 +189,8 @@ public class EditBookFragment extends Fragment {
                         });
                     }
                 });
+                 */
+                Photographs.deleteImage("B", clickedBook.getID(), storageReference, storage);
                 editImageButton.setImageResource(android.R.color.transparent);
             }
         });
@@ -262,43 +257,5 @@ public class EditBookFragment extends Fragment {
         }
     }
 
-    // UploadImage method
-    private void uploadImage() {
-
-        if (filePath != null) {
-
-            // Defining the child of storageReference
-            StorageReference ref = storageReference.child("BookImages/" + clickedBook.getID());
-
-            // adding listeners on upload
-            // or failure of image
-            ref.putFile(filePath)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(
-                                UploadTask.TaskSnapshot taskSnapshot) {
-                            // Image uploaded successfully
-                            Toast.makeText(applicationContext, "Image Uploaded!!", Toast.LENGTH_SHORT).show();
-                        }
-                    })
-
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            // Error, Image not uploaded
-                            Toast.makeText(applicationContext, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-
-                        // Progress Listener for loading
-                        // percentage on the dialog box
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            Toast.makeText(applicationContext, "In Progress ", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }
-    }
 }
 
