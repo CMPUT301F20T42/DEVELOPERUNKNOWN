@@ -41,8 +41,9 @@ public class RequestUITest {
     public void LoginTest() throws InterruptedException {
         solo.enterText((EditText)solo.getView(R.id.editUsername),"XZPshaw");
         solo.enterText((EditText)solo.getView(R.id.editPassward),"123456");
-        solo.clickOnButton("LOGIN");
-        solo.wait();
+        solo.clickOnButton("Login");
+        solo.waitForActivity(MainActivity.class,2000);
+        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
     }
 
@@ -50,15 +51,15 @@ public class RequestUITest {
     public void SearchAndRequstTest() throws InterruptedException {
         solo.enterText((EditText)solo.getView(R.id.editUsername),"XZPshaw");
         solo.enterText((EditText)solo.getView(R.id.editPassward),"123456");
-        solo.clickOnButton("LOGIN");
+        solo.clickOnButton("Login");
         solo.waitForActivity(MainActivity.class);
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
 
         solo.clickOnView(solo.getView(R.id.nav_search));
 
         solo.enterText((EditText)solo.getView(R.id.editText_book),"criminal");
+        solo.clickInList(0);
 
-        solo.clickLongInList(1);
 
         solo.assertCurrentActivity("Wrong Activity", resultActivity.class);
 

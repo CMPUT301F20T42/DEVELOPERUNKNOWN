@@ -152,8 +152,7 @@ public class AddBookFragment extends Fragment {
                     // Create new document
                     DocumentReference newRef = userBookCollectionReference.document();
                     id = newRef.getId();
-                    Book book = new Book(id, title, author, status, ISBN, description);
-                    //Book book = new Book(id, title, author, status, ISBN, description,uid,currentUser.getUsername());
+                    Book book = new Book(id, title, author, status, ISBN, description,uid,currentUser.getUsername());
                     currentUser.addBook(book);
 
                     // Add book to book collection
