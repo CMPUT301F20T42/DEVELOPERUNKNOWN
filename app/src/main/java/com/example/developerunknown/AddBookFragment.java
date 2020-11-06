@@ -134,8 +134,6 @@ public class AddBookFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                Photographs.uploadImage("B", id, filePath, storageReference, applicationContext);
-
                 bookTitle = view.findViewById(R.id.book_title_editText);
                 bookAuthor = view.findViewById(R.id.book_author_editText);
                 bookStatus = view.findViewById(R.id.spinner);
@@ -155,6 +153,7 @@ public class AddBookFragment extends Fragment {
                     Book book = new Book(id, title, author, status, ISBN, description,uid,currentUser.getUsername());
                     currentUser.addBook(book);
 
+                    Photographs.uploadImage("B", id, filePath, storageReference, applicationContext);
                     // Add book to book collection
                     HashMap<String, String> data = new HashMap<>();
                     data.put("Bookid", id);
