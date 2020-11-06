@@ -31,7 +31,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
+/**
+ * booklistfragment displays the Owner books, and wishlist books
+ */
 public class BookListFragment extends Fragment implements AddBookFragment.OnFragmentInteractionListener  {
     ListView bookList;
     ArrayAdapter<Book> bookAdapter;
@@ -160,6 +162,13 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
             String filter;
 
             @Override
+            /**
+             * Always user to select a spinner item
+             *  @param parent the original view
+             *  @param view what is being viewed currently
+             *  @param position item position within spinner list
+             *  @param id user id
+             */
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // Get filter
                 filter = filterList.get(position);
@@ -208,6 +217,10 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
             }
 
             @Override
+            /**
+             * method is called if no item is selected for spinner view
+             *  @param parent
+             */
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
@@ -243,6 +256,10 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
     }
 
     @Override
+    /**
+     * Tells fragments when button is pressed
+     *  @param newBook
+     */
     public void onOkPressed (Book newBook) {
 
     }

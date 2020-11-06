@@ -16,7 +16,9 @@ import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
 import com.google.zxing.Result;
-
+/**
+ * Scans book ISBN
+ */
 public class Scanner extends AppCompatActivity {
     private CodeScanner mCodeScanner;
 
@@ -53,11 +55,17 @@ public class Scanner extends AppCompatActivity {
     }
 
     @Override
+    /**
+     * Continues activity
+     */
     protected void onResume() {
         super.onResume();
         mCodeScanner.startPreview();
     }
 
+    /**
+     * pauses activity
+     */
     @Override
     protected void onPause() {
         mCodeScanner.releaseResources();

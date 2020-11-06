@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-
+/**
+ * controls intents of the request function
+ */
 public class requestActicity extends AppCompatActivity {
 
     @Override

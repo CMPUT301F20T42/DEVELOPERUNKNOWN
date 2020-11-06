@@ -34,7 +34,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
+/**
+ * Creates fragment to show searchlist view
+ */
 public class    SearchFragment extends Fragment {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     public User currentUser;
