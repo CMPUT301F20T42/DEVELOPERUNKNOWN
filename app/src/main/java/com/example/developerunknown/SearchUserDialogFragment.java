@@ -28,8 +28,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-
-//this class is used to display searched user when user enter a specific userName and tap search in AccountFragment
+/**
+ * this class is used to display searched user when user enter a specific userName and tap search in AccountFragment
+ */
 public class SearchUserDialogFragment extends DialogFragment {
     private ImageView resultUserProfile;
     private TextView resultUserName;
@@ -45,7 +46,10 @@ public class SearchUserDialogFragment extends DialogFragment {
     final Context applicationContext = MainActivity.getContextOfApplication();
     private CollectionReference userCollectionReference = db.collection("user");
 
-
+    /**
+     * method for SearchUserDialogFragment
+     * @param uid user id number
+     */
     public SearchUserDialogFragment(String uid){
         super();
         this.resultUid = uid;
@@ -53,6 +57,10 @@ public class SearchUserDialogFragment extends DialogFragment {
 
     @NonNull
     @Override
+    /**
+     *creates the view of the oncreate dialog
+     * @param savedInstanceState current state
+     */
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.search_user_result_dialog, null);
         resultUserName = view.findViewById(R.id.searchUserName);

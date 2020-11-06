@@ -23,7 +23,9 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.HashMap;
 import java.util.Map;
-
+/**
+ * Controls the result of the book searches
+ */
 public class resultActivity extends AppCompatActivity {
     TextView Title;
     TextView Author;
@@ -76,6 +78,12 @@ public class resultActivity extends AppCompatActivity {
     }
 
     @Override
+    /**
+     * Allows menu items to be selected
+     * @return
+     *  Return true
+     *  Return item
+     */
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();

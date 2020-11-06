@@ -12,18 +12,33 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-
+/**
+ * This class defines initializes an ArrayList and extendsadapters
+ */
 public class BookList extends ArrayAdapter<Book> {
     private final Context context;
     private ArrayList<Book> books;
-    //private Context context;
 
+    /**
+     * refer to the current objects whose method is being called on
+     * @param context what is contained in this class
+     * @param books an arraylist
+     */
     public BookList (Context context, ArrayList<Book> books) {
         super(context, 0, books);
         this.context = context;
         this.books = books;
     }
 
+
+    /**
+     * Gets view from layout fragment
+     * @param position placement within the view
+     * @param convertView allows for assignment of new view
+     * @param parent original viewgroup
+     * @return
+     *      Return view
+     */
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View view = convertView;
 

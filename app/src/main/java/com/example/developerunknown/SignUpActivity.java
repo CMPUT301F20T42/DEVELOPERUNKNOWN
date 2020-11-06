@@ -30,7 +30,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 
-
+/**
+ *initializes values for user signup
+ */
 public class SignUpActivity extends AppCompatActivity {
     private FirebaseAuth auth = FirebaseAuth.getInstance();
 

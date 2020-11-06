@@ -31,7 +31,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
+/**
+ * booklistfragment displays the Owner books, and wishlist books
+ */
 public class BookListFragment extends Fragment implements AddBookFragment.OnFragmentInteractionListener  {
     ListView bookList;
     ArrayAdapter<Book> bookAdapter;
@@ -160,6 +162,13 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
             String filter;
 
             @Override
+            /**
+             * Always user to select a spinner item
+             *  @param parent the original view
+             *  @param view what is being viewed currently
+             *  @param position item position within spinner list
+             *  @param id user id
+             */
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // Get filter
                 filter = filterList.get(position);
@@ -167,8 +176,6 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
                 if (!filter.equals("All")) {
                     // Reset bookDataList
                     bookDataList = currentUser.getFilteredBookList(filter);
-                    // Test these two lines first
-                    // Currently not working
 
                     bookAdapter = new CustomList(context, bookDataList);
                     bookList.setAdapter(bookAdapter);
@@ -176,14 +183,13 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
                 } else {
                     bookDataList = currentUser.getBookList();
                 }
-                // Why is this not updating?
                 bookAdapter = new CustomList(context, bookDataList);
                 bookList.setAdapter(bookAdapter);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-               // Do nothing? Reset?
+               // Do nothing?
             }
         });
 
@@ -198,8 +204,6 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
                 if (!select.equals("My Owned Books")) {
                     // Reset bookDataList
                     bookDataList = currentUser.getFilteredBookList(select);
-                    // Test these two lines first
-                    // Currently not working
 
                     bookAdapter = new CustomList(context, bookDataList);
                     bookList.setAdapter(bookAdapter);
@@ -213,6 +217,10 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
             }
 
             @Override
+            /**
+             * method is called if no item is selected for spinner view
+             *  @param parent
+             */
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
@@ -238,7 +246,7 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
                     String ISBN = (String) doc.getData().get("ISBN");
                     String status = (String) doc.getData().get("status");
 
-                    bookDataList.add(new Book(doc.getId(), title, author, status, ISBN, description)); // Adding the cities and provinces from FireStore
+                    bookDataList.add(new Book(doc.getId(), title, author, status, ISBN, description)); // Adding the books from FireStore
                 }
                 bookAdapter.notifyDataSetChanged(); // Notifying the adapter to render any new data fetcheh
             }
@@ -248,6 +256,10 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
     }
 
     @Override
+    /**
+     * Tells fragments when button is pressed
+     *  @param newBook
+     */
     public void onOkPressed (Book newBook) {
 
     }

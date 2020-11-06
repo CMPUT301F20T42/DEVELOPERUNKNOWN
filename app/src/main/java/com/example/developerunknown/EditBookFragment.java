@@ -45,6 +45,10 @@ import java.util.HashMap;
 
 import static android.app.Activity.RESULT_OK;
 
+
+/**
+ * Always user to edit books already added to fragment
+ */
 public class EditBookFragment extends Fragment {
 
     private static final int RESULT_LOAD_IMG = 111;

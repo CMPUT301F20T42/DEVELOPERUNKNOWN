@@ -34,7 +34,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-
+/**
+ * allows user to see a list of available book and request one
+ */
 public class ViewRequestsFragment extends Fragment {
     ListView requestList;
     ArrayAdapter<Request> requestAdapter;
@@ -57,7 +59,7 @@ public class ViewRequestsFragment extends Fragment {
         clickedBook = (Book) this.getArguments().getSerializable("clicked book");
 
         bookid = clickedBook.getID();
-        // Look at this
+        
         bookRequestCollectionReference = db.collection("user").
                 document(uid).collection("Book").
                 document(bookid).collection("Request");

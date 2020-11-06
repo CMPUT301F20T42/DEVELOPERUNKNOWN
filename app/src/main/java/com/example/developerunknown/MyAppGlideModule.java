@@ -12,11 +12,21 @@ import com.firebase.ui.storage.images.FirebaseImageLoader;
 import java.io.InputStream;
 
 @GlideModule
+
+/**
+ * Image library module to handle application of photos
+ */
 public final class MyAppGlideModule extends AppGlideModule {
 
     @Override
+    /**
+     * // Register FirebaseImageLoader to handle StorageReference
+     * @param context application environment
+     * @param glide static interface for requests
+     * @param registry manages registration for glide
+     */
     public void registerComponents(Context context, Glide glide, Registry registry) {
-        // Register FirebaseImageLoader to handle StorageReference
+
 
         registry.append(StorageReference.class, InputStream.class,
                 new FirebaseImageLoader.Factory());
