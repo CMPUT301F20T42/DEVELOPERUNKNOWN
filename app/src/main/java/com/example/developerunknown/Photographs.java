@@ -191,8 +191,8 @@ public class Photographs {
                 public void onSuccess(Uri uri) {
                     GlideApp.with(context)
                             .load(uri)
-                            .placeholder(new ColorDrawable(Color.GRAY))
-                            .fallback(R.drawable.defaultphoto)
+                            .placeholder(R.drawable.defaultphoto)
+                            .error(R.drawable.defaultphoto)
                             .into(imageView);
                 }
             });
@@ -202,8 +202,8 @@ public class Photographs {
                 public void onSuccess(Uri uri) {
                     GlideApp.with(context)
                             .load(uri)
-                            .placeholder(new ColorDrawable(Color.GRAY))
-                            .fallback(R.drawable.defaultphoto)
+                            .placeholder(R.drawable.defaultphoto)
+                            .error(R.drawable.defaultphoto)
                             .into(imageView);
                 }
             });
