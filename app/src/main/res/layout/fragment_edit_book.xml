@@ -11,13 +11,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginBottom="228dp"
         android:text="Edit Book"
         android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/add_photo_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/cancel_book_button"
@@ -103,17 +102,6 @@
         app:layout_constraintBottom_toTopOf="@+id/add_book_button2"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
-        android:id="@+id/add_photo_button"
-        android:layout_width="356dp"
-        android:layout_height="47dp"
-        android:layout_marginBottom="16dp"
-        android:text="Change Photo"
-        app:layout_constraintBottom_toTopOf="@+id/book_title_editText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.527"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <EditText
         android:id="@+id/book_description_editText"
         android:layout_width="363dp"
@@ -137,7 +125,29 @@
         android:layout_marginLeft="28dp"
         android:layout_marginTop="8dp"
         android:entries="@array/status_array"
+        android:background="@android:color/darker_gray"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/book_isbn_editText" />
+
+    <ImageView
+        android:id="@+id/editImageButton"
+        android:layout_width="148dp"
+        android:layout_height="148dp"
+        android:layout_marginTop="82dp"
+        android:layout_marginBottom="61dp"
+        app:layout_constraintBottom_toTopOf="@+id/book_title_editText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/new_textView" />
+
+    <Button
+        android:id="@+id/deletePhotoButton"
+        android:layout_width="90dp"
+        android:layout_height="41dp"
+        android:layout_marginEnd="16dp"
+        android:text="Delete Photo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editImageButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

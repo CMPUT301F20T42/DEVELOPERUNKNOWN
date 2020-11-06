@@ -4,15 +4,25 @@ public class Request {
     // private String requestID;
     private String borrowerID;
     private String borrowerUname;
-    private Book targetBook;
+    private String targetBookid;
+    private String Rid;
+
     private String Status = "Requested";
 
-    public Request(String borrowerID, String borrowerUname, Book targetBook) {
+    public Request(String borrowerID, String borrowerUname, String targetBook) {
         // this.requestID = requestID;
         this.borrowerID = borrowerID;
         this.borrowerUname = borrowerUname;
-        this.targetBook = targetBook;
+        this.targetBookid = targetBook;
     }
+    public Request(String borrowerID, String borrowerUname, String targetBook,String Rid) {
+        // this.requestID = requestID;
+        this.borrowerID = borrowerID;
+        this.borrowerUname = borrowerUname;
+        this.targetBookid = targetBook;
+        this.Rid = Rid;
+    }
+
 
     public String getBorrowerID() {
         return this.borrowerID;
@@ -20,8 +30,8 @@ public class Request {
 
     public String getBorrowerUname() { return this.borrowerUname; }
 
-    public Book getTargetBook() {
-        return this.targetBook;
+    public String getTargetBook() {
+        return this.targetBookid;
     }
 
     public String getStatus() {

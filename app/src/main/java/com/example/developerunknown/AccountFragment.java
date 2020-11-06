@@ -6,7 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.ImageDecoder;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,6 +29,8 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -41,6 +45,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -58,7 +63,7 @@ public class AccountFragment extends Fragment {
 
     private Activity activity = getActivity();
     private Uri filePath;
-    ImageButton editImageButton;
+    private ImageView editImageButton;
     public FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private FirebaseStorage storage;
     private StorageReference storageReference;
@@ -96,11 +101,12 @@ public class AccountFragment extends Fragment {
         storageReference = storage.getReference();
 
         confirmEditButton.setVisibility(View.INVISIBLE);
+        editImageButton.setClickable(false);
         contactEmailEdit.setEnabled(false);
         contactEmailEdit.setClickable(false);
         contactPhoneEdit.setEnabled(false);
         contactPhoneEdit.setClickable(false);
-        editInfoButton.setClickable(false);
+        Photographs.viewImage("U", uid, storageReference, applicationContext, editImageButton);
 
 
         currentUserDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -120,7 +126,7 @@ public class AccountFragment extends Fragment {
                     Toast.makeText(getActivity(), "There is a error showing the profile", Toast.LENGTH_SHORT).show();
                 }
             }
-        });
+        }); 
 
         editInfoButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,7 +138,7 @@ public class AccountFragment extends Fragment {
                 contactPhoneEdit.setEnabled(true);
                 contactPhoneEdit.setClickable(true);
                 editInfoButton.setClickable(true);
-                editImageButton.setClickable(true);
+                editImageButton.setEnabled(true);
 
                 editInfoButton.setVisibility(View.INVISIBLE);           //make sure user could not click edit button during edition
                 confirmEditButton.setVisibility(View.VISIBLE);
@@ -142,7 +148,8 @@ public class AccountFragment extends Fragment {
         confirmEditButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                uploadImage();
+                Photographs.uploadImage("U", uid, filePath, storageReference, applicationContext);
+
                 updatedContactEmail = contactEmailEdit.getText().toString();
                 undatedContactPhone = contactPhoneEdit.getText().toString();
                 if (Patterns.PHONE.matcher(undatedContactPhone).matches() && Patterns.EMAIL_ADDRESS.matcher(updatedContactEmail).matches() ) {
@@ -177,7 +184,6 @@ public class AccountFragment extends Fragment {
                 contactEmailEdit.setClickable(false);
                 contactPhoneEdit.setEnabled(false);
                 contactPhoneEdit.setClickable(false);
-                editInfoButton.setClickable(false);
                 editImageButton.setClickable(false);
                 confirmEditButton.setVisibility(View.INVISIBLE);
                 editInfoButton.setVisibility(View.VISIBLE);
@@ -226,6 +232,7 @@ public class AccountFragment extends Fragment {
         });
 
 
+
         return view;
     }
 
@@ -259,51 +266,6 @@ public class AccountFragment extends Fragment {
         }else{
             Toast.makeText(applicationContext, "You haven't picked Image", Toast.LENGTH_SHORT).show();
         }
-    }
-    // UploadImage method
-    private void uploadImage()
-    {
-
-        if (filePath != null) {
-
-            // Defining the child of storageReference
-            StorageReference ref = storageReference.child("profileImages/" + uid);
-
-
-            // adding listeners on upload
-            // or failure of image
-            ref.putFile(filePath)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                @Override
-                                public void onSuccess(
-                                        UploadTask.TaskSnapshot taskSnapshot)
-                                {
-                                    // Image uploaded successfully
-                                    Toast.makeText(applicationContext, "Image Uploaded!!", Toast.LENGTH_SHORT).show();
-                                }
-                            })
-
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e)
-                        {
-                            // Error, Image not uploaded
-                            Toast.makeText(applicationContext, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-
-                        // Progress Listener for loading
-                        // percentage on the dialog box
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            Toast.makeText(applicationContext, "In Progress ", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }
-
-
-
     }
 
 

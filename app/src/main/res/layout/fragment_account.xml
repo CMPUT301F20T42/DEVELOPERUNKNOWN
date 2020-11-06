@@ -5,15 +5,14 @@
     android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#362A3068">
+    android:background="#B9DDF6">
 
-    <ImageButton
+    <ImageView
         android:id="@+id/editImageButton"
-        android:layout_width="183dp"
-        android:layout_height="183dp"
+        android:layout_width="155dp"
+        android:layout_height="142dp"
         android:layout_marginTop="16dp"
-        android:clickable="false"
-        android:src="@drawable/defaultphoto"
+        android:background="@android:color/darker_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchUnameEdit" />
@@ -63,6 +62,7 @@
         android:layout_height="38dp"
         android:layout_marginStart="26dp"
         android:layout_marginTop="32dp"
+        android:textColor="#090909"
         android:textSize="15sp"
         app:layout_constraintStart_toEndOf="@+id/textView7"
         app:layout_constraintTop_toBottomOf="@+id/editImageButton" />
@@ -71,6 +71,7 @@
         android:id="@+id/userEmail"
         android:layout_width="112dp"
         android:layout_height="46dp"
+        android:textColor="#090909"
         android:textSize="10sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/userName"
         app:layout_constraintEnd_toEndOf="parent"
@@ -97,6 +98,7 @@
         android:layout_height="38dp"
         android:layout_marginStart="26dp"
         android:layout_marginTop="15dp"
+        android:textColor="#090909"
         android:textSize="15sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -108,8 +110,7 @@
         android:layout_width="84dp"
         android:layout_height="41dp"
 
-        android:layout_marginTop="20dp"
-        android:background="#E4D4D4"
+        android:layout_marginTop="30dp"
         android:text="Edit"
         android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/confirmEditProfile"
@@ -136,7 +137,7 @@
         android:text="Contact phone:"
 
         android:textColor="#090909"
-        android:textSize="14sp"
+        android:textSize="15sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/editContactPhone"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -144,10 +145,11 @@
         android:id="@+id/editContactEmail"
         android:layout_width="200dp"
         android:layout_height="38dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="24dp"
 
         android:ems="10"
         android:inputType="textEmailAddress"
+        android:textColor="#090909"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.352"
@@ -158,12 +160,13 @@
         android:id="@+id/editContactPhone"
         android:layout_width="200dp"
         android:layout_height="38dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="15dp"
         android:ems="10"
         android:inputType="phone"
+        android:textColor="#090909"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.351"
+        app:layout_constraintHorizontal_bias="0.352"
         app:layout_constraintStart_toEndOf="@+id/textView14"
         app:layout_constraintTop_toBottomOf="@+id/editContactEmail" />
 
@@ -171,7 +174,7 @@
         android:id="@+id/confirmEditProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="105dp"
         android:layout_marginBottom="120dp"
         android:text="Confirm"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -182,24 +185,23 @@
 
     <EditText
         android:id="@+id/searchUnameEdit"
-        android:layout_width="0dp"
-        android:layout_height="37dp"
-        android:background="#2C05F394"
+        android:layout_width="283dp"
+        android:layout_height="45dp"
+        android:background="#8C909C"
         android:ems="10"
         android:hint="Enter the user you want to know"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toStartOf="@+id/searchUserButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/searchUserButton"
-        android:layout_width="wrap_content"
-        android:layout_height="37dp"
-        android:drawableBottom="@drawable/ic_baseline_search_24"
+        android:layout_width="124dp"
+        android:layout_height="44dp"
+        android:text="Search"
+        app:layout_constraintBaseline_toBaselineOf="@+id/searchUnameEdit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/searchUnameEdit"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/searchUnameEdit" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

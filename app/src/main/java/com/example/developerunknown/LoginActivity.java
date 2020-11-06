@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -33,7 +34,8 @@ public class LoginActivity extends AppCompatActivity {
     private CollectionReference unameCollectionReference = db.collection("userName");
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private String email;
-    public boolean userExist;
+
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);

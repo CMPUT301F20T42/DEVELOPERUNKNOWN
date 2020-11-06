@@ -6,12 +6,14 @@ import android.database.Observable;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.Auth;
@@ -56,6 +58,10 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+        ActionBar actionBar = this.getSupportActionBar();
+        actionBar.setTitle("Signup Your Account");
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
 
         registerUserName = findViewById(R.id.registerUname);
         registerPassword = findViewById(R.id.registerPassword);
@@ -99,7 +105,7 @@ public class SignUpActivity extends AppCompatActivity {
                 }
 
                 else{
-                    DocumentReference docIdRef = userCollectionReference.document(userName);
+                    DocumentReference docIdRef = unameCollectionReference.document(userName);
                     docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -107,6 +113,8 @@ public class SignUpActivity extends AppCompatActivity {
                                 DocumentSnapshot document = task.getResult();
                                 if (document.exists()) {
                                     Log.d("check userName", "userName exists!");
+                                    Toast.makeText(SignUpActivity.this,"This user name is already used,please change one",Toast.LENGTH_SHORT).show();
+
                                 } else {
                                     Log.d("check userName", "userName available");
                                     auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
@@ -178,6 +186,14 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
 
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }
