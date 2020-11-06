@@ -26,6 +26,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -64,7 +65,29 @@ public class ViewRequestsFragment extends Fragment {
         requestList = view.findViewById(R.id.request_list);
 
         // Grab requests
-        requestDataList = clickedBook.getRequestList();
+        CollectionReference bookRef = db.collection("user").document(currentUser.getUid()).collection("book").document(clickedBook.getID()).collection("Request");
+        bookRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable
+                    FirebaseFirestoreException error) {
+
+                requestDataList.clear();
+                for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
+                {
+                    String bookid = (String)doc.getData().get("Bookid");
+                    String borrower = (String) doc.getData().get("Borrower");
+                    String borrowerUname = (String) doc.getData().get("BorrowerUname");
+                    //Timestamp time = (Timestamp) doc.getData().get("time");
+                    String Rid = doc.getId();
+                    requestDataList.add(new Request(borrower, borrowerUname, bookid,Rid));
+
+                    //requestDataList.add(new UserNotification(sender, time, type, book,id) ); // Adding the cities and provinces from FireStore
+                }
+                //requestDataList.notifyDataSetChanged(); // Notifying the adapter to render any new data fetch
+            }
+        });
+
+
 
         // TODO: set up snapshot listener
 
@@ -103,7 +126,7 @@ public class ViewRequestsFragment extends Fragment {
                     String borrowerID = (String) doc.getData().get("Borrower");
                     String borrowerUname = (String) doc.getData().get("BorrowerUname");
 
-                    requestDataList.add(new Request(borrowerID, borrowerUname, clickedBook)); // Adding the requests from FireStore
+                    requestDataList.add(new Request(borrowerID, borrowerUname, clickedBook.getID())); // Adding the requests from FireStore
                 }
                 requestAdapter.notifyDataSetChanged(); // Notifying the adapter to render any new data fetcheh
             }

@@ -102,7 +102,7 @@ public class resultActivity extends AppCompatActivity {
             Toast.makeText(resultActivity.this, "You can't request your own book", Toast.LENGTH_SHORT).show();
         } else {
             if (currentBook.getStatus().equals("Available") || currentBook.getStatus().equals("Requested")) {
-                final Request nowRequest = new Request(borrower.getUid(), borrower.getUsername(), currentBook);
+                final Request nowRequest = new Request(borrower.getUid(), borrower.getUsername(), currentBook.getID());
                 //DocumentReference docRef = db.collection("User").document(currentBook.getOwner());
 /*
                 Query query = db.collectionGroup("Book");
@@ -177,13 +177,7 @@ public class resultActivity extends AppCompatActivity {
                 borrowerBookRef.set(requestedBookData);
 
 
-
-
-
                 Toast.makeText(resultActivity.this, "Your request has sent", Toast.LENGTH_SHORT).show();
-
-
-
 
             }
         }
