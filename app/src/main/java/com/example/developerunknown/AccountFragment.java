@@ -55,7 +55,7 @@ import java.util.UUID;
 import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
 
-//this class generally displays all current user information related stuff and also
+//this class generally displays all current user information related stuff and also enable current to search a specific username
 public class AccountFragment extends Fragment {
     private static final int RESULT_LOAD_IMG = 111;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();

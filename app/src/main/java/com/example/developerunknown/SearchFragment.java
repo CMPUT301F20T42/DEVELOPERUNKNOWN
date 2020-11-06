@@ -34,7 +34,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
+//this fragmenrt basicly retrive the all books from firestore and compare with the key user entered to generate the book user is interested
 public class    SearchFragment extends Fragment {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     public User currentUser;

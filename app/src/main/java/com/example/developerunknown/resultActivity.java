@@ -126,6 +126,7 @@ public class resultActivity extends AppCompatActivity {
                         document(currentBook.getID()).collection("Request").document();
                 String requestId = requestRef.getId();
                 //Get requestdata for data upload
+                //In firestore,each
                 Map requestData = new HashMap<>();
                 requestData.put("id", requestId);
                 requestData.put("Borrower", borrower.getUid());

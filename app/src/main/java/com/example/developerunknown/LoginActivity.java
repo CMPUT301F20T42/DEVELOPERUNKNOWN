@@ -22,6 +22,10 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+//this class hold is in fact first fully operated class in this project,it will get the username and password entered,and compare with
+//firestore,a trick is applied here,since in user stories,we should focus on userName but the firebase auth only has email and password,and UID
+//so I stored a key value pair about userName and email/Uid,therefore user can log in using username
+
 public class LoginActivity extends AppCompatActivity {
     public Button logInButton;
     public Button signUpButton;

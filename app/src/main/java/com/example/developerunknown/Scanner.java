@@ -20,6 +20,7 @@ import com.google.zxing.Result;
 public class Scanner extends AppCompatActivity {
     private CodeScanner mCodeScanner;
 
+    //this class is come from
     //https://www.youtube.com/watch?v=wfucGSKngq4&t=352s
     @Override
     protected void onCreate(Bundle savedInstanceState) {
