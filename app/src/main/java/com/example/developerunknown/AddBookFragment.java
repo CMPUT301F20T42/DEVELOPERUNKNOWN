@@ -219,20 +219,6 @@ public class AddBookFragment extends Fragment {
     }
 
 
-
-
-/*
-                // Create dummy user + book data
-                // TODO: replace with calls to firestore
-                loggedIn = new User("A Admin", "admin", "admin@gmail.com");
-
-                Book b1 = new Book("To Kill A Mockingbird", "Harper Lee", "Available", "123", "The mockingbird dies");
-                Book b2 = new Book("1984", "George Orwell", "Borrowed", "1234", "Set in 1983");
-
-                loggedIn.addBook(b1);
-                loggedIn.addBook(b2);
-*/
-
     /*
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults){

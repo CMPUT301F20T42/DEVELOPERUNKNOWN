@@ -155,6 +155,7 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
             }
         });
 
+        //this part is used to filter status when viewing my book
         filterSelection.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             String filter;
 

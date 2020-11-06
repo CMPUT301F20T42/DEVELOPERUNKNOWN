@@ -22,7 +22,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-
 public class LoginActivity extends AppCompatActivity {
     public Button logInButton;
     public Button signUpButton;
@@ -58,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
         editUserName = findViewById(R.id.editUsername);
         editPassword = findViewById(R.id.editPassward);
         logInButton = findViewById(R.id.signIn);
-        logInButton.setOnClickListener(new View.OnClickListener() {
+        logInButton.setOnClickListener(new View.OnClickListener() {                                   //check if current user exist,if yes,try to login
                                            @Override
                                            public void onClick(View v) {
                                                userName = editUserName.getText().toString();
@@ -93,6 +92,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+    //use firebaseAuth to login user,then return to main
     public void login(String email, String password){
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override

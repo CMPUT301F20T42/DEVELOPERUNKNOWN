@@ -57,8 +57,9 @@ public class RequestUITest {
 
         solo.clickOnView(solo.getView(R.id.nav_search));
 
-        solo.enterText((EditText)solo.getView(R.id.editText_book),"criminal");
-        solo.clickInList(0);
+        solo.enterText((EditText)solo.getView(R.id.editText_book),"");
+        solo.clickOnButton("SEARCH");
+        solo.clickInList(1);
 
 
         solo.assertCurrentActivity("Wrong Activity", resultActivity.class);

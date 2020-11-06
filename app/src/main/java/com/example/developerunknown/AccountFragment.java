@@ -55,6 +55,7 @@ import java.util.UUID;
 import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
 
+//this class generally displays all current user information related stuff and also
 public class AccountFragment extends Fragment {
     private static final int RESULT_LOAD_IMG = 111;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -63,10 +64,22 @@ public class AccountFragment extends Fragment {
 
     private Activity activity = getActivity();
     private Uri filePath;
-    private ImageView editImageButton;
+
     public FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private FirebaseStorage storage;
     private StorageReference storageReference;
+
+    private ImageView editImageButton;
+    private TextView uNameTextView;
+    private TextView uEmailTextView;
+    private TextView uFirstNameTextView;
+    private TextView uLastNameTextView;
+    private Button editInfoButton;
+    private Button confirmEditButton;
+    private Button searchUserButton;
+    private EditText contactEmailEdit ;
+    private EditText contactPhoneEdit;
+    private EditText searchUserEdit;
 
     public String uid = user.getUid();
     public String updatedContactEmail;
@@ -85,17 +98,17 @@ public class AccountFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,@Nullable Bundle savedInstanceState){
 
         View view= inflater.inflate(R.layout.fragment_account,container,false);            //initialize view
-        final TextView uNameTextView = view.findViewById(R.id.userName);
-        final TextView uEmailTextView = view.findViewById(R.id.userEmail);
-        final TextView uFirstNameTextView = view.findViewById(R.id.userFirstName);
-        final TextView uLastNameTextView = view.findViewById(R.id.userLastName);
-        final Button editInfoButton = view.findViewById(R.id.editInfo);
-        final Button confirmEditButton = view.findViewById(R.id.confirmEditProfile);
-        final Button searchUserButton = view.findViewById(R.id.searchUserButton);
+        uNameTextView = view.findViewById(R.id.userName);
+        uEmailTextView = view.findViewById(R.id.userEmail);
+        uFirstNameTextView = view.findViewById(R.id.userFirstName);
+        uLastNameTextView = view.findViewById(R.id.userLastName);
+        editInfoButton = view.findViewById(R.id.editInfo);
+        confirmEditButton = view.findViewById(R.id.confirmEditProfile);
+        searchUserButton = view.findViewById(R.id.searchUserButton);
         editImageButton = view.findViewById(R.id.editImageButton);
-        final EditText contactEmailEdit = view.findViewById(R.id.editContactEmail);
-        final EditText contactPhoneEdit = view.findViewById(R.id.editContactPhone);
-        final EditText searchUserEdit = view.findViewById(R.id.searchUnameEdit);
+        contactEmailEdit = view.findViewById(R.id.editContactEmail);
+        contactPhoneEdit = view.findViewById(R.id.editContactPhone);
+        searchUserEdit = view.findViewById(R.id.searchUnameEdit);
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
@@ -109,6 +122,7 @@ public class AccountFragment extends Fragment {
         Photographs.viewImage("U", uid, storageReference, applicationContext, editImageButton);
 
 
+        //retrieve user information from firestore
         currentUserDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -128,6 +142,7 @@ public class AccountFragment extends Fragment {
             }
         }); 
 
+        //allow user to edit contact info and image
         editInfoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -244,7 +259,7 @@ public class AccountFragment extends Fragment {
         startActivityForResult(photoPickIntent, RESULT_LOAD_IMG);
     }
 
-
+    //handle stuff related to image
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

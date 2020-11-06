@@ -77,11 +77,7 @@ public class Book implements Serializable {
         return description;
     }
 
-    //public String getBid() { return Bid; }
 
-    //public String getOwner() {return ownerId;}
-
-    //public void setBid(String bid) {Bid = bid;}
 
     public Book(String id, String title, String author, String status, String ISBN, String description){
         this.title = title;
@@ -92,6 +88,7 @@ public class Book implements Serializable {
         this.id = id;
     }
 
+    //used to retrive book related to current user when we need extra information
     public Book(String id, String title, String author, String status, String ISBN, String description, String ownerId, String ownerUname) {
         this.title = title;
         this.author = author;

@@ -30,6 +30,7 @@ import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
 
+//HomeFragment is used to display notification of user,it is also the default interface when user logged in
 public class HomeFragment extends Fragment {
     ListView notificationList;
     ArrayAdapter<UserNotification> notificationAdapter;

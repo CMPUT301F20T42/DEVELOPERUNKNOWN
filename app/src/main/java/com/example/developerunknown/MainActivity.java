@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private CollectionReference userCollectionReference = db.collection("user");
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     public FirebaseUser user;
-
+    public BottomNavigationView bottomNavigationView;
     User currentUser;
 
     @Override
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent,123);
 
         setContentView(R.layout.activity_main);
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
     }
