@@ -100,7 +100,7 @@ public class ViewRequestsFragment extends Fragment {
             public void onItemClick(AdapterView<?> list, View v, int pos, long id) {
                 Intent intent = new Intent(getActivity(),requestActicity.class);
                 Request thisRequest = requestAdapter.getItem(pos);
-                intent.putExtra("Request", (Serializable) thisRequest);
+                intent.putExtra("Request", thisRequest);
                 startActivity(intent);
             }
         });
