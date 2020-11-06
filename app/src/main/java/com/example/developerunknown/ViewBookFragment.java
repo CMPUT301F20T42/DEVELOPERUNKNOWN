@@ -81,16 +81,7 @@ public class ViewBookFragment extends Fragment {
         bookISBN.setText(clickedBook.getISBN());
         imageView = view.findViewById(R.id.imageView);
 
-        storageReference.child("BookImages/"+clickedBook.getID()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                GlideApp.with(applicationContext)
-                        .load(uri)
-                        .placeholder(new ColorDrawable(Color.GRAY))
-                        .error(R.drawable.defaultphoto)
-                        .into(imageView);
-            }
-        });
+        Photographs.viewImage("B", clickedBook.getID(), storageReference, applicationContext, imageView);
 
         editBookButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,25 +124,7 @@ public class ViewBookFragment extends Fragment {
                             }
                         });
 
-                storageReference.child("BookImages/"+clickedBook.getID()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        StorageReference photoRef = storage.getReferenceFromUrl(uri.toString());
-                        photoRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                // File deleted successfully
-                                Log.d("delete photo", "onSuccess: deleted file");
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception exception) {
-                                // Uh-oh, an error occurred!
-                                Log.d("delete photo", "onFailure: did not delete file");
-                            }
-                        });
-                    }
-                });
+                Photographs.deleteImage("B", clickedBook.getID(), storageReference, storage);
 
                 // Close fragment
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
