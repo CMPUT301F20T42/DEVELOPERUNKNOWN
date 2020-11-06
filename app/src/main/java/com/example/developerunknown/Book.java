@@ -88,7 +88,7 @@ public class Book implements Serializable {
 
     //public void setBid(String bid) {Bid = bid;}
 
-    public Book(String id,String title, String author, String status, String ISBN, String description){
+    public Book(String id, String title, String author, String status, String ISBN, String description){
         this.title = title;
         this.author = author;
         this.status = status;
@@ -98,7 +98,7 @@ public class Book implements Serializable {
         this.requestList = new ArrayList<>();
     }
 
-    public Book(String id,String title, String author, String status, String ISBN, String description, String ownerId, String ownerUname) {
+    public Book(String id, String title, String author, String status, String ISBN, String description, String ownerId, String ownerUname) {
         this.title = title;
         this.author = author;
         this.status = status;
@@ -106,12 +106,17 @@ public class Book implements Serializable {
         this.description = description;
         this.id = id;
         this.ownerId = ownerId;
-        this.ownerUname=ownerUname;
+        this.ownerUname = ownerUname;
+        this.requestList = new ArrayList<>();
     }
 
 
     public void requestsListPushBack(Request request){
         this.requestList.add(request);
+    }
+
+    public int compareTo(Book book) {
+        return this.title.compareTo(book.getTitle());
     }
 
     /*public void requestUpdate(Request nowRequest, Request targetRequest){
