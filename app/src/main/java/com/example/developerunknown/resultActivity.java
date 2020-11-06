@@ -81,11 +81,6 @@ public class resultActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /*public void startRequest(View view){
-        Intent intent = new Intent(this,resultActivity.class);
-        intent.putExtra("SelectedBook", currentBook);
-        startActivity(intent);
-    }*/
 
     public void startRequest(View view) {
         if (currentBook.getOwnerId().equals(borrower.getUid())) {
@@ -116,7 +111,9 @@ public class resultActivity extends AppCompatActivity {
                         }
                     }
                 });
+
 */
+                // Start request sequence
                 DocumentReference requestedBookRef = db.collection("user"). document(currentBook.getOwnerId()).
                         collection("Book").document(currentBook.getID());
                 requestedBookRef.update("status","Requested");
@@ -125,7 +122,7 @@ public class resultActivity extends AppCompatActivity {
                         document(currentBook.getOwnerId()).collection("Book").
                         document(currentBook.getID()).collection("Request").document();
                 String requestId = requestRef.getId();
-
+                //Get requestdata for data upload
                 Map requestData = new HashMap<>();
                 requestData.put("id", requestId);
                 requestData.put("Borrower", borrower.getUid());
@@ -133,7 +130,7 @@ public class resultActivity extends AppCompatActivity {
                 requestData.put("BorrowerUname", borrower.getUsername());
 
 
-                requestRef.set(requestData);
+                requestRef.set(requestData); // push to firestore
 
 
                 //send notification
