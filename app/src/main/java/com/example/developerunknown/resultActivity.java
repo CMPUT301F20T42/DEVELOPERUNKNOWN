@@ -68,17 +68,7 @@ public class resultActivity extends AppCompatActivity {
         Description.setText(currentBook.getDescription());
         Status.setText(currentBook.getStatus());
 
-        storageReference.child("BookImages/"+currentBook.getID()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                GlideApp.with(applicationContext)
-                        .load(uri)
-                        .placeholder(new ColorDrawable(Color.GRAY))
-                        .error(R.drawable.defaultphoto)
-                        .into(BookImage);
-            }
-        });
-
+        Photographs.viewImage("B", currentBook.getID(), storageReference, applicationContext, BookImage);
 
     }
 
@@ -179,9 +169,6 @@ public class resultActivity extends AppCompatActivity {
 
 
                 Toast.makeText(resultActivity.this, "Your request has sent", Toast.LENGTH_SHORT).show();
-
-
-
 
             }
         }

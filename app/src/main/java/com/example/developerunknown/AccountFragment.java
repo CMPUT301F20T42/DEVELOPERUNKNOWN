@@ -106,19 +106,7 @@ public class AccountFragment extends Fragment {
         contactEmailEdit.setClickable(false);
         contactPhoneEdit.setEnabled(false);
         contactPhoneEdit.setClickable(false);
-
-        storageReference.child("profileImages/"+uid).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                GlideApp.with(applicationContext)
-                        .load(uri)
-                        .placeholder(new ColorDrawable(Color.GRAY))
-                        .error(R.drawable.defaultphoto)
-                        .into(editImageButton);
-            }
-        });
-
-
+        Photographs.viewImage("U", uid, storageReference, applicationContext, editImageButton);
 
 
         currentUserDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -150,7 +138,7 @@ public class AccountFragment extends Fragment {
                 contactPhoneEdit.setEnabled(true);
                 contactPhoneEdit.setClickable(true);
                 editInfoButton.setClickable(true);
-                editImageButton.setClickable(true);
+                editImageButton.setEnabled(true);
 
                 editInfoButton.setVisibility(View.INVISIBLE);           //make sure user could not click edit button during edition
                 confirmEditButton.setVisibility(View.VISIBLE);
@@ -160,7 +148,9 @@ public class AccountFragment extends Fragment {
         confirmEditButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                uploadImage();
+                //uploadImage();
+                Photographs.uploadImage("U", uid, filePath, storageReference, applicationContext);
+
                 updatedContactEmail = contactEmailEdit.getText().toString();
                 undatedContactPhone = contactPhoneEdit.getText().toString();
                 if (Patterns.PHONE.matcher(undatedContactPhone).matches() && Patterns.EMAIL_ADDRESS.matcher(updatedContactEmail).matches() ) {
@@ -277,48 +267,6 @@ public class AccountFragment extends Fragment {
         }else{
             Toast.makeText(applicationContext, "You haven't picked Image", Toast.LENGTH_SHORT).show();
         }
-    }
-    // UploadImage method
-    private void uploadImage()
-    {
-
-        if (filePath != null) {
-
-            // Defining the child of storageReference
-            StorageReference ref = storageReference.child("profileImages/" + uid);
-
-            // adding listeners on upload
-            // or failure of image
-            ref.putFile(filePath)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                @Override
-                                public void onSuccess(
-                                        UploadTask.TaskSnapshot taskSnapshot)
-                                {
-                                    // Image uploaded successfully
-                                    Toast.makeText(applicationContext, "Image Uploaded!!", Toast.LENGTH_SHORT).show();
-                                }
-                            })
-
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e)
-                        {
-                            // Error, Image not uploaded
-                            Toast.makeText(applicationContext, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-
-                        // Progress Listener for loading
-                        // percentage on the dialog box
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            Toast.makeText(applicationContext, "In Progress ", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }
-
     }
 
 
