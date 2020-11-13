@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -30,13 +31,28 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
+/**
+ * booklistfragment displays the Owner books, and wishlist books
+ */
 public class BookListFragment extends Fragment implements AddBookFragment.OnFragmentInteractionListener  {
     ListView bookList;
     ArrayAdapter<Book> bookAdapter;
     ArrayList<Book> bookDataList;
     Context context;
     User currentUser;
+
+    Spinner filterSelection;
+
+    ArrayAdapter<String> filterAdapter;
+    ArrayList<String> filterList;
+
+
+
+    Spinner selectSelector;
+    ArrayAdapter<String> selectAdapter;
+    ArrayList<String> selectList;
+
+
 
     //########################## this part is needed for the below blocking part.
 
@@ -59,6 +75,37 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
 
         bookAdapter = new CustomList(context, bookDataList);
         bookList.setAdapter(bookAdapter);
+
+
+
+
+        filterSelection = (Spinner) view.findViewById(R.id.filter_spinner);
+
+        filterList = new ArrayList<String>();
+
+        filterList.add("All");
+        filterList.add("Accepted");
+        filterList.add("Available");
+        filterList.add("Borrowed");
+        filterList.add("Requested");
+
+        filterAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, filterList);
+        filterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        filterSelection.setAdapter(filterAdapter);
+
+//////////////////////////////////////////////////
+
+        selectSelector = (Spinner) view.findViewById(R.id.list_spinner);
+        selectList = new ArrayList<String>();
+
+        //selectList.add("All");
+        selectList.add("My Owned Books");
+        selectList.add("Books Wishlist");
+
+
+        selectAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, selectList);
+        selectAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        selectSelector.setAdapter(selectAdapter);
 
         return view;
     }
@@ -88,6 +135,7 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
         });
 
 
+
         bookList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View view, int position, long id) {
                 Log.d("BookList Message", "Successfully clicked book");
@@ -101,8 +149,6 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
                 Fragment fragment = new ViewBookFragment();
                 fragment.setArguments(args);
 
-
-
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.fragment_container, fragment, "View Book Fragment");
@@ -110,6 +156,79 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
                 fragmentTransaction.commit();
             }
         });
+
+        //this part is used to filter status when viewing my book
+        filterSelection.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            String filter;
+
+            @Override
+            /**
+             * Always user to select a spinner item
+             *  @param parent the original view
+             *  @param view what is being viewed currently
+             *  @param position item position within spinner list
+             *  @param id user id
+             */
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // Get filter
+                filter = filterList.get(position);
+                // Apply filter
+                if (!filter.equals("All")) {
+                    // Reset bookDataList
+                    bookDataList = currentUser.getFilteredBookList(filter);
+
+                    bookAdapter = new CustomList(context, bookDataList);
+                    bookList.setAdapter(bookAdapter);
+
+                } else {
+                    bookDataList = currentUser.getBookList();
+                }
+                bookAdapter = new CustomList(context, bookDataList);
+                bookList.setAdapter(bookAdapter);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+               // Do nothing?
+            }
+        });
+
+        selectSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            String select;
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // Get filter
+                select = selectList.get(position);
+                // Apply filter
+                if (!select.equals("My Owned Books")) {
+                    // Reset bookDataList
+                    bookDataList = currentUser.getFilteredBookList(select);
+
+                    bookAdapter = new CustomList(context, bookDataList);
+                    bookList.setAdapter(bookAdapter);
+
+                } else {
+                    bookDataList = currentUser.getBookList();
+                }
+
+                bookAdapter = new CustomList(context, bookDataList);
+                bookList.setAdapter(bookAdapter);
+            }
+
+            @Override
+            /**
+             * method is called if no item is selected for spinner view
+             *  @param parent
+             */
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+
+
 
         //################################### this part retrieves book from online data base and automatically update ################################
 
@@ -126,7 +245,8 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
                     String description = (String) doc.getData().get("description");
                     String ISBN = (String) doc.getData().get("ISBN");
                     String status = (String) doc.getData().get("status");
-                    bookDataList.add(new Book(title, author, status, ISBN, description)); // Adding the cities and provinces from FireStore
+
+                    bookDataList.add(new Book(doc.getId(), title, author, status, ISBN, description)); // Adding the books from FireStore
                 }
                 bookAdapter.notifyDataSetChanged(); // Notifying the adapter to render any new data fetcheh
             }
@@ -136,6 +256,10 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
     }
 
     @Override
+    /**
+     * Tells fragments when button is pressed
+     *  @param newBook
+     */
     public void onOkPressed (Book newBook) {
 
     }

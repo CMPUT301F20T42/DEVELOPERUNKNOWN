@@ -8,39 +8,38 @@
 
     <TextView
         android:id="@+id/notificationType"
-        android:layout_width="240dp"
-        android:layout_height="64dp"
-        android:background="#2196F3"
+        android:layout_width="160dp"
+        android:layout_height="80dp"
+        android:background="#CCFBF9"
         android:padding="10dp"
         android:text="notificationType"
         android:textSize="25sp"
-        app:layout_constraintEnd_toStartOf="@+id/notificationTime"
+        app:layout_constraintEnd_toStartOf="@+id/notificationBook"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
-        android:id="@+id/notificationTime"
-        android:layout_width="0dp"
-        android:layout_height="56dp"
-
+        android:id="@+id/notificationBook"
+        android:layout_width="251dp"
+        android:layout_height="40dp"
         android:padding="10dp"
-        android:text="Time"
-        android:textSize="25sp"
+        android:text="Book"
+        android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/notificationType"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/Notificationdescription"
-        android:layout_width="0dp"
-        android:layout_height="52dp"
+        android:id="@+id/notificationSender"
+        android:layout_width="251dp"
+        android:layout_height="40dp"
         android:padding="10dp"
-        android:text="Description"
-        android:textSize="20sp"
+        android:text="Sender"
+        android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/notificationType"/>
+        app:layout_constraintStart_toEndOf="@+id/notificationType"
+        app:layout_constraintTop_toBottomOf="@id/notificationBook" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,12 +6,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,7 +29,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
-
+/**
+*HomeFragment is used to display notification of user,it is also the default interface when user logged in
+ */
 public class HomeFragment extends Fragment {
     ListView notificationList;
     ArrayAdapter<UserNotification> notificationAdapter;
@@ -53,6 +59,11 @@ public class HomeFragment extends Fragment {
 
         userNotificationCollectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
+            /**
+             * Retrieves information from Firebase
+             * @param queryDocumentSnapshots holds and retrieves information from fB
+             * @param error status that holds the exception
+             */
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable
                     FirebaseFirestoreException error) {
 
@@ -62,15 +73,41 @@ public class HomeFragment extends Fragment {
                     String type = (String)doc.getData().get("type");
                     String sender = (String) doc.getData().get("sender");
                     String book = (String) doc.getData().get("book");
-                    Timestamp time = (Timestamp) doc.getData().get("time");
+                    //Timestamp time = (Timestamp) doc.getData().get("time");
+                    String id = doc.getId();
+                    notificationDataList.add(new UserNotification(sender, type, book,id) ); // Adding the cities and provinces from FireStore
 
-                    notificationDataList.add(new UserNotification(sender, time, type, book) ); // Adding the cities and provinces from FireStore
+                    //notificationDataList.add(new UserNotification(sender, time, type, book,id) ); // Adding the cities and provinces from FireStore
                 }
-                notificationAdapter.notifyDataSetChanged(); // Notifying the adapter to render any new data fetcheh
+                notificationAdapter.notifyDataSetChanged(); // Notifying the adapter to render any new data fetch
             }
         });
-        return view;
 
+        //if user click the notification,it will be deleted since user already know the information
+        notificationList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                notificationAdapter.getItem(position);          //locate the item that is clicked
+                UserNotification currentNote = notificationDataList.get(position);
+                String currentNoteID = currentNote.getId();
+                userNotificationCollectionReference.document(currentNoteID)
+                        .delete()
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error deleting document", e);
+                            }
+                        });
+            }
+            }
+        );
+        return view;
 
     }
 }

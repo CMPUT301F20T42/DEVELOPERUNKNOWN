@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,6 +22,9 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+//this class hold is in fact first fully operated class in this project,it will get the username and password entered,and compare with
+//firestore,a trick is applied here,since in user stories,we should focus on userName but the firebase auth only has email and password,and UID
+//so I stored a key value pair about userName and email/Uid,therefore user can log in using username
 
 public class LoginActivity extends AppCompatActivity {
     public Button logInButton;
@@ -33,7 +37,8 @@ public class LoginActivity extends AppCompatActivity {
     private CollectionReference unameCollectionReference = db.collection("userName");
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private String email;
-    public boolean userExist;
+
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
@@ -48,6 +53,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
+    /**
+     * creates the view for the activity by setting it to a R.layout
+     * @param savedInstanceState
+     */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
@@ -56,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
         editUserName = findViewById(R.id.editUsername);
         editPassword = findViewById(R.id.editPassward);
         logInButton = findViewById(R.id.signIn);
-        logInButton.setOnClickListener(new View.OnClickListener() {
+        logInButton.setOnClickListener(new View.OnClickListener() {                                   //check if current user exist,if yes,try to login
                                            @Override
                                            public void onClick(View v) {
                                                userName = editUserName.getText().toString();
@@ -91,6 +100,11 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+    /**
+    * use firebaseAuth to login user,then return to main
+     * @param email user email
+     * @param password password used for app signin
+     */
     public void login(String email, String password){
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override

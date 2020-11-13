@@ -13,15 +13,22 @@ import androidx.annotation.Nullable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
+/**
+ * Creates a list of user Notifications
+ */
 public class NotificationList extends ArrayAdapter<UserNotification> {
     private ArrayList<UserNotification> userNotifications;
     private Context context;
 
+    /**
+     * This is a class that keeps track of a list of city objects
+     * @param context context of notification list
+     * @param userNotifications ArrayList for notifications
+     */
     public NotificationList(Context context,ArrayList<UserNotification> userNotifications){
         super(context,0,userNotifications);
-        this.context=context;
-        this.userNotifications=userNotifications;
+        this.context = context;
+        this.userNotifications = userNotifications;
 
     }
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -33,11 +40,12 @@ public class NotificationList extends ArrayAdapter<UserNotification> {
 
         UserNotification currentNotification = userNotifications.get(position);
         TextView notificationType = view.findViewById(R.id.notificationType);
-        TextView notificationDescription = view.findViewById(R.id.Notificationdescription);
-        TextView notificationTime = view.findViewById(R.id.notificationTime);
+        TextView notificationBook = view.findViewById(R.id.notificationBook);
+        TextView notificationSender = view.findViewById(R.id.notificationSender);
 
         notificationType.setText(currentNotification.getType());
-        notificationDescription.setText(currentNotification.getDescription());
+        notificationBook.setText(currentNotification.getBook());
+        notificationSender.setText(currentNotification.getSender());
 
         return view;
     }

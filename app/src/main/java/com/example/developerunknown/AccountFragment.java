@@ -6,7 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.ImageDecoder;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,6 +29,8 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -41,6 +45,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -49,7 +54,9 @@ import java.util.UUID;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
-
+/**
+ *this class generally displays all current user information related stuff
+ */
 public class AccountFragment extends Fragment {
     private static final int RESULT_LOAD_IMG = 111;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -58,10 +65,22 @@ public class AccountFragment extends Fragment {
 
     private Activity activity = getActivity();
     private Uri filePath;
-    ImageButton editImageButton;
+
     public FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private FirebaseStorage storage;
     private StorageReference storageReference;
+
+    private ImageView editImageButton;
+    private TextView uNameTextView;
+    private TextView uEmailTextView;
+    private TextView uFirstNameTextView;
+    private TextView uLastNameTextView;
+    private Button editInfoButton;
+    private Button confirmEditButton;
+    private Button searchUserButton;
+    private EditText contactEmailEdit ;
+    private EditText contactPhoneEdit;
+    private EditText searchUserEdit;
 
     public String uid = user.getUid();
     public String updatedContactEmail;
@@ -77,30 +96,40 @@ public class AccountFragment extends Fragment {
 
     @Nullable
     @Override
+    /**
+     * This displays the view of the class
+     * @param inflater creates view
+     * @param container contains the layout view
+     * @param savedInstanceState contains the recent data
+     * @return
+     * Return the view of the Account Fragment
+     */
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,@Nullable Bundle savedInstanceState){
 
         View view= inflater.inflate(R.layout.fragment_account,container,false);            //initialize view
-        final TextView uNameTextView = view.findViewById(R.id.userName);
-        final TextView uEmailTextView = view.findViewById(R.id.userEmail);
-        final TextView uFirstNameTextView = view.findViewById(R.id.userFirstName);
-        final TextView uLastNameTextView = view.findViewById(R.id.userLastName);
-        final Button editInfoButton = view.findViewById(R.id.editInfo);
-        final Button confirmEditButton = view.findViewById(R.id.confirmEditProfile);
-        final Button searchUserButton = view.findViewById(R.id.searchUserButton);
+        uNameTextView = view.findViewById(R.id.userName);
+        uEmailTextView = view.findViewById(R.id.userEmail);
+        uFirstNameTextView = view.findViewById(R.id.userFirstName);
+        uLastNameTextView = view.findViewById(R.id.userLastName);
+        editInfoButton = view.findViewById(R.id.editInfo);
+        confirmEditButton = view.findViewById(R.id.confirmEditProfile);
+        searchUserButton = view.findViewById(R.id.searchUserButton);
         editImageButton = view.findViewById(R.id.editImageButton);
-        final EditText contactEmailEdit = view.findViewById(R.id.editContactEmail);
-        final EditText contactPhoneEdit = view.findViewById(R.id.editContactPhone);
-        final EditText searchUserEdit = view.findViewById(R.id.searchUnameEdit);
+        contactEmailEdit = view.findViewById(R.id.editContactEmail);
+        contactPhoneEdit = view.findViewById(R.id.editContactPhone);
+        searchUserEdit = view.findViewById(R.id.searchUnameEdit);
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
         confirmEditButton.setVisibility(View.INVISIBLE);
+        editImageButton.setClickable(false);
         contactEmailEdit.setEnabled(false);
         contactEmailEdit.setClickable(false);
         contactPhoneEdit.setEnabled(false);
         contactPhoneEdit.setClickable(false);
-        editInfoButton.setClickable(false);
+        Photographs.viewImage("U", uid, storageReference, applicationContext, editImageButton);
+
 
 
         currentUserDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -124,6 +153,10 @@ public class AccountFragment extends Fragment {
 
         editInfoButton.setOnClickListener(new View.OnClickListener() {
             @Override
+            /**
+             * allow user to edit contact info and image
+             * @param v
+             */
             public void onClick(View v) {
                 contactEmail = contactEmailEdit.getText().toString();
                 contactPhone = contactPhoneEdit.getText().toString();  //current contactEmail and contactPhone,used for backup if update fails
@@ -132,7 +165,7 @@ public class AccountFragment extends Fragment {
                 contactPhoneEdit.setEnabled(true);
                 contactPhoneEdit.setClickable(true);
                 editInfoButton.setClickable(true);
-                editImageButton.setClickable(true);
+                editImageButton.setEnabled(true);
 
                 editInfoButton.setVisibility(View.INVISIBLE);           //make sure user could not click edit button during edition
                 confirmEditButton.setVisibility(View.VISIBLE);
@@ -141,8 +174,13 @@ public class AccountFragment extends Fragment {
 
         confirmEditButton.setOnClickListener(new View.OnClickListener() {
             @Override
+            /**
+             * allow user to click on items
+             * @param v
+             */
             public void onClick(View v) {
-                uploadImage();
+                Photographs.uploadImage("U", uid, filePath, storageReference, applicationContext);
+
                 updatedContactEmail = contactEmailEdit.getText().toString();
                 undatedContactPhone = contactPhoneEdit.getText().toString();
                 if (Patterns.PHONE.matcher(undatedContactPhone).matches() && Patterns.EMAIL_ADDRESS.matcher(updatedContactEmail).matches() ) {
@@ -150,6 +188,10 @@ public class AccountFragment extends Fragment {
                             "contactPhone", undatedContactPhone)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
+                                /**
+                                 * method called when the task is completed successfully
+                                 * @param aVoid
+                                 */
                                 public void onSuccess(Void aVoid) {
                                     Log.d(TAG, "DocumentSnapshot successfully updated!");
                                     Toast.makeText(getActivity(), "New contact info is saved", Toast.LENGTH_SHORT).show();
@@ -158,6 +200,10 @@ public class AccountFragment extends Fragment {
                             })
                             .addOnFailureListener(new OnFailureListener() {
                                 @Override
+                                /**
+                                 * method called when the task is failed
+                                 * @param e
+                                 */
                                 public void onFailure(@NonNull Exception e) {
                                     Log.w(TAG, "Error updating document", e);
                                     contactEmailEdit.setText(contactEmail);    //use original contact email and contactPhone
@@ -177,7 +223,6 @@ public class AccountFragment extends Fragment {
                 contactEmailEdit.setClickable(false);
                 contactPhoneEdit.setEnabled(false);
                 contactPhoneEdit.setClickable(false);
-                editInfoButton.setClickable(false);
                 editImageButton.setClickable(false);
                 confirmEditButton.setVisibility(View.INVISIBLE);
                 editInfoButton.setVisibility(View.VISIBLE);
@@ -226,6 +271,7 @@ public class AccountFragment extends Fragment {
         });
 
 
+
         return view;
     }
 
@@ -237,8 +283,13 @@ public class AccountFragment extends Fragment {
         startActivityForResult(photoPickIntent, RESULT_LOAD_IMG);
     }
 
-
+    //handle stuff related to image
     @Override
+    /**
+     * takes photo and saves it, and returns back to activity
+     * @param requestCode retrieves code
+     * @param data current data
+     */
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
@@ -259,51 +310,6 @@ public class AccountFragment extends Fragment {
         }else{
             Toast.makeText(applicationContext, "You haven't picked Image", Toast.LENGTH_SHORT).show();
         }
-    }
-    // UploadImage method
-    private void uploadImage()
-    {
-
-        if (filePath != null) {
-
-            // Defining the child of storageReference
-            StorageReference ref = storageReference.child("profileImages/" + uid);
-
-
-            // adding listeners on upload
-            // or failure of image
-            ref.putFile(filePath)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                @Override
-                                public void onSuccess(
-                                        UploadTask.TaskSnapshot taskSnapshot)
-                                {
-                                    // Image uploaded successfully
-                                    Toast.makeText(applicationContext, "Image Uploaded!!", Toast.LENGTH_SHORT).show();
-                                }
-                            })
-
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e)
-                        {
-                            // Error, Image not uploaded
-                            Toast.makeText(applicationContext, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-
-                        // Progress Listener for loading
-                        // percentage on the dialog box
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            Toast.makeText(applicationContext, "In Progress ", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }
-
-
-
     }
 
 

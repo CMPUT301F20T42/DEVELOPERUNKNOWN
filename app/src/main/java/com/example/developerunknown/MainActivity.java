@@ -22,14 +22,16 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 ;
-
+/**
+ * Controls main fragments such as Home, BookListFragment and Login-activity
+ */
 public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "com.example.developerunknown.MESSAGE";
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference userCollectionReference = db.collection("user");
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     public FirebaseUser user;
-
+    public BottomNavigationView bottomNavigationView;
     User currentUser;
 
     @Override
@@ -42,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
                 user = FirebaseAuth.getInstance().getCurrentUser();
 
-                String uID = user.getUid();
+                final String uID = user.getUid();
                 final DocumentReference userDocRef = userCollectionReference.document(uID);
                 userDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d("TAG", "name: " + firstName);
 
                                 currentUser = new User(firstName + " " + lastName, username, email);
+                                currentUser.setUid(document.getId());
 
                             } else {
                                 Log.d("check email", "user does not exist");
@@ -93,11 +96,16 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent,123);
 
         setContentView(R.layout.activity_main);
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
     }
-
+    /**
+     * Allows bottom screen navigation to function - Switch's fragments
+     * @param item
+     * @return
+     *  Returns true
+     */
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
@@ -129,6 +137,11 @@ public class MainActivity extends AppCompatActivity {
                 };
 
     public static Context contextOfApplication;
+    /**
+     * creates context on the current activity, allowing activties to start and intent calls
+     * @return
+     *  Returns contextOfApplication
+     */
     public static Context getContextOfApplication()
     {
         return contextOfApplication;
