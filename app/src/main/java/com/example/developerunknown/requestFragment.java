@@ -29,6 +29,7 @@ public class requestFragment extends DialogFragment {
     private TextView Author;
     private Book nowBook;
     private Request nowRequest;
+    private User currentUser;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -84,6 +85,7 @@ public class requestFragment extends DialogFragment {
         Title = view.findViewById(R.id.rf_title);
 
         String dialogTitle = "You got an request from" + nowRequest.getBorrowerUname();
+        currentUser = (User) this.getArguments().getSerializable("current user");
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
@@ -98,6 +100,7 @@ public class requestFragment extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Intent intent = new Intent(getActivity(),requestActicity.class);
+                        intent.putExtra("CurrentUser", currentUser);
                         intent.putExtra("Request", nowRequest);
                         intent.putExtra("Book", nowBook);
                         startActivity(intent);
