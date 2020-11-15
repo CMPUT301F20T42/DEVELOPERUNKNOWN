@@ -1,9 +1,6 @@
 package com.example.developerunknown;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -69,7 +66,7 @@ public class ViewBookFragment extends Fragment {
         editBookButton = view.findViewById(R.id.edit_button);
         deleteBookButton = view.findViewById(R.id.delete_button);
         requestButton = view.findViewById(R.id.requests_button);
-        backButton = view.findViewById(R.id.back_button);
+        backButton = view.findViewById(R.id.back);
 
         // Display clicked book
         bookTitle = view.findViewById(R.id.viewTitle);

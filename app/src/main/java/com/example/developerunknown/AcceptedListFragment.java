@@ -65,9 +65,27 @@ public class AcceptedListFragment extends Fragment{
     @Nullable
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        // Get add book button
 
+        bookList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView parent, View view, int position, long id) {
+                Log.d("BookList Message", "Successfully clicked book");
 
+                Book clickedBook = bookDataList.get(position);
+
+                Bundle args = new Bundle();
+                args.putSerializable("current user", currentUser);
+                args.putSerializable("clicked book", clickedBook);
+
+                Fragment fragment = new BorrowerViewAcceptedFragment();
+                fragment.setArguments(args);
+
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, fragment, "View Book Accepted by owner");
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
 
         //################################### this part retrieves book from online data base and automatically update ################################
 
@@ -79,10 +97,8 @@ public class AcceptedListFragment extends Fragment{
                 bookDataList.clear();
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
                 {
-
                     String OwnerId = doc.getString("ownerId");
                     String OwnerUname = doc.getString("ownerUname");
-
                     String title = (String) doc.getData().get("title");
                     String author = (String) doc.getData().get("author");
                     String description = (String) doc.getData().get("description");
