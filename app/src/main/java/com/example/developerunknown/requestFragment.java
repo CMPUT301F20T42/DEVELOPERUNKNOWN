@@ -89,12 +89,17 @@ public class requestFragment extends DialogFragment {
         return builder
                 .setView(view)
                 .setTitle(dialogTitle)
-                .setNegativeButton("Decline", null)
+                .setNegativeButton("Decline", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //Todo: Delete request from firebase
+                    }})
                 .setPositiveButton("OK I accept", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Intent intent = new Intent(getActivity(),requestActicity.class);
                         intent.putExtra("Request", nowRequest);
+                        intent.putExtra("Book", nowBook);
                         startActivity(intent);
                     }}).create();
     }
