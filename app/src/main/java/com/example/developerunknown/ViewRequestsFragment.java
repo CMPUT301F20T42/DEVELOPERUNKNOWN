@@ -1,5 +1,6 @@
 package com.example.developerunknown;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -44,6 +46,7 @@ public class ViewRequestsFragment extends Fragment {
     Context context;
     User currentUser;
     Book clickedBook;
+    private FragmentActivity myContext;
 
     public Button backButton;
 
@@ -52,6 +55,12 @@ public class ViewRequestsFragment extends Fragment {
     public String uid = user.getUid();
     public String bookid;
     public CollectionReference bookRequestCollectionReference;
+
+    @Override
+    public void onAttach(Activity activity) {
+        myContext=(FragmentActivity) activity;
+        super.onAttach(activity);
+    }
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
@@ -97,10 +106,13 @@ public class ViewRequestsFragment extends Fragment {
         // Click oh item listener
         requestList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> list, View v, int pos, long id) {
-                Intent intent = new Intent(getActivity(),requestActicity.class);
+                /*Intent intent = new Intent(getActivity(),requestActicity.class);
                 Request thisRequest = requestAdapter.getItem(pos);
                 intent.putExtra("Request", thisRequest);
-                startActivity(intent);
+                startActivity(intent);*/
+                Request thisRequest = requestAdapter.getItem(pos);
+                new requestFragment(clickedBook,thisRequest).show(getActivity().getSupportFragmentManager(), "Requst From");
+
             }
         });
 

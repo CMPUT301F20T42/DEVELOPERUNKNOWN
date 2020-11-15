@@ -6,37 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".requestActicity">
 
-    <TextView
-        android:id="@+id/textView3"
+    <EditText
+        android:id="@+id/ac_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="170dp"
-        android:layout_marginTop="354dp"
-        android:layout_marginEnd="183dp"
-        android:layout_marginBottom="359dp"
-        android:text="On progress"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="97dp"
+        android:layout_marginEnd="101dp"
+        android:layout_marginBottom="200dp"
+        android:ems="10"
+        android:hint="Your Address here"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button"
+        android:layout_width="404dp"
+        android:layout_height="43dp"
+        android:text="Finish!"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.601" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="84dp"
-        android:text="Button"
-        app:layout_constraintBaseline_toBaselineOf="@+id/button"
-        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
