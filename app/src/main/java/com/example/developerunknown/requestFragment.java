@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,8 +25,8 @@ import android.widget.EditText;
  * create an instance of this fragment.
  */
 public class requestFragment extends DialogFragment {
-    private EditText Title;
-    private EditText Author;
+    private TextView Title;
+    private TextView Author;
     private Book nowBook;
     private Request nowRequest;
 
