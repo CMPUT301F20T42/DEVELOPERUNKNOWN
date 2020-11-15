@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
                         case R.id.nav_booklist:
                             Bundle args = new Bundle();
                             args.putSerializable("current user", currentUser);
-                            selectedFragment = new BookListFragment();
+                            selectedFragment = new BookHomeFragment();
                             selectedFragment.setArguments(args);
                             break;
                         case R.id.nav_account:
