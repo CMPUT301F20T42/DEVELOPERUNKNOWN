@@ -1,5 +1,6 @@
 package com.example.developerunknown;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +14,9 @@ import android.widget.ListView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -35,6 +38,7 @@ public class ViewRequestsFragment extends Fragment {
     Context context;
     User currentUser;
     Book clickedBook;
+    private FragmentActivity myContext;
 
     public Button backButton;
 
@@ -43,6 +47,12 @@ public class ViewRequestsFragment extends Fragment {
     public String uid = user.getUid();
     public String bookid;
     public CollectionReference bookRequestCollectionReference;
+
+    @Override
+    public void onAttach(Activity activity) {
+        myContext=(FragmentActivity) activity;
+        super.onAttach(activity);
+    }
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
@@ -61,8 +71,9 @@ public class ViewRequestsFragment extends Fragment {
         requestList = view.findViewById(R.id.request_list);
 
         // Grab requests
-        CollectionReference bookRef = db.collection("user").document(currentUser.getUid()).collection("book").document(clickedBook.getID()).collection("Request");
-        bookRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
+
+        //CollectionReference bookRef = db.collection("user").document(uid).collection("Book").document(bookid).collection("Request");
+        bookRequestCollectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable
                     FirebaseFirestoreException error) {
@@ -77,6 +88,7 @@ public class ViewRequestsFragment extends Fragment {
                     String Rid = doc.getId();
                     requestDataList.add(new Request(borrower, borrowerUname, bookid,Rid));
                 }
+                requestAdapter.notifyDataSetChanged();
             }
         });
 
@@ -85,15 +97,8 @@ public class ViewRequestsFragment extends Fragment {
         requestAdapter = new RequestList(context, requestDataList);
         requestList.setAdapter(requestAdapter);
 
+
         // Click oh item listener
-        requestList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> list, View v, int pos, long id) {
-                Intent intent = new Intent(getActivity(),requestActicity.class);
-                Request thisRequest = requestAdapter.getItem(pos);
-                intent.putExtra("Request", thisRequest);
-                startActivity(intent);
-            }
-        });
 
         // Get Back Button
         backButton = view.findViewById(R.id.back);
@@ -105,6 +110,23 @@ public class ViewRequestsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
+        // Click oh item listener
+
+        requestList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> list, View v, int pos, long id) {
+                /*Intent intent = new Intent(getActivity(),requestActicity.class);
+                Request thisRequest = requestAdapter.getItem(pos);
+                intent.putExtra("Request", thisRequest);
+                startActivity(intent);*/
+
+
+                Request thisRequest = requestDataList.get(pos);
+
+                new requestFragment(clickedBook,thisRequest).show(getActivity().getSupportFragmentManager(), "Requst From");
+
+            }
+        });
+
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,6 +134,8 @@ public class ViewRequestsFragment extends Fragment {
                 fragmentManager.popBackStack();
             }
         });
+/*
+
 
         bookRequestCollectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -129,6 +153,7 @@ public class ViewRequestsFragment extends Fragment {
                 requestAdapter.notifyDataSetChanged(); // Notifying the adapter to render any new data fetcheh
             }
         });
+*/
 
     }
 
