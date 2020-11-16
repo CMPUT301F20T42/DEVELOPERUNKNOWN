@@ -49,6 +49,10 @@ public class requestActicity extends AppCompatActivity {
     public void finishIt(View view){
         String goAddress = Address.getText().toString();
 
+        System.out.println(Book.getOwnerId());
+        System.out.println(Book.getID());
+
+
         DocumentReference currentBookRef = db.collection("user").document(Book.getOwnerId()).collection("Book").document(Book.getID());
 
         //update the borrower info in this clicked book
