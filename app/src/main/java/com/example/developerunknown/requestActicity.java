@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -44,16 +45,11 @@ public class requestActicity extends AppCompatActivity {
         Address = findViewById(R.id.ac_address);
 
 
-
-
     }
     public void finishIt(View view){
         String goAddress = Address.getText().toString();
 
-
-        DocumentReference currentBookRef = db.collection("user").
-            document(Book.getOwnerId()).collection("Book").
-            document(Book.getID());
+        DocumentReference currentBookRef = db.collection("user").document(Book.getOwnerId()).collection("Book").document(Book.getID());
 
         //update the borrower info in this clicked book
 
@@ -76,7 +72,8 @@ public class requestActicity extends AppCompatActivity {
         acceptedBookData.put("ISBN",Book.getISBN());
         acceptedBookData.put("borrower",request.getBorrowerUname());
         acceptedBookData.put("borrowerId", request.getBorrowerID());
-        //borrowerBookRef.set(requestedBookData);
+        acceptedBookData.put("add", goAddress);
+        borrowerAcceptedBookRef.set(acceptedBookData);
 
 
 
@@ -90,6 +87,7 @@ public class requestActicity extends AppCompatActivity {
         acceptNotiData.put("type", "Accepted");
         acceptNotiData.put("book", Book.getTitle());
         acceptNotiData.put("id", notificationId);
+        acceptNotiData.put("add", goAddress);
 
 
         //retrieve all request,accept one request and reject the rest
@@ -138,5 +136,7 @@ public class requestActicity extends AppCompatActivity {
                 }
             }
         });
+        Toast.makeText(requestActicity.this, "All done!", Toast.LENGTH_SHORT).show();
+        finish();
     }
 }

@@ -122,7 +122,7 @@ public class ViewRequestsFragment extends Fragment {
 
                 Request thisRequest = requestDataList.get(pos);
 
-                new requestFragment(clickedBook,thisRequest).show(getActivity().getSupportFragmentManager(), "Requst From");
+                new requestFragment(clickedBook,thisRequest,currentUser).show(getActivity().getSupportFragmentManager(), "Requst From");
 
             }
         });

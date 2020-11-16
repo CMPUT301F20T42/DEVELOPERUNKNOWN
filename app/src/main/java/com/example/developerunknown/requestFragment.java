@@ -45,9 +45,10 @@ public class requestFragment extends DialogFragment {
         // Required empty public constructor
     }
 
-    public requestFragment(Book nowBook, Request nowRequest) {
+    public requestFragment(Book nowBook, Request nowRequest, User currentUser) {
         this.nowBook = nowBook;
         this.nowRequest = nowRequest;
+        this.currentUser = currentUser;
     }
 
 
@@ -85,7 +86,7 @@ public class requestFragment extends DialogFragment {
         Title = view.findViewById(R.id.rf_title);
 
         String dialogTitle = "You got an request from" + nowRequest.getBorrowerUname();
-        currentUser = (User) this.getArguments().getSerializable("current user");
+        //currentUser = (User) this.getArguments().getSerializable("current user");
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
