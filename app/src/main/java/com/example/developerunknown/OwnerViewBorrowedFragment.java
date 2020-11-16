@@ -32,13 +32,17 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-public class BorrowerViewBorrowedFragment extends Fragment{
+import java.util.HashMap;
+import java.util.Map;
+
+
+public class OwnerViewBorrowedFragment extends Fragment {
 
     Context context;
     User currentUser;
     Book clickedBook;
 
-    public Button denoteReturnButton;
+    public Button confirmReturnButton;
     public Button backButton;
     public ImageView imageView;
 
@@ -46,7 +50,7 @@ public class BorrowerViewBorrowedFragment extends Fragment{
     private TextView bookAuthor;
     private TextView bookDescription;
     private TextView bookISBN;
-    private TextView bookOwner;
+    private TextView bookBorrower;
     private FirebaseStorage storage;
     private StorageReference storageReference;
 
@@ -54,52 +58,47 @@ public class BorrowerViewBorrowedFragment extends Fragment{
     public FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     public String uid = user.getUid();
     final Context applicationContext = MainActivity.getContextOfApplication();
-
     public DocumentReference currentBookDocRef;
-    public DocumentReference ownerSideCurrentBookRef;
+    public DocumentReference borrowerSideBorrowedBookRef;//the data in borrower side
 
     private String returnDenoted = null;
-
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         currentUser = (User) this.getArguments().getSerializable("current user");
         clickedBook = (Book) this.getArguments().getSerializable("clicked book");
 
-        View view = inflater.inflate(R.layout.fragment_borrower_view_borrowed, container,false);
+        View view = inflater.inflate(R.layout.fragment_owner_view_borrowed, container,false);
         context = container.getContext();
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
-
-
-        currentBookDocRef = db.collection("user").document(uid).collection("BorrowedBook").document(clickedBook.getID());
-        ownerSideCurrentBookRef = db.collection("user").document(clickedBook.getOwnerId()).collection("Book").document(clickedBook.getID());
+        currentBookDocRef = db.collection("user").document(uid).collection("Book").document(clickedBook.getID());
+        borrowerSideBorrowedBookRef = db.collection("user").document(clickedBook.getBorrowerID()).collection("BorrowedBook").document(clickedBook.getID());
 
         // Assign buttons
         backButton = view.findViewById(R.id.back);
-        denoteReturnButton = view.findViewById(R.id.borrower_denote_return);
+        confirmReturnButton = view.findViewById(R.id.owner_confirm_return);
 
         // Display clicked book
-        bookTitle = view.findViewById(R.id.viewTitleBorrowerBorrowed);
-        bookAuthor = view.findViewById(R.id.viewAuthorBorrowerBorrowed);
-        bookDescription = view.findViewById(R.id.viewDescriptionBorrowerBorrowed);
-        bookISBN = view.findViewById(R.id.viewISBNBorrowerBorrowed);
-        bookOwner = view.findViewById(R.id.borrowedOwner);
-
+        bookTitle = view.findViewById(R.id.viewTitleOwnerBorrowed);
+        bookAuthor = view.findViewById(R.id.viewAuthorOwnerBorrowed);
+        bookDescription = view.findViewById(R.id.viewDescriptionOwnerBorrowed);
+        bookISBN = view.findViewById(R.id.viewISBNOwnerBorrowed);
+        bookBorrower = view.findViewById(R.id.borrowedBorrower);
 
 
         bookTitle.setText(clickedBook.getTitle());
         bookAuthor.setText(clickedBook.getAuthor());
         bookDescription.setText(clickedBook.getDescription());
         bookISBN.setText(clickedBook.getISBN());
-        bookOwner.setText("Owner:"+clickedBook.getOwnerUname());
+        //need to get borrower here
+        bookBorrower.setText("Borrower:"+clickedBook.getOwnerUname());
         imageView = view.findViewById(R.id.imageView);
 
         Photographs.viewImage("B", clickedBook.getID(), storageReference, applicationContext, imageView);
 
-
-        denoteReturnButton.setOnClickListener(new View.OnClickListener() {
+        confirmReturnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 currentBookDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -112,23 +111,22 @@ public class BorrowerViewBorrowedFragment extends Fragment{
                     }
                 });
                 if (returnDenoted.equals("true")) {
-                    Toast.makeText(getActivity(), "You already denoted borrow before", Toast.LENGTH_SHORT).show();
-                }
-                //the book is either first time to be denoted or denoted=="false" currently
-                else {
-
                     if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
-                        Toast.makeText(getActivity(), "You must grant the permission of camera to confirm return", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "You must grant the permission of camera to confirm borrow", Toast.LENGTH_SHORT).show();
                         ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, 445);
                     } else {
                         Intent intent = new Intent(getActivity(), Scanner.class);
                         startActivityForResult(intent, 325);
                     }
                 }
+                //the book is either first time to be denoted or denoted=="false" currently
+                else {
+                    Toast.makeText(getActivity(), "The borrower have not denoted return yet", Toast.LENGTH_SHORT).show();
+
+                }
 
             }
         });
-
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,7 +139,6 @@ public class BorrowerViewBorrowedFragment extends Fragment{
         return view;
     }
 
-
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
@@ -149,11 +146,15 @@ public class BorrowerViewBorrowedFragment extends Fragment{
             if (resultCode == Activity.RESULT_OK) {
                 String result = data.getStringExtra("RESULT_ISBN");
                 if (result.equals(clickedBook.getISBN())){
-                    currentBookDocRef.update("returnDenoted","true");
-                    ownerSideCurrentBookRef.update("returnDenoted","true");
-                    //owner denote borrow
-                    Toast.makeText(getActivity(), "Your denote of return is made successfully", Toast.LENGTH_SHORT).show();
+                    //owner confirm receive returned book
+                    Toast.makeText(getActivity(), "You successfully received this book", Toast.LENGTH_SHORT).show();
+                    currentBookDocRef.update("returnDenoted","false");
+                    currentBookDocRef.update("status","Available");
+                    borrowerSideBorrowedBookRef.update("returnDenoted","false");
 
+                    //for borrower,remove book from BorrowedBook
+                    borrowerSideBorrowedBookRef.delete();
+                    
                 }
                 else {
                     Toast.makeText(getActivity(), "The ISBN you scaned does not match the ISBN of the book", Toast.LENGTH_SHORT).show();
