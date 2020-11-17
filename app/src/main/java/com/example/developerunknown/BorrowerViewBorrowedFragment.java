@@ -111,7 +111,7 @@ public class BorrowerViewBorrowedFragment extends Fragment{
                         }
                     }
                 });
-                if (returnDenoted.equals("true")) {
+                if (returnDenoted!=null && returnDenoted.equals("true")) {
                     Toast.makeText(getActivity(), "You already denoted borrow before", Toast.LENGTH_SHORT).show();
                 }
                 //the book is either first time to be denoted or denoted=="false" currently

@@ -110,7 +110,7 @@ public class OwnerViewBorrowedFragment extends Fragment {
                         }
                     }
                 });
-                if (returnDenoted.equals("true")) {
+                if (returnDenoted!=null &&returnDenoted.equals("true")) {
                     if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
                         Toast.makeText(getActivity(), "You must grant the permission of camera to confirm borrow", Toast.LENGTH_SHORT).show();
                         ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, 445);

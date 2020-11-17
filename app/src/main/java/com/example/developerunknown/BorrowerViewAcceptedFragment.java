@@ -112,7 +112,7 @@ public class BorrowerViewAcceptedFragment extends Fragment{
                         }
                     }
                 });
-                if (borrowDenoted.equals("true")) {
+                if (borrowDenoted !=null && borrowDenoted.equals("true")) {
                     if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
                         Toast.makeText(getActivity(), "You must grant the permission of camera to confirm borrow", Toast.LENGTH_SHORT).show();
                         ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, 445);
@@ -164,8 +164,8 @@ public class BorrowerViewAcceptedFragment extends Fragment{
                     borrowedBookData.put("title",clickedBook.getTitle());
                     borrowedBookData.put("description", clickedBook.getDescription());
                     borrowedBookData.put("ISBN",clickedBook.getISBN());
-                    borrowedBookData.put("borrower",clickedBook.getBorrowerUname());
-                    borrowedBookData.put("borrowerId", clickedBook.getBorrowerID());
+                    borrowedBookData.put("borrower",currentUser.getUsername());
+                    borrowedBookData.put("borrowerId", currentUser.getUid());
                     //use a status to denote is borrower denote return
                     borrowedBookData.put("returnDenoted","false");
                     //also need to handle address
