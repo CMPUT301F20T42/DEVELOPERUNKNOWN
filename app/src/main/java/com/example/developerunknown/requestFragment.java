@@ -19,6 +19,18 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link requestFragment#newInstance} factory method to
@@ -30,6 +42,7 @@ public class requestFragment extends DialogFragment {
     private Book nowBook;
     private Request nowRequest;
     private User currentUser;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -85,7 +98,7 @@ public class requestFragment extends DialogFragment {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_request, null);
         Title = view.findViewById(R.id.rf_title);
 
-        String dialogTitle = "You got an request from" + nowRequest.getBorrowerUname();
+        String dialogTitle = "Request from " + nowRequest.getBorrowerUname();
         //currentUser = (User) this.getArguments().getSerializable("current user");
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -96,6 +109,47 @@ public class requestFragment extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         //Todo: Delete request from firebase
+                        DocumentReference currentBookRef = db.collection("user").document(nowBook.getOwnerId()).collection("Book").document(nowBook.getID());
+                        CollectionReference requestCollectionRef = currentBookRef.collection("Request");
+
+                        requestCollectionRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        String requesterID = document.getString("Borrower");
+                                        //String documentId = document.getId();
+
+                                        if (requesterID.equals(nowRequest.getBorrowerID())) {        //if not the user we accept,deny and send notification
+                                            //send deny notification
+                                            DocumentReference userNotificationRef = db.collection("user").document(requesterID).collection("Notification").document();
+                                            String notificationId = userNotificationRef.getId();
+                                            Map notiData = new HashMap<>();
+                                            notiData.put("sender", currentUser.getUid());
+                                            notiData.put("type", "Denied");
+                                            notiData.put("book", nowBook.getTitle());
+                                            notiData.put("id", notificationId);
+                                            document.getReference().delete();
+                                            DocumentReference borrowerRequestedBookRef = db.collection("user").document(requesterID).collection("RequestedBook")
+                                                    .document(nowBook.getID());
+                                            borrowerRequestedBookRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        DocumentSnapshot document = task.getResult();
+                                                        if (document.exists()) {
+                                                            document.getReference().delete();
+                                                        } else {
+
+                                                        }
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    }
+                                }
+                            }
+                        });
                     }})
                 .setPositiveButton("OK I accept", new DialogInterface.OnClickListener() {
                     @Override
