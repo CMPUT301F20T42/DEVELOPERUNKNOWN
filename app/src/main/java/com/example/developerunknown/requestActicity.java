@@ -53,6 +53,7 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
     User currentUser;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private GoogleMap mMap;
+    String goAddress;
 
     Button btn;
     private final static int PLACE_PICKER_REQUEST = 999;
@@ -84,7 +85,7 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
     }
 
     public void finishIt(View view) {
-        String goAddress = Address.getText().toString();
+        //String goAddress = Address.getText().toString();
 
         System.out.println(Book.getOwnerId());
         System.out.println(Book.getID());
@@ -205,6 +206,7 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
                             markerOptions.position(latLng);
 
                             markerOptions.title(getAddress(latLng));
+
                             mMap.clear();
                             CameraUpdate location = CameraUpdateFactory.newLatLngZoom(
                                     latLng, 15);
@@ -260,6 +262,7 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
             args.putString("address", address);
             dialogFragment.setArguments(args);
             dialogFragment.show(ft, "dialog");
+            goAddress = address;
             return address;
         } catch (IOException e) {
             e.printStackTrace();
