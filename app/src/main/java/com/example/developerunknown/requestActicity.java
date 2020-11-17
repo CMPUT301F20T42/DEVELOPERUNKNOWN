@@ -76,7 +76,7 @@ public class requestActicity extends AppCompatActivity {
         acceptedBookData.put("ISBN",Book.getISBN());
         acceptedBookData.put("borrower",request.getBorrowerUname());
         acceptedBookData.put("borrowerId", request.getBorrowerID());
-        //borrowerBookRef.set(requestedBookData);
+        borrowerAcceptedBookRef.set(acceptedBookData);
 
 
 

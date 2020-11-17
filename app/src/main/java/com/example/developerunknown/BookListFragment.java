@@ -245,8 +245,14 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
                     String description = (String) doc.getData().get("description");
                     String ISBN = (String) doc.getData().get("ISBN");
                     String status = (String) doc.getData().get("status");
-
-                    bookDataList.add(new Book(doc.getId(), title, author, status, ISBN, description)); // Adding the books from FireStore
+                    Book thisBook = new Book(doc.getId(), title, author, status, ISBN, description);
+                    if (status.equals("Accepted") || status.equals("Borrowed")){
+                        String borrowerID = (String) doc.getData().get("borrowerID");
+                        String borrowerUname = (String) doc.getData().get("borrowerUname");
+                        thisBook.setBorrowerID(borrowerID);
+                        thisBook.setBorrowerUname(borrowerUname);
+                    }
+                    bookDataList.add(thisBook); // Adding the books from FireStore
                 }
                 bookAdapter.notifyDataSetChanged(); // Notifying the adapter to render any new data fetcheh
             }
