@@ -113,7 +113,7 @@ public class OwnerViewAcceptedFragment extends Fragment{
                         }
                     }
                 });
-                if (borrowDenoted.equals("true")) {
+                if (borrowDenoted != null && borrowDenoted.equals("true")) {
                     Toast.makeText(getActivity(), "You already denoted borrow before", Toast.LENGTH_SHORT).show();
                 }
                 //the book is either first time to be denoted or denoted=="false" currently
@@ -150,6 +150,7 @@ public class OwnerViewAcceptedFragment extends Fragment{
                 if (result.equals(clickedBook.getISBN())){
                     //owner denote borrow
                     currentBookDocRef.update("borrowDenoted","true");
+
                     borrowerSideAcceptedBookRef.update("borrowDenoted","true");
                     Toast.makeText(getActivity(), "You denote of borrow is made successfully", Toast.LENGTH_SHORT).show();
 

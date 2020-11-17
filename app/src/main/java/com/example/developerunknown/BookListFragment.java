@@ -52,6 +52,7 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
     ArrayAdapter<String> selectAdapter;
     ArrayList<String> selectList;
 
+    Fragment fragment;//this is a fragment show up after owner clicked a specific book
 
 
     //########################## this part is needed for the below blocking part.
@@ -146,7 +147,15 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
                 args.putSerializable("current user", currentUser);
                 args.putSerializable("clicked book", clickedBook);
 
-                Fragment fragment = new ViewBookFragment();
+                if (clickedBook.getStatus().equals("Accepted")){
+                    fragment = new OwnerViewAcceptedFragment();
+                }
+                else if (clickedBook.getStatus().equals("Borrowed")){
+                    fragment = new OwnerViewBorrowedFragment();
+                }
+                else {
+                    fragment = new ViewBookFragment();
+                }
                 fragment.setArguments(args);
 
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
