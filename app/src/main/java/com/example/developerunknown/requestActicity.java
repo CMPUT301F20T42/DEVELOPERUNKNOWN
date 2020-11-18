@@ -54,6 +54,8 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private GoogleMap mMap;
     String goAddress;
+    double latl;
+    double lngl;
 
     Button btn;
     private final static int PLACE_PICKER_REQUEST = 999;
@@ -141,6 +143,8 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
         acceptedBookData.put("borrower", request.getBorrowerUname());
         acceptedBookData.put("borrowerId", request.getBorrowerID());
         acceptedBookData.put("add", goAddress);
+        acceptedBookData.put("lat", latl);
+        acceptedBookData.put("lng", lngl);
         borrowerAcceptedBookRef.set(acceptedBookData);
 
 
@@ -302,7 +306,9 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
 
             Bundle args = new Bundle();
             args.putDouble("lat", latLng.latitude);
+            latl = latLng.latitude;
             args.putDouble("long", latLng.longitude);
+            lngl = latLng.longitude;
             args.putString("address", address);
             dialogFragment.setArguments(args);
             dialogFragment.show(ft, "dialog");
