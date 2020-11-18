@@ -108,7 +108,7 @@ public class BorrowerViewBorrowedFragment extends Fragment implements
 
         View view = inflater.inflate(R.layout.fragment_borrower_view_borrowed, container,false);
         context = container.getContext();
-        mapFragment = (MapFragment) getActivity().getFragmentManager().findFragmentById(R.id.mapp2);
+        mapFragment = (MapFragment) getActivity().getFragmentManager().findFragmentById(R.id.mapp3);
         mapFragment.getMapAsync(this);
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
