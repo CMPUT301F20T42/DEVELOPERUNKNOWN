@@ -122,12 +122,7 @@ public class ViewRequestsFragment extends Fragment {
 
                 Request thisRequest = requestDataList.get(pos);
 
-                Bundle args = new Bundle();
-                args.putSerializable("current user", currentUser);
-
-                DialogFragment fragment = new requestFragment(clickedBook,thisRequest);
-                fragment.setArguments(args);
-                fragment.show(getActivity().getSupportFragmentManager(), "Requst From");
+                new requestFragment(clickedBook,thisRequest,currentUser).show(getActivity().getSupportFragmentManager(), "Requst From");
 
             }
         });
