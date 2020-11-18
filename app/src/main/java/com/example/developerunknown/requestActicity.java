@@ -52,7 +52,7 @@ public class requestActicity extends AppCompatActivity {
 
 
         DocumentReference currentBookRef = db.collection("user").
-            document(Book.getOwnerId()).collection("Book").
+            document(currentUser.getUid()).collection("Book").
             document(Book.getID());
 
         //update the borrower info in this clicked book

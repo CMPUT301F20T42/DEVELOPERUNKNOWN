@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -119,10 +120,14 @@ public class ViewRequestsFragment extends Fragment {
                 intent.putExtra("Request", thisRequest);
                 startActivity(intent);*/
 
-
                 Request thisRequest = requestDataList.get(pos);
 
-                new requestFragment(clickedBook,thisRequest).show(getActivity().getSupportFragmentManager(), "Requst From");
+                Bundle args = new Bundle();
+                args.putSerializable("current user", currentUser);
+
+                DialogFragment fragment = new requestFragment(clickedBook,thisRequest);
+                fragment.setArguments(args);
+                fragment.show(getActivity().getSupportFragmentManager(), "Requst From");
 
             }
         });

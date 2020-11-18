@@ -128,8 +128,41 @@ public class BorrowerViewBorrowedFragment extends Fragment{
 
             }
         });
+/*
+        denoteReturnButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentBookDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                returnDenoted = document.getString("returnDenoted");
+                                if (returnDenoted!=null && returnDenoted.equals("true")) {
+                                    Toast.makeText(getActivity(), "You already denoted borrow before", Toast.LENGTH_SHORT).show();
+                                }
+                                //the book is either first time to be denoted or denoted=="false" currently
+                                else {
 
+                                    if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
+                                        Toast.makeText(getActivity(), "You must grant the permission of camera to confirm return", Toast.LENGTH_SHORT).show();
+                                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, 445);
+                                    } else {
+                                        Intent intent = new Intent(getActivity(), Scanner.class);
+                                        startActivityForResult(intent, 325);
+                                    }
+                                }
 
+                            } else {
+                                Toast.makeText(getActivity(), "some error occurs", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                });
+            }
+        });
+*/
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
