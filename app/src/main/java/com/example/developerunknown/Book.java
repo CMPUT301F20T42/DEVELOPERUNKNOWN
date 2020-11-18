@@ -19,7 +19,8 @@ public class Book implements Serializable {
     private String ownerId;
     private String ownerUname;
     //private Float rating;
-    //private User currentBorrower;
+    private String borrowerID;
+    private String borrowerUname;
 
 
     /**
@@ -195,6 +196,23 @@ public class Book implements Serializable {
         this.id = id;
         this.ownerId = ownerId;
         this.ownerUname = ownerUname;
+    }
+
+
+    public String getBorrowerID() {
+        return borrowerID;
+    }
+
+    public void setBorrowerID(String borrowerID) {
+        this.borrowerID = borrowerID;
+    }
+
+    public String getBorrowerUname() {
+        return borrowerUname;
+    }
+
+    public void setBorrowerUname(String borrowerUname) {
+        this.borrowerUname = borrowerUname;
     }
 
     /**

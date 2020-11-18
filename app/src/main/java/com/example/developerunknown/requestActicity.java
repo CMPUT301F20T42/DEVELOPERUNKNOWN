@@ -118,6 +118,7 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
 
         DocumentReference currentBookRef = db.collection("user").document(Book.getOwnerId()).collection("Book").document(Book.getID());
 
+
         //update the borrower info in this clicked book
 
         currentBookRef.update("borrowerID", request.getBorrowerID());

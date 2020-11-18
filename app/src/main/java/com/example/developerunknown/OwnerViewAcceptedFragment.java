@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +21,11 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,17 +36,16 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.util.HashMap;
-import java.util.Map;
-
-
-public class BorrowerViewAcceptedFragment extends Fragment{
+/**
+ * allows owner to view book information and perform denote borrow action if the status of book is accepted
+ */
+public class OwnerViewAcceptedFragment extends Fragment{
 
     Context context;
     User currentUser;
     Book clickedBook;
 
-    public Button confirmBorrowButton;
+    public Button denoteBorrowButton;
     public Button backButton;
     public ImageView imageView;
 
@@ -50,57 +53,55 @@ public class BorrowerViewAcceptedFragment extends Fragment{
     private TextView bookAuthor;
     private TextView bookDescription;
     private TextView bookISBN;
-    private TextView bookOwner;
+    private TextView bookBorrower;
     private FirebaseStorage storage;
     private StorageReference storageReference;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     public FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     public String uid = user.getUid();
-
     public DocumentReference currentBookDocRef;
-    public DocumentReference ownerSideCurrentBookRef;
+    public DocumentReference borrowerSideAcceptedBookRef;//the data in borrower side
     final Context applicationContext = MainActivity.getContextOfApplication();
 
-    private String borrowDenoted;
+    private String borrowDenoted = null;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         currentUser = (User) this.getArguments().getSerializable("current user");
         clickedBook = (Book) this.getArguments().getSerializable("clicked book");
-
-        currentBookDocRef = db.collection("user").document(uid).collection("AcceptedBook").document(clickedBook.getID());
-        ownerSideCurrentBookRef = db.collection("user").document(clickedBook.getOwnerId()).collection("Book").document(clickedBook.getID());
-
-        View view = inflater.inflate(R.layout.fragment_borrower_view_accepted, container,false);
+        View view = inflater.inflate(R.layout.fragment_owner_view_accepted, container,false);
         context = container.getContext();
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
+
+        currentBookDocRef = db.collection("user").document(uid).collection("Book").document(clickedBook.getID());
+        borrowerSideAcceptedBookRef = db.collection("user").document(clickedBook.getBorrowerID()).collection("AcceptedBook").document(clickedBook.getID());
         // Assign buttons
         backButton = view.findViewById(R.id.back);
-        confirmBorrowButton = view.findViewById(R.id.borrower_confirm_borrow);
+        denoteBorrowButton = view.findViewById(R.id.Owner_denote_borrow);
 
         // Display clicked book
-        bookTitle = view.findViewById(R.id.viewTitleBorrowerAccepted);
-        bookAuthor = view.findViewById(R.id.viewAuthorBorrowerAccepted);
-        bookDescription = view.findViewById(R.id.viewDescriptionBorrowerAccepted);
-        bookISBN = view.findViewById(R.id.viewISBNBorrowerAccepted);
-        bookOwner = view.findViewById(R.id.acceptedOwner);
+        bookTitle = view.findViewById(R.id.viewTitleOwnerAccepted);
+        bookAuthor = view.findViewById(R.id.viewAuthorOwnerAccepted);
+        bookDescription = view.findViewById(R.id.viewDescriptionOwnerAccepted);
+        bookISBN = view.findViewById(R.id.viewISBNOwnerAccepted);
+        bookBorrower = view.findViewById(R.id.acceptedBorrower);
 
 
         bookTitle.setText(clickedBook.getTitle());
         bookAuthor.setText(clickedBook.getAuthor());
         bookDescription.setText(clickedBook.getDescription());
         bookISBN.setText(clickedBook.getISBN());
-        bookOwner.setText("Owner:"+clickedBook.getOwnerUname());
+        //need to get borrower here
+        bookBorrower.setText("Borrower:"+clickedBook.getBorrowerUname());
         imageView = view.findViewById(R.id.imageView);
 
         Photographs.viewImage("B", clickedBook.getID(), storageReference, applicationContext, imageView);
 
-
-        confirmBorrowButton.setOnClickListener(new View.OnClickListener() {
+        denoteBorrowButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 currentBookDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -112,28 +113,26 @@ public class BorrowerViewAcceptedFragment extends Fragment{
                         }
                     }
                 });
-                if (borrowDenoted !=null && borrowDenoted.equals("true")) {
+                if (borrowDenoted != null && borrowDenoted.equals("true")) {
+                    Toast.makeText(getActivity(), "You already denoted borrow before", Toast.LENGTH_SHORT).show();
+                }
+                //the book is either first time to be denoted or denoted=="false" currently
+                else {
                     if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
-                        Toast.makeText(getActivity(), "You must grant the permission of camera to confirm borrow", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "You must grant the permission of camera to denote borrow", Toast.LENGTH_SHORT).show();
                         ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, 445);
                     } else {
                         Intent intent = new Intent(getActivity(), Scanner.class);
                         startActivityForResult(intent, 325);
                     }
                 }
-                //the book is either first time to be denoted or denoted=="false" currently
-                else {
-                    Toast.makeText(getActivity(), "The owner have not denoted borrow yet", Toast.LENGTH_SHORT).show();
-
-                }
 
             }
         });
 
-/* another version,try to solve the bug that first confirm will be rejected
-  //to be tested
 
-        confirmBorrowButton.setOnClickListener(new View.OnClickListener() {
+/* another version,wait to be tested
+        denoteBorrowButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 currentBookDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -143,19 +142,18 @@ public class BorrowerViewAcceptedFragment extends Fragment{
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
                                 borrowDenoted = document.getString("borrowDenoted");
-                                if (borrowDenoted !=null && borrowDenoted.equals("true")) {
+                                if (borrowDenoted != null && borrowDenoted.equals("true")) {
+                                    Toast.makeText(getActivity(), "You already denoted borrow before", Toast.LENGTH_SHORT).show();
+                                }
+                                //the book is either first time to be denoted or denoted=="false" currently
+                                else {
                                     if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
-                                        Toast.makeText(getActivity(), "You must grant the permission of camera to confirm borrow", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getActivity(), "You must grant the permission of camera to denote borrow", Toast.LENGTH_SHORT).show();
                                         ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, 445);
                                     } else {
                                         Intent intent = new Intent(getActivity(), Scanner.class);
                                         startActivityForResult(intent, 325);
                                     }
-                                }
-                                //the book is either first time to be denoted or denoted=="false" currently
-                                else {
-                                    Toast.makeText(getActivity(), "The owner have not denoted borrow yet", Toast.LENGTH_SHORT).show();
-
                                 }
 
                             } else {
@@ -168,10 +166,7 @@ public class BorrowerViewAcceptedFragment extends Fragment{
 
             }
         });
-       */
-
-
-
+*/
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -190,30 +185,11 @@ public class BorrowerViewAcceptedFragment extends Fragment{
             if (resultCode == Activity.RESULT_OK) {
                 String result = data.getStringExtra("RESULT_ISBN");
                 if (result.equals(clickedBook.getISBN())){
-                    //borrower confirm borrow
-                    Toast.makeText(getActivity(), "You successfully borrowed this book", Toast.LENGTH_SHORT).show();
-                    currentBookDocRef.update("borrowDenoted","false");
-                    ownerSideCurrentBookRef.update("status","Borrowed");
-                    ownerSideCurrentBookRef.update("borrowDenoted","false");
+                    //owner denote borrow
+                    currentBookDocRef.update("borrowDenoted","true");
 
-                    //for current user,remove book from AcceptedBook and add to BorrowedBook
-                    DocumentReference MyBorrowedBookRef = db.collection("user").document(uid).collection("BorrowedBook").document(clickedBook.getID());
-                    Map borrowedBookData = new HashMap<>();
-                    borrowedBookData.put("Bookid", clickedBook.getID());
-                    borrowedBookData.put("book", clickedBook.getTitle());
-                    borrowedBookData.put("ownerUname", clickedBook.getOwnerUname());
-                    borrowedBookData.put("ownerId",clickedBook.getOwnerId());
-                    borrowedBookData.put("title",clickedBook.getTitle());
-                    borrowedBookData.put("description", clickedBook.getDescription());
-                    borrowedBookData.put("ISBN",clickedBook.getISBN());
-                    borrowedBookData.put("borrower",currentUser.getUsername());
-                    borrowedBookData.put("borrowerId", currentUser.getUid());
-                    //use a status to denote is borrower denote return
-                    borrowedBookData.put("returnDenoted","false");
-                    //also need to handle address
-                    MyBorrowedBookRef.set(borrowedBookData);
-
-                    currentBookDocRef.delete();
+                    borrowerSideAcceptedBookRef.update("borrowDenoted","true");
+                    Toast.makeText(getActivity(), "You denote of borrow is made successfully", Toast.LENGTH_SHORT).show();
 
                 }
                 else {
@@ -224,4 +200,3 @@ public class BorrowerViewAcceptedFragment extends Fragment{
         }
     }
 }
-

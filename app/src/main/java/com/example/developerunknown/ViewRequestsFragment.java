@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -118,7 +119,6 @@ public class ViewRequestsFragment extends Fragment {
                 Request thisRequest = requestAdapter.getItem(pos);
                 intent.putExtra("Request", thisRequest);
                 startActivity(intent);*/
-
 
                 Request thisRequest = requestDataList.get(pos);
 

@@ -37,10 +37,10 @@ public class BookHomeFragment extends Fragment {
         acceptedListFragment.setArguments(args);
         borrowedListFragment.setArguments(args);
 
-        adapter.addFragment(bookListFragment,"My Book");
-        adapter.addFragment(requestListFragment,"Requested Book");
-        adapter.addFragment(acceptedListFragment,"Accepted Book");
-        adapter.addFragment(borrowedListFragment,"Borrowed Book");
+        adapter.addFragment(bookListFragment,"My Books");
+        adapter.addFragment(requestListFragment,"Requested Books");
+        adapter.addFragment(acceptedListFragment,"Accepted Books");
+        adapter.addFragment(borrowedListFragment,"My Borrowing");
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
