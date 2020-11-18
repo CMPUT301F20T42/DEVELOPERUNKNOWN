@@ -46,7 +46,7 @@ import java.util.Map;
 /**
  * controls intents of the request function
  */
-public class requestActicity extends AppCompatActivity implements OnMapReadyCallback {
+public class requestActicity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener{
     TextView Address;
     Request request;
     Book Book;
@@ -74,11 +74,36 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
+        /*if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION},
                     LOCATION_REQUEST_CODE);
+        }*/
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        22);
+
+                // ACCESS_FINE_LOCATION is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
         }
 
 
@@ -203,7 +228,7 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
                     });
                     Location location = mMap.getMyLocation();
 
-                    mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                    /*mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                         @Override
                         public void onMapClick(LatLng latLng) {
                             MarkerOptions markerOptions = new MarkerOptions();
@@ -217,7 +242,7 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
                             mMap.animateCamera(location);
                             mMap.addMarker(markerOptions);
                         }
-                    });
+                    });*/
 
 
 
@@ -232,10 +257,24 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+        this.mMap = googleMap;
+        this.mMap.setOnMapClickListener(this);
 
     }
 
+    @Override
+    public void onMapClick(LatLng point) {
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(point);
+
+        markerOptions.title(getAddress(point));
+
+        mMap.clear();
+        CameraUpdate location = CameraUpdateFactory.newLatLngZoom(
+                point, 15);
+        mMap.animateCamera(location);
+        mMap.addMarker(markerOptions);
+    }
 
     private String getAddress(LatLng latLng){
 
@@ -267,6 +306,7 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
             dialogFragment.setArguments(args);
             dialogFragment.show(ft, "dialog");
             goAddress = address;
+            Address.setText(goAddress);
             return address;
         } catch (IOException e) {
             e.printStackTrace();
