@@ -10,41 +10,46 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity">
+        tools:context=".MainActivity"
+        tools:layout_editor_absoluteX="58dp"
+        tools:layout_editor_absoluteY="-122dp">
 
         <fragment
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="411dp"
-            android:layout_height="580dp"
+            android:layout_width="403dp"
+            android:layout_height="546dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:context=".MainActivity" />
 
-        <TextView
+        <Button
+            android:id="@+id/button"
+            android:layout_width="414dp"
+            android:layout_height="51dp"
+            android:onClick="finishIt"
+            android:text="FINISHIT!"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
             android:id="@+id/ac_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="64dp"
-            android:layout_marginTop="17dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="64dp"
-            android:layout_marginBottom="64dp"
-            android:hint="Address Here!"
+            android:layout_marginBottom="16dp"
+            android:ems="10"
+            android:hint="Address Here"
+            android:inputType="textPersonName"
             app:layout_constraintBottom_toTopOf="@+id/button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/map" />
+            app:layout_constraintTop_toBottomOf="@+id/map"
+            app:layout_constraintVertical_bias="0.48000002" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="414dp"
-        android:layout_height="51dp"
-        android:onClick="finishIt"
-        android:text="FINISHIT!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

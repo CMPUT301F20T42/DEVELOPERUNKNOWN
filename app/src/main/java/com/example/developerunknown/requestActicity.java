@@ -85,7 +85,7 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
     }
 
     public void finishIt(View view) {
-        //String goAddress = Address.getText().toString();
+        goAddress = Address.getText().toString();
 
         System.out.println(Book.getOwnerId());
         System.out.println(Book.getID());
@@ -187,7 +187,11 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    mMap.setMyLocationEnabled(true);
+                    if ( ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
+
+                        mMap.getUiSettings().setMyLocationButtonEnabled(true);
+                    }
+
                     mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
                         @Override
                         public void onMyLocationChange(Location location) {
