@@ -44,7 +44,6 @@ public class    SearchFragment extends Fragment {
     ArrayAdapter<Book> bookAdapter;
     ArrayList<Book> dataList = new ArrayList<>();
     TextView searchBook;
-    //String []books ={"To kill a mockingbird", "Indian Horse", "1984","1984", "Greenlight"};
     Button search_button;
 
     public SearchFragment(User user){this.currentUser = user;}

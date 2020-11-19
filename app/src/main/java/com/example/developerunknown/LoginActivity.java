@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -111,10 +112,20 @@ public class LoginActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(LoginActivity.this, "login success", Toast.LENGTH_SHORT).show();
-                    Intent returnIntent = new Intent();
-                    returnIntent.putExtra("result", "success");
-                    setResult(Activity.RESULT_OK, returnIntent);
-                    finish();
+
+                    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+                    FirebaseUser currentUser = mAuth.getCurrentUser();
+
+                    if(currentUser == null){
+                        Toast.makeText(LoginActivity.this, "error connecting to server", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Intent returnIntent = new Intent();
+                        returnIntent.putExtra("result", "success");
+                        setResult(Activity.RESULT_OK, returnIntent);
+                        finish();
+                    }
                 } else {
                     Toast.makeText(LoginActivity.this, "wrong password", Toast.LENGTH_SHORT).show();
                 }
@@ -122,4 +133,11 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
+
+
 }
