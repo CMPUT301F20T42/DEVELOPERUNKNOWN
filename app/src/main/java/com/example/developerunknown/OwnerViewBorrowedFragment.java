@@ -111,6 +111,10 @@ public class OwnerViewBorrowedFragment extends Fragment implements
         View view = inflater.inflate(R.layout.fragment_owner_view_borrowed, container,false);
         context = container.getContext();
 
+        mapFragment = (MapFragment) getActivity().getFragmentManager().findFragmentById(R.id.mapp5);
+        mapFragment.getMapAsync(this);
+
+
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
         currentBookDocRef = db.collection("user").document(uid).collection("Book").document(clickedBook.getID());
