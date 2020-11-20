@@ -1,25 +1,24 @@
 package com.example.developerunknown;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
-import android.Manifest.permission;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -69,6 +68,10 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request_acticity);
 
+        ActionBar actionBar = this.getSupportActionBar();
+        actionBar.setTitle("Location");
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         Intent intent = getIntent();
         request = (Request) intent.getSerializableExtra("Request");
         Book = (Book) intent.getSerializableExtra("Book");
@@ -117,100 +120,105 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
     public void finishIt(View view) {
         goAddress = Address.getText().toString();
 
-        System.out.println(Book.getOwnerId());
-        System.out.println(Book.getID());
+        if(goAddress.length() != 0) {
+
+            System.out.println(Book.getOwnerId());
+            System.out.println(Book.getID());
 
 
-        DocumentReference currentBookRef = db.collection("user").document(Book.getOwnerId()).collection("Book").document(Book.getID());
+            DocumentReference currentBookRef = db.collection("user").document(Book.getOwnerId()).collection("Book").document(Book.getID());
 
 
-        //update the borrower info in this clicked book
+            //update the borrower info in this clicked book
 
-        currentBookRef.update("borrowerID", request.getBorrowerID());
-        currentBookRef.update("borrowerUname", request.getBorrowerUname());
-        currentBookRef.update("status", "Accepted");
+            currentBookRef.update("borrowerID", request.getBorrowerID());
+            currentBookRef.update("borrowerUname", request.getBorrowerUname());
+            currentBookRef.update("status", "Accepted");
 
-        //notify the user who are accepted,and update his "AcceptedBook" in database
-
-
-        //update accepted book list for borrower
-        DocumentReference borrowerAcceptedBookRef = db.collection("user").document(request.getBorrowerID()).collection("AcceptedBook").document(Book.getID());
-        Map acceptedBookData = new HashMap<>();
-        acceptedBookData.put("Bookid", Book.getID());
-        acceptedBookData.put("book", Book.getTitle());
-        acceptedBookData.put("ownerUname", Book.getOwnerUname());
-        acceptedBookData.put("ownerId", Book.getOwnerId());
-        acceptedBookData.put("title", Book.getTitle());
-        acceptedBookData.put("description", Book.getDescription());
-        acceptedBookData.put("ISBN", Book.getISBN());
-        acceptedBookData.put("borrower", request.getBorrowerUname());
-        acceptedBookData.put("borrowerId", request.getBorrowerID());
-        acceptedBookData.put("add", goAddress);
-        acceptedBookData.put("lat", latl);
-        acceptedBookData.put("lng", lngl);
-        borrowerAcceptedBookRef.set(acceptedBookData);
+            //notify the user who are accepted,and update his "AcceptedBook" in database
 
 
-        //send notification
+            //update accepted book list for borrower
+            DocumentReference borrowerAcceptedBookRef = db.collection("user").document(request.getBorrowerID()).collection("AcceptedBook").document(Book.getID());
+            Map acceptedBookData = new HashMap<>();
+            acceptedBookData.put("Bookid", Book.getID());
+            acceptedBookData.put("book", Book.getTitle());
+            acceptedBookData.put("ownerUname", Book.getOwnerUname());
+            acceptedBookData.put("ownerId", Book.getOwnerId());
+            acceptedBookData.put("title", Book.getTitle());
+            acceptedBookData.put("description", Book.getDescription());
+            acceptedBookData.put("ISBN", Book.getISBN());
+            acceptedBookData.put("borrower", request.getBorrowerUname());
+            acceptedBookData.put("borrowerId", request.getBorrowerID());
+            acceptedBookData.put("add", goAddress);
+            acceptedBookData.put("lat", latl);
+            acceptedBookData.put("lng", lngl);
+            borrowerAcceptedBookRef.set(acceptedBookData);
 
-        DocumentReference userNotificationRef = db.collection("user").document(Book.getOwnerId()).collection("Notification").document();
-        String notificationId = userNotificationRef.getId();
-        Map acceptNotiData = new HashMap<>();
-        acceptNotiData.put("sender", currentUser.getUid());
-        acceptNotiData.put("type", "Accepted");
-        acceptNotiData.put("book", Book.getTitle());
-        acceptNotiData.put("id", notificationId);
-        acceptNotiData.put("add", goAddress);
+
+            //send notification
+
+            DocumentReference userNotificationRef = db.collection("user").document(Book.getOwnerId()).collection("Notification").document();
+            String notificationId = userNotificationRef.getId();
+            Map acceptNotiData = new HashMap<>();
+            acceptNotiData.put("sender", currentUser.getUid());
+            acceptNotiData.put("type", "Accepted");
+            acceptNotiData.put("book", Book.getTitle());
+            acceptNotiData.put("id", notificationId);
+            acceptNotiData.put("add", goAddress);
 
 
-        //retrieve all request,accept one request and reject the rest
-        CollectionReference requestCollectionRef = currentBookRef.collection("Request");
+            //retrieve all request,accept one request and reject the rest
+            CollectionReference requestCollectionRef = currentBookRef.collection("Request");
 
-        requestCollectionRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
+            requestCollectionRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
 
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        String requesterID = document.getString("Borrower");
-                        String documentId = document.getId();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String requesterID = document.getString("Borrower");
+                            String documentId = document.getId();
 
-                        if (!requesterID.equals(request.getBorrowerID())) {        //if not the user we accept,deny and send notification
-                            //send deny notification
-                            DocumentReference userNotificationRef = db.collection("user").document(requesterID).collection("Notification").document();
-                            String notificationId = userNotificationRef.getId();
-                            Map notiData = new HashMap<>();
-                            notiData.put("sender", currentUser.getUid());
-                            notiData.put("type", "Denied");
-                            notiData.put("book", Book.getTitle());
-                            notiData.put("id", notificationId);
+                            if (!requesterID.equals(request.getBorrowerID())) {        //if not the user we accept,deny and send notification
+                                //send deny notification
+                                DocumentReference userNotificationRef = db.collection("user").document(requesterID).collection("Notification").document();
+                                String notificationId = userNotificationRef.getId();
+                                Map notiData = new HashMap<>();
+                                notiData.put("sender", currentUser.getUid());
+                                notiData.put("type", "Denied");
+                                notiData.put("book", Book.getTitle());
+                                notiData.put("id", notificationId);
 
-                        }
+                            }
 
-                        //clear data from "RequestedBook" of users since some user is accepted
-                        DocumentReference borrowerRequestedBookRef = db.collection("user").document(requesterID).collection("RequestedBook")
-                                .document(Book.getID());
-                        borrowerRequestedBookRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    DocumentSnapshot document = task.getResult();
-                                    if (document.exists()) {
-                                        document.getReference().delete();
-                                    } else {
+                            //clear data from "RequestedBook" of users since some user is accepted
+                            DocumentReference borrowerRequestedBookRef = db.collection("user").document(requesterID).collection("RequestedBook")
+                                    .document(Book.getID());
+                            borrowerRequestedBookRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        DocumentSnapshot document = task.getResult();
+                                        if (document.exists()) {
+                                            document.getReference().delete();
+                                        } else {
 
+                                        }
                                     }
                                 }
-                            }
-                        });
-                        //clear the request,no matter accepted one or denied one
-                        document.getReference().delete();
+                            });
+                            //clear the request,no matter accepted one or denied one
+                            document.getReference().delete();
+                        }
                     }
                 }
-            }
-        });
-        Toast.makeText(requestActicity.this, "All done!", Toast.LENGTH_SHORT).show();
-        finish();
+            });
+            Toast.makeText(requestActicity.this, "All done!", Toast.LENGTH_SHORT).show();
+            finish();
+        } else {
+            Toast.makeText(requestActicity.this, "You should enter an address", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -342,6 +350,14 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
                     Manifest.permission.ACCESS_FINE_LOCATION, true);*/
         }
         // [END maps_check_location_permission]
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 
