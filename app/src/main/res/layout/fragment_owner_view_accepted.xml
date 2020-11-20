@@ -5,6 +5,18 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <fragment
+        android:id="@+id/mapp4"
+        class="com.google.android.gms.maps.MapFragment"
+        android:layout_width="382dp"
+        android:layout_height="137dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="13dp"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/Owner_denote_borrow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <TextView
         android:id="@+id/viewTitleOwnerAccepted"
         android:layout_width="wrap_content"
@@ -108,14 +120,5 @@
         app:layout_constraintBottom_toTopOf="@+id/back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/mapView"
-        android:layout_width="153dp"
-        android:layout_height="133dp"
-        app:layout_constraintBottom_toTopOf="@+id/Owner_denote_borrow"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/acceptedBorrower" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

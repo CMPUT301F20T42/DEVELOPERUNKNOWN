@@ -41,7 +41,7 @@
         </activity>
         <activity
             android:name=".Scanner"
-            android:label="Scan"></activity>
+            android:label="Scan" />
     </application>
 
 </manifest>

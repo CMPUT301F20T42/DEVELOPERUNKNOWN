@@ -21,6 +21,14 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,11 +42,20 @@ import com.google.firebase.storage.StorageReference;
 /**
  * allows owner to view book information and perform denote borrow action if the status of book is accepted
  */
-public class OwnerViewAcceptedFragment extends Fragment{
+public class OwnerViewAcceptedFragment extends Fragment implements
+        android.view.View.OnClickListener, OnMapReadyCallback {
 
     Context context;
     User currentUser;
     Book clickedBook;
+
+    MapView mapView;
+    Double Lat;
+    Double Lng;
+    MapFragment mapFragment;
+    LatLng Latlng;
+    String Address;
+    private GoogleMap mMap;
 
     public Button denoteBorrowButton;
     public Button backButton;
@@ -61,12 +78,37 @@ public class OwnerViewAcceptedFragment extends Fragment{
 
     private String borrowDenoted = null;
 
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        currentUser = (User) this.getArguments().getSerializable("current user");
+        clickedBook = (Book) this.getArguments().getSerializable("clicked book");
+
+        currentBookDocRef = db.collection("user").document(uid).collection("Book").document(clickedBook.getID());
+        borrowerSideAcceptedBookRef = db.collection("user").document(clickedBook.getBorrowerID()).collection("AcceptedBook").document(clickedBook.getID());
+        currentBookDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                System.out.println("here");
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    Lat = document.getDouble("lat");
+                    Lng = document.getDouble("lng");
+                    System.out.println(Lat);
+                    Address = document.getString("add");
+                }
+            }
+        });
+    }
+
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         currentUser = (User) this.getArguments().getSerializable("current user");
         clickedBook = (Book) this.getArguments().getSerializable("clicked book");
         View view = inflater.inflate(R.layout.fragment_owner_view_accepted, container,false);
         context = container.getContext();
+
+        mapFragment = (MapFragment) getActivity().getFragmentManager().findFragmentById(R.id.mapp4);
+        mapFragment.getMapAsync(this);
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
@@ -193,5 +235,26 @@ public class OwnerViewAcceptedFragment extends Fragment{
                 }
             }
         }
+    }
+
+    @Override
+    public void onClick(View view) {
+
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        mMap.getUiSettings().setMyLocationButtonEnabled(false);
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(new LatLng(Lat, Lng));
+
+        markerOptions.title(Address);
+        mMap.clear();
+        CameraUpdate location = CameraUpdateFactory.newLatLngZoom(
+                new LatLng(Lat, Lng), 16f);
+        mMap.animateCamera(location);
+        mMap.addMarker(markerOptions);
+        Log.d("status", "success");
     }
 }

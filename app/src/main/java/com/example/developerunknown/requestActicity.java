@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.Manifest.permission;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
@@ -46,7 +47,9 @@ import java.util.Map;
 /**
  * controls intents of the request function
  */
-public class requestActicity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener{
+public class requestActicity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMyLocationButtonClickListener, ActivityCompat.OnRequestPermissionsResultCallback{
+
+
     TextView Address;
     Request request;
     Book Book;
@@ -54,6 +57,8 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private GoogleMap mMap;
     String goAddress;
+    double latl;
+    double lngl;
 
     Button btn;
     private final static int PLACE_PICKER_REQUEST = 999;
@@ -141,6 +146,8 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
         acceptedBookData.put("borrower", request.getBorrowerUname());
         acceptedBookData.put("borrowerId", request.getBorrowerID());
         acceptedBookData.put("add", goAddress);
+        acceptedBookData.put("lat", latl);
+        acceptedBookData.put("lng", lngl);
         borrowerAcceptedBookRef.set(acceptedBookData);
 
 
@@ -218,9 +225,10 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
                     if ( ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
 
                         mMap.getUiSettings().setMyLocationButtonEnabled(true);
+                        enableMyLocation();
                     }
 
-                    mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
+                    /*mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
                         @Override
                         public void onMyLocationChange(Location location) {
                             LatLng ltlng=new LatLng(location.getLatitude(),location.getLongitude());
@@ -229,7 +237,7 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
                             mMap.animateCamera(cameraUpdate);
                         }
                     });
-                    Location location = mMap.getMyLocation();
+                    Location location = mMap.getMyLocation();*/
 
                     /*mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                         @Override
@@ -262,6 +270,8 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
     public void onMapReady(GoogleMap googleMap) {
         this.mMap = googleMap;
         this.mMap.setOnMapClickListener(this);
+        this.mMap.setOnMyLocationButtonClickListener(this);
+        enableMyLocation();
 
     }
 
@@ -304,7 +314,9 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
 
             Bundle args = new Bundle();
             args.putDouble("lat", latLng.latitude);
+            latl = latLng.latitude;
             args.putDouble("long", latLng.longitude);
+            lngl = latLng.longitude;
             args.putString("address", address);
             dialogFragment.setArguments(args);
             dialogFragment.show(ft, "dialog");
@@ -318,5 +330,25 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
         }
 
 
+    }
+    private void enableMyLocation() {
+        // [START maps_check_location_permission]
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            if (mMap != null) {
+                mMap.setMyLocationEnabled(true);
+            }
+        } else {
+            // Permission to access the location is missing. Show rationale and request permission
+            /*PermissionUtils.requestPermission(this, LOCATION_PERMISSION_REQUEST_CODE,
+                    Manifest.permission.ACCESS_FINE_LOCATION, true);*/
+        }
+        // [END maps_check_location_permission]
+    }
+
+
+    @Override
+    public boolean onMyLocationButtonClick() {
+        return false;
     }
 }
