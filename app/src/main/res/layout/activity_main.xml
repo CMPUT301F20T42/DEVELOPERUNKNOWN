@@ -16,7 +16,8 @@
             android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="128dp"
-            android:text="Welcome back" />
+            android:textAlignment="center"
+            android:textSize="24sp" />
     </FrameLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

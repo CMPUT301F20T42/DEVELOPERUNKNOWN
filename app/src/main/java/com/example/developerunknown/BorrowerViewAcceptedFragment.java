@@ -69,14 +69,16 @@ public class BorrowerViewAcceptedFragment extends Fragment{
         currentUser = (User) this.getArguments().getSerializable("current user");
         clickedBook = (Book) this.getArguments().getSerializable("clicked book");
 
-        currentBookDocRef = db.collection("user").document(uid).collection("AcceptedBook").document(clickedBook.getID());
-        ownerSideCurrentBookRef = db.collection("user").document(clickedBook.getOwnerId()).collection("Book").document(clickedBook.getID());
-
         View view = inflater.inflate(R.layout.fragment_borrower_view_accepted, container,false);
         context = container.getContext();
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
+
+
+
+        currentBookDocRef = db.collection("user").document(uid).collection("AcceptedBook").document(clickedBook.getID());
+        ownerSideCurrentBookRef = db.collection("user").document(clickedBook.getOwnerId()).collection("Book").document(clickedBook.getID());
 
         // Assign buttons
         backButton = view.findViewById(R.id.back);
@@ -95,11 +97,11 @@ public class BorrowerViewAcceptedFragment extends Fragment{
         bookDescription.setText(clickedBook.getDescription());
         bookISBN.setText(clickedBook.getISBN());
         bookOwner.setText("Owner:"+clickedBook.getOwnerUname());
-        imageView = view.findViewById(R.id.imageView);
+        imageView = view.findViewById(R.id.imageViewBorrowerAccepted);
 
         Photographs.viewImage("B", clickedBook.getID(), storageReference, applicationContext, imageView);
 
-
+/*
         confirmBorrowButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,8 +131,8 @@ public class BorrowerViewAcceptedFragment extends Fragment{
 
             }
         });
-
-/* another version,try to solve the bug that first confirm will be rejected
+*/
+    // another version,try to solve the bug that first confirm will be rejected
   //to be tested
 
         confirmBorrowButton.setOnClickListener(new View.OnClickListener() {
@@ -168,7 +170,7 @@ public class BorrowerViewAcceptedFragment extends Fragment{
 
             }
         });
-       */
+
 
 
 

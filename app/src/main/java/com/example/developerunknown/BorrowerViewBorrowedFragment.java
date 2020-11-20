@@ -25,7 +25,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -94,11 +93,10 @@ public class BorrowerViewBorrowedFragment extends Fragment{
         bookDescription.setText(clickedBook.getDescription());
         bookISBN.setText(clickedBook.getISBN());
         bookOwner.setText("Owner:"+clickedBook.getOwnerUname());
-        imageView = view.findViewById(R.id.imageView);
+        imageView = view.findViewById(R.id.imageViewBorrowerBorrowed);
 
         Photographs.viewImage("B", clickedBook.getID(), storageReference, applicationContext, imageView);
-
-
+/*
         denoteReturnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,7 +126,9 @@ public class BorrowerViewBorrowedFragment extends Fragment{
 
             }
         });
-/*
+        */
+
+
         denoteReturnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -162,7 +162,7 @@ public class BorrowerViewBorrowedFragment extends Fragment{
                 });
             }
         });
-*/
+
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

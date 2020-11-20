@@ -25,15 +25,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class OwnerViewBorrowedFragment extends Fragment {
@@ -94,10 +90,10 @@ public class OwnerViewBorrowedFragment extends Fragment {
         bookISBN.setText(clickedBook.getISBN());
         //need to get borrower here
         bookBorrower.setText("Borrower:"+clickedBook.getOwnerUname());
-        imageView = view.findViewById(R.id.imageView);
+        imageView = view.findViewById(R.id.imageViewOwnerBorrowed);
 
         Photographs.viewImage("B", clickedBook.getID(), storageReference, applicationContext, imageView);
-
+/*
         confirmReturnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,8 +123,8 @@ public class OwnerViewBorrowedFragment extends Fragment {
 
             }
         });
-
-/*try to solve the bug,to be tested
+*/
+//try to solve the bug,to be tested
         confirmReturnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,7 +159,7 @@ public class OwnerViewBorrowedFragment extends Fragment {
 
             }
         });
-*/
+
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

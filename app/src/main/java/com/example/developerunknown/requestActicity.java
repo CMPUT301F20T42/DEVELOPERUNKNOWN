@@ -145,15 +145,16 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
 
 
         //send notification
-
-        DocumentReference userNotificationRef = db.collection("user").document(Book.getOwnerId()).collection("Notification").document();
+        DocumentReference userNotificationRef = db.collection("user").document(request.getBorrowerID()).collection("Notification").document();
         String notificationId = userNotificationRef.getId();
         Map acceptNotiData = new HashMap<>();
-        acceptNotiData.put("sender", currentUser.getUid());
+        acceptNotiData.put("sender", currentUser.getUsername());
         acceptNotiData.put("type", "Accepted");
         acceptNotiData.put("book", Book.getTitle());
         acceptNotiData.put("id", notificationId);
         acceptNotiData.put("add", goAddress);
+        userNotificationRef.set(acceptNotiData);
+
 
 
         //retrieve all request,accept one request and reject the rest
@@ -173,10 +174,11 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
                             DocumentReference userNotificationRef = db.collection("user").document(requesterID).collection("Notification").document();
                             String notificationId = userNotificationRef.getId();
                             Map notiData = new HashMap<>();
-                            notiData.put("sender", currentUser.getUid());
+                            notiData.put("sender", currentUser.getUsername());
                             notiData.put("type", "Denied");
                             notiData.put("book", Book.getTitle());
                             notiData.put("id", notificationId);
+                            userNotificationRef.set(notiData);
 
                         }
 
