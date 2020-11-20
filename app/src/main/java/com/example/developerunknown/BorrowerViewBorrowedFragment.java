@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,14 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,11 +41,19 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-public class BorrowerViewBorrowedFragment extends Fragment{
+public class BorrowerViewBorrowedFragment extends Fragment implements
+        android.view.View.OnClickListener, OnMapReadyCallback {
 
     Context context;
     User currentUser;
     Book clickedBook;
+    MapView mapView;
+    Double Lat;
+    Double Lng;
+    MapFragment mapFragment;
+    LatLng Latlng;
+    String Address;
+    private GoogleMap mMap;
 
     public Button denoteReturnButton;
     public Button backButton;
@@ -60,6 +77,29 @@ public class BorrowerViewBorrowedFragment extends Fragment{
 
     private String returnDenoted = null;
 
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        currentUser = (User) this.getArguments().getSerializable("current user");
+        clickedBook = (Book) this.getArguments().getSerializable("clicked book");
+
+        ownerSideCurrentBookRef = db.collection("user").document(clickedBook.getOwnerId()).collection("Book").document(clickedBook.getID());
+
+        currentBookDocRef = db.collection("user").document(uid).collection("BorrowedBook").document(clickedBook.getID());
+        currentBookDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                System.out.println("here");
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    Lat = document.getDouble("lat");
+                    Lng = document.getDouble("lng");
+                    System.out.println(Lat);
+                    Address = document.getString("add");
+                }
+            }
+        });
+    }
+
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
@@ -68,13 +108,11 @@ public class BorrowerViewBorrowedFragment extends Fragment{
 
         View view = inflater.inflate(R.layout.fragment_borrower_view_borrowed, container,false);
         context = container.getContext();
-
+        mapFragment = (MapFragment) getActivity().getFragmentManager().findFragmentById(R.id.mapp3);
+        mapFragment.getMapAsync(this);
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
-
-        currentBookDocRef = db.collection("user").document(uid).collection("BorrowedBook").document(clickedBook.getID());
-        ownerSideCurrentBookRef = db.collection("user").document(clickedBook.getOwnerId()).collection("Book").document(clickedBook.getID());
 
         // Assign buttons
         backButton = view.findViewById(R.id.back);
@@ -194,6 +232,27 @@ public class BorrowerViewBorrowedFragment extends Fragment{
                 }
             }
         }
+    }
+
+    @Override
+    public void onClick(View view) {
+
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        mMap.getUiSettings().setMyLocationButtonEnabled(false);
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(new LatLng(Lat, Lng));
+
+        markerOptions.title(Address);
+        mMap.clear();
+        CameraUpdate location = CameraUpdateFactory.newLatLngZoom(
+                new LatLng(Lat, Lng), 16f);
+        mMap.animateCamera(location);
+        mMap.addMarker(markerOptions);
+        Log.d("status", "success");
     }
 }
 
