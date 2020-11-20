@@ -1,11 +1,8 @@
 package com.example.developerunknown;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -67,7 +64,7 @@ public class SearchUserDialogFragment extends DialogFragment {
         resultUserFullName = view.findViewById(R.id.searchUserFullName);
         resultUserEmail = view.findViewById(R.id.searchUserContactMail);
         resultUserPhone = view.findViewById(R.id.searchUserContactPhone);
-        resultUserProfile = view.findViewById(R.id.imageView);
+        resultUserProfile = view.findViewById(R.id.imageViewBorrowerBorrowed);
         DocumentReference resultUserDocRef = userCollectionReference.document(resultUid);
 
         storage = FirebaseStorage.getInstance();

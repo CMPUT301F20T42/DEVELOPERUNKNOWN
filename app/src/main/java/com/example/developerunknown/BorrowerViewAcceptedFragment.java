@@ -114,6 +114,11 @@ public class BorrowerViewAcceptedFragment extends Fragment implements
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
+
+
+        currentBookDocRef = db.collection("user").document(uid).collection("AcceptedBook").document(clickedBook.getID());
+        ownerSideCurrentBookRef = db.collection("user").document(clickedBook.getOwnerId()).collection("Book").document(clickedBook.getID());
+
         // Assign buttons
         backButton = view.findViewById(R.id.back);
         confirmBorrowButton = view.findViewById(R.id.borrower_confirm_borrow);
@@ -132,7 +137,7 @@ public class BorrowerViewAcceptedFragment extends Fragment implements
         bookDescription.setText(clickedBook.getDescription());
         bookISBN.setText(clickedBook.getISBN());
         bookOwner.setText("Owner:"+clickedBook.getOwnerUname());
-        imageView = view.findViewById(R.id.imageView);
+        imageView = view.findViewById(R.id.imageViewBorrowerAccepted);
 
 
         mapFragment = (MapFragment) getActivity().getFragmentManager().findFragmentById(R.id.mapp2);
@@ -158,7 +163,7 @@ public class BorrowerViewAcceptedFragment extends Fragment implements
 
         Photographs.viewImage("B", clickedBook.getID(), storageReference, applicationContext, imageView);
 
-
+/*
         confirmBorrowButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -188,8 +193,8 @@ public class BorrowerViewAcceptedFragment extends Fragment implements
 
             }
         });
-
-/* another version,try to solve the bug that first confirm will be rejected
+*/
+    // another version,try to solve the bug that first confirm will be rejected
   //to be tested
 
         confirmBorrowButton.setOnClickListener(new View.OnClickListener() {
@@ -227,7 +232,7 @@ public class BorrowerViewAcceptedFragment extends Fragment implements
 
             }
         });
-       */
+
 
 
 
@@ -304,4 +309,3 @@ public class BorrowerViewAcceptedFragment extends Fragment implements
         Log.d("status", "success");
     }
 }
-

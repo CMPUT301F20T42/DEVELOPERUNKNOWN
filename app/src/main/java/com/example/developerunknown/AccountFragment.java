@@ -123,13 +123,13 @@ public class AccountFragment extends Fragment {
         storageReference = storage.getReference();
 
         confirmEditButton.setVisibility(View.INVISIBLE);
-        editImageButton.setClickable(false);
         contactEmailEdit.setEnabled(false);
         contactEmailEdit.setClickable(false);
         contactPhoneEdit.setEnabled(false);
         contactPhoneEdit.setClickable(false);
-        Photographs.viewImage("U", uid, storageReference, applicationContext, editImageButton);
 
+        Photographs.viewImage("U", uid, storageReference, applicationContext, editImageButton);
+        editImageButton.setClickable(false);
 
 
         currentUserDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -165,7 +165,8 @@ public class AccountFragment extends Fragment {
                 contactPhoneEdit.setEnabled(true);
                 contactPhoneEdit.setClickable(true);
                 editInfoButton.setClickable(true);
-                editImageButton.setEnabled(true);
+                editImageButton.setClickable(true);
+
 
                 editInfoButton.setVisibility(View.INVISIBLE);           //make sure user could not click edit button during edition
                 confirmEditButton.setVisibility(View.VISIBLE);
@@ -260,6 +261,19 @@ public class AccountFragment extends Fragment {
                 });
 
 
+            }
+        });
+
+
+        Button logoutButton = view.findViewById(R.id.logout);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = getActivity().getBaseContext().getPackageManager().getLaunchIntentForPackage(
+                        getActivity().getBaseContext().getPackageName() );
+                intent .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
             }
         });
 

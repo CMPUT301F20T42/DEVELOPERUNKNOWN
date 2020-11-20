@@ -78,7 +78,7 @@ public class ViewBookFragment extends Fragment {
         bookAuthor.setText(clickedBook.getAuthor());
         bookDescription.setText(clickedBook.getDescription());
         bookISBN.setText(clickedBook.getISBN());
-        imageView = view.findViewById(R.id.imageView);
+        imageView = view.findViewById(R.id.imageViewBorrowerBorrowed);
 
         Photographs.viewImage("B", clickedBook.getID(), storageReference, applicationContext, imageView);
 

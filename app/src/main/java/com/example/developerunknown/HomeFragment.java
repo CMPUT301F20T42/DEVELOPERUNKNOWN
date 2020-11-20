@@ -39,9 +39,9 @@ public class HomeFragment extends Fragment {
     Context context;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    public FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    public String uid = user.getUid();
-    public CollectionReference userNotificationCollectionReference = db.collection("user").document(uid).collection("Notification");
+    public FirebaseUser user;
+    public String uid ;
+    public CollectionReference userNotificationCollectionReference;
 
     @Nullable
     @Override
@@ -52,10 +52,16 @@ public class HomeFragment extends Fragment {
 
         notificationList = view.findViewById(R.id.notificationList);
 
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        uid = user.getUid();
+        userNotificationCollectionReference = db.collection("user").document(uid).collection("Notification");
+
+
         notificationDataList = new ArrayList<>();
 
         notificationAdapter = new NotificationList(context, notificationDataList);
         notificationList.setAdapter(notificationAdapter);
+
 
         userNotificationCollectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override

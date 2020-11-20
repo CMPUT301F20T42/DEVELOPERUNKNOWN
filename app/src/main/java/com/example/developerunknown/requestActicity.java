@@ -156,8 +156,6 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
             borrowerAcceptedBookRef.set(acceptedBookData);
 
 
-            //send notification
-
             DocumentReference userNotificationRef = db.collection("user").document(Book.getOwnerId()).collection("Notification").document();
             String notificationId = userNotificationRef.getId();
             Map acceptNotiData = new HashMap<>();
@@ -166,6 +164,7 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
             acceptNotiData.put("book", Book.getTitle());
             acceptNotiData.put("id", notificationId);
             acceptNotiData.put("add", goAddress);
+            userNotificationRef.set(acceptNotiData);
 
 
             //retrieve all request,accept one request and reject the rest
@@ -175,21 +174,19 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if (task.isSuccessful()) {
-
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             String requesterID = document.getString("Borrower");
                             String documentId = document.getId();
-
                             if (!requesterID.equals(request.getBorrowerID())) {        //if not the user we accept,deny and send notification
                                 //send deny notification
                                 DocumentReference userNotificationRef = db.collection("user").document(requesterID).collection("Notification").document();
                                 String notificationId = userNotificationRef.getId();
                                 Map notiData = new HashMap<>();
-                                notiData.put("sender", currentUser.getUid());
+                                notiData.put("sender", currentUser.getUsername());
                                 notiData.put("type", "Denied");
                                 notiData.put("book", Book.getTitle());
                                 notiData.put("id", notificationId);
-
+                                userNotificationRef.set(notiData);
                             }
 
                             //clear data from "RequestedBook" of users since some user is accepted

@@ -125,10 +125,12 @@ public class requestFragment extends DialogFragment {
                                             DocumentReference userNotificationRef = db.collection("user").document(requesterID).collection("Notification").document();
                                             String notificationId = userNotificationRef.getId();
                                             Map notiData = new HashMap<>();
-                                            notiData.put("sender", currentUser.getUid());
+                                            notiData.put("sender", currentUser.getUsername());
                                             notiData.put("type", "Denied");
                                             notiData.put("book", nowBook.getTitle());
                                             notiData.put("id", notificationId);
+                                            userNotificationRef.set(notiData);
+
                                             document.getReference().delete();
                                             DocumentReference borrowerRequestedBookRef = db.collection("user").document(requesterID).collection("RequestedBook")
                                                     .document(nowBook.getID());
