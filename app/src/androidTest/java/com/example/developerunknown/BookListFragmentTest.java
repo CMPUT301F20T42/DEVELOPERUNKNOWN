@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.robotium.solo.Solo;
 
@@ -40,7 +41,7 @@ public class BookListFragmentTest {
         Activity activity = rule.getActivity();
     }
 
-    // Adds a book to the listview and check the book name using assertTrue
+     //  Adds a book to the listview and check the book name using assertTrue
     @Test
     public void checkAddBook() {
         // Login
@@ -222,14 +223,14 @@ public class BookListFragmentTest {
 //        assertTrue(solo.waitForText("Brave New World", 1, 1000));
 
         // Filter out available books
-        View statusFilter = solo.getView(R.id.filter_spinner);
-        solo.clickOnView(statusFilter);
-        solo.clickOnText("Accepted");
+//        View statusFilter = solo.getView(R.id.filter_spinner);
+//        solo.clickOnView(statusFilter);
+//        solo.sleep(500);
+        solo.pressSpinnerItem(0,1);
 
         assertFalse(solo.waitForText("Brave New World"));
 
-        solo.clickOnView(statusFilter);
-        solo.clickOnText("Available");
+        solo.pressSpinnerItem(0,1);
 
         assertTrue(solo.waitForText("Brave New World", 1, 1000));
     }
