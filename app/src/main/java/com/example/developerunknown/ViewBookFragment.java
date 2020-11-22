@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -85,21 +86,29 @@ public class ViewBookFragment extends Fragment {
         editBookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("View Book Fragment", "Clicked on Edit Button");
-                // Create new fragment
-                Bundle args = new Bundle();
-                args.putSerializable("current user", currentUser);
-                args.putSerializable("clicked book", clickedBook);
+                // Can only edit a book that is available
+                if (clickedBook.getStatus().equals("Available")) {
+                    Log.d("View Book Fragment", "Clicked on Edit Button");
+                    // Create new fragment
+                    Bundle args = new Bundle();
+                    args.putSerializable("current user", currentUser);
+                    args.putSerializable("clicked book", clickedBook);
 
-                Fragment fragment = new EditBookFragment();
-                fragment.setArguments(args);
+                    Fragment fragment = new EditBookFragment();
+                    fragment.setArguments(args);
 
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, fragment, "Edit Book Fragment");
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.fragment_container, fragment, "Edit Book Fragment");
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                }
+                // Error message
+                else {
+                    Toast.makeText(getActivity(), "Cannot edit a book that is " + clickedBook.getStatus(), Toast.LENGTH_SHORT).show();
+                }
             }
+
         });
 
         deleteBookButton.setOnClickListener(new View.OnClickListener() {
