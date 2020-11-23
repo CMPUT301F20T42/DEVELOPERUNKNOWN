@@ -41,7 +41,7 @@ public class BookListFragmentTest {
         Activity activity = rule.getActivity();
     }
 
-     //  Adds a book to the listview and check the book name using assertTrue
+     // Adds a book to the listview and check the book name using assertTrue
     @Test
     public void checkAddBook() {
         // Login
@@ -219,13 +219,7 @@ public class BookListFragmentTest {
         // Click enter
         View enterBook = solo.getView(R.id.add_book_button2);
         solo.clickOnView(enterBook);
-
-//        assertTrue(solo.waitForText("Brave New World", 1, 1000));
-
-        // Filter out available books
-//        View statusFilter = solo.getView(R.id.filter_spinner);
-//        solo.clickOnView(statusFilter);
-//        solo.sleep(500);
+        
         solo.pressSpinnerItem(0,1);
 
         assertFalse(solo.waitForText("Brave New World"));
