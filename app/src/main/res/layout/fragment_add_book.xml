@@ -119,7 +119,7 @@
         <EditText
             android:id="@+id/book_description_editText"
             android:layout_width="356dp"
-            android:layout_height="58dp"
+            android:layout_height="48dp"
             android:layout_gravity="center"
             android:layout_marginBottom="16dp"
             android:ems="10"
@@ -130,17 +130,6 @@
             android:maxLength="120"
             app:layout_constraintStart_toStartOf="parent" />
 
-
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="157dp"
-            android:layout_height="65dp"
-            android:layout_marginStart="28dp"
-            android:layout_marginLeft="28dp"
-            android:layout_marginTop="8dp"
-            android:entries="@array/status_array"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/book_isbn_editText" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

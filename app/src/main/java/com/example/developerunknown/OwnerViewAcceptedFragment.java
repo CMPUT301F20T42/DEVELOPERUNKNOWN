@@ -85,6 +85,7 @@ public class OwnerViewAcceptedFragment extends Fragment implements
         clickedBook = (Book) this.getArguments().getSerializable("clicked book");
 
         currentBookDocRef = db.collection("user").document(uid).collection("Book").document(clickedBook.getID());
+        // Bugged
         borrowerSideAcceptedBookRef = db.collection("user").document(clickedBook.getBorrowerID()).collection("AcceptedBook").document(clickedBook.getID());
         currentBookDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override

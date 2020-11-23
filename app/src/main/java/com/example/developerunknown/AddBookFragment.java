@@ -59,7 +59,6 @@ public class AddBookFragment extends Fragment {
     public String ISBN;
     private EditText bookTitle;
     private EditText bookAuthor;
-    private Spinner bookStatus;
     private EditText bookDescription;
     private EditText bookISBN;
     private Uri filePath;
@@ -138,13 +137,12 @@ public class AddBookFragment extends Fragment {
 
                 bookTitle = view.findViewById(R.id.book_title_editText);
                 bookAuthor = view.findViewById(R.id.book_author_editText);
-                bookStatus = view.findViewById(R.id.spinner);
                 bookDescription = view.findViewById(R.id.book_description_editText);
                 bookISBN = view.findViewById(R.id.book_isbn_editText);
 
                 String title = bookTitle.getText().toString();
                 String author = bookAuthor.getText().toString();
-                String status = bookStatus.getSelectedItem().toString();
+                // String status = bookStatus.getSelectedItem().toString();
                 String description = bookDescription.getText().toString();
                 String ISBN = bookISBN.getText().toString();
 
@@ -152,7 +150,7 @@ public class AddBookFragment extends Fragment {
                     // Create new document
                     DocumentReference newRef = userBookCollectionReference.document();
                     id = newRef.getId();
-                    Book book = new Book(id, title, author, status, ISBN, description,uid,currentUser.getUsername());
+                    Book book = new Book(id, title, author, "Available", ISBN, description,uid,currentUser.getUsername());
                     currentUser.addBook(book);
 
                     Photographs.uploadImage("B", id, filePath, storageReference, applicationContext);
@@ -161,7 +159,7 @@ public class AddBookFragment extends Fragment {
                     data.put("Bookid", id);
                     data.put("title", title);
                     data.put("author", author);
-                    data.put("status", status);
+                    data.put("status", "Available");
                     data.put("description", description);
                     data.put("ISBN", ISBN);
                     data.put("ownerId", uid);
