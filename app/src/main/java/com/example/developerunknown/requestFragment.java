@@ -161,7 +161,10 @@ public class requestFragment extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // Update book's status
-                        
+//                        nowBook.setStatus("Accepted");
+//                        DocumentReference currentBookRef = db.collection("user").document(nowBook.getOwnerId()).collection("Book").document(nowBook.getID());
+//                        currentBookRef.update("status", "Accepted");
+
                         Intent intent = new Intent(getActivity(),requestActicity.class);
                         intent.putExtra("CurrentUser", currentUser);
                         intent.putExtra("Request", nowRequest);
