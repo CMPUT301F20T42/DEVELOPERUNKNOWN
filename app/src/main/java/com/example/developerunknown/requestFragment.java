@@ -110,6 +110,10 @@ public class requestFragment extends DialogFragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         //Todo: Delete request from firebase
                         DocumentReference currentBookRef = db.collection("user").document(nowBook.getOwnerId()).collection("Book").document(nowBook.getID());
+                        // Change book status to available
+                        nowBook.setStatus("Available");
+                        currentBookRef.update("status", "Available");
+
                         CollectionReference requestCollectionRef = currentBookRef.collection("Request");
 
                         requestCollectionRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -156,6 +160,8 @@ public class requestFragment extends DialogFragment {
                 .setPositiveButton("OK I accept", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        // Update book's status
+                        
                         Intent intent = new Intent(getActivity(),requestActicity.class);
                         intent.putExtra("CurrentUser", currentUser);
                         intent.putExtra("Request", nowRequest);
