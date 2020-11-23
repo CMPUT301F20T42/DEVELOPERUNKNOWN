@@ -52,7 +52,7 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
     ArrayAdapter<String> selectAdapter;
     ArrayList<String> selectList;
 
-    Fragment fragment;//this is a fragment show up after owner clicked a specific book
+    Fragment fragment; // this fragment will show up after the owner clicks a specific book
 
 
     //########################## this part is needed for the below blocking part.

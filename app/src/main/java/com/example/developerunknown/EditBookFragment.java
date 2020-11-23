@@ -187,7 +187,7 @@ public class EditBookFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
-                    Toast.makeText(getActivity(), "Scan functionality can work only when CAMERA permission is granded", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Scan functionality can work only when CAMERA permission is granted", Toast.LENGTH_SHORT).show();
                     ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, 445);
                 } else {
                     Intent intent = new Intent(getActivity(), Scanner.class);
@@ -234,19 +234,6 @@ public class EditBookFragment extends Fragment {
     }
 
     public void destroy_current_fragment() {
-
-//        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.remove(fragmentManager.findFragmentByTag("Edit Book Fragment"));
-//
-//        Bundle args = new Bundle();
-//        args.putSerializable("current user", currentUser);
-//        args.putSerializable("clicked book", clickedBook);
-//        Fragment fragment = new ViewBookFragment();
-//        fragment.setArguments(args);
-//        fragmentTransaction.replace(R.id.fragment_container, fragment, "View Book Fragment");
-//        fragmentTransaction.addToBackStack(null);
-//        fragmentTransaction.commit();
 
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         fragmentManager.popBackStack();
