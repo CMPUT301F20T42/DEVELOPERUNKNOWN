@@ -132,10 +132,14 @@ public class MainActivity extends AppCompatActivity {
 
                     return true;
 
-
                     }
                 };
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
     public static Context contextOfApplication;
     /**
      * creates context on the current activity, allowing activties to start and intent calls

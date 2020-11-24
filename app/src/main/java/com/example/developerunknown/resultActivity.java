@@ -172,8 +172,13 @@ public class resultActivity extends AppCompatActivity {
                 requestedBookData.put("description", currentBook.getDescription());
                 requestedBookData.put("ISBN",currentBook.getISBN());
                 requestedBookData.put("requester",borrower.getUsername());
-
                 borrowerBookRef.set(requestedBookData);
+
+                DocumentReference RequestedHistoryRef = db.collection("user").document(borrower.getUid()).collection("RequestedHistory").document(currentBook.getID());
+                Map requestedHistoryData = new HashMap<>();
+                requestedHistoryData.put("Bookid",currentBook.getID());
+                requestedHistoryData.put("ownerId",currentBook.getOwnerId());
+                RequestedHistoryRef.set(requestedHistoryData);
 
 
                 Toast.makeText(resultActivity.this, "Your request has sent", Toast.LENGTH_SHORT).show();
