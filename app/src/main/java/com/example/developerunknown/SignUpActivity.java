@@ -115,7 +115,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 DocumentSnapshot document = task.getResult();
                                 if (document.exists()) {
                                     Log.d("check userName", "userName exists!");
-                                    Toast.makeText(SignUpActivity.this,"This user name is already used,please change one",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(SignUpActivity.this,"This user name is already in use, please choose a different one",Toast.LENGTH_SHORT).show();
 
                                 } else {
                                     Log.d("check userName", "userName available");
