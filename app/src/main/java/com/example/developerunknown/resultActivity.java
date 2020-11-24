@@ -128,6 +128,7 @@ public class resultActivity extends AppCompatActivity {
                 DocumentReference requestedBookRef = db.collection("user"). document(currentBook.getOwnerId()).
                         collection("Book").document(currentBook.getID());
                 requestedBookRef.update("status","Requested");
+                currentBook.setStatus("Requested");
 
                 DocumentReference requestRef = db.collection("user").
                         document(currentBook.getOwnerId()).collection("Book").
@@ -167,11 +168,12 @@ public class resultActivity extends AppCompatActivity {
                 requestedBookData.put("Bookid", currentBook.getID());
                 requestedBookData.put("book", currentBook.getTitle());
                 requestedBookData.put("ownerUname", currentBook.getOwnerUname());
-                requestedBookData.put("ownerId",currentBook.getOwnerId());
-                requestedBookData.put("title",currentBook.getTitle());
+                requestedBookData.put("ownerId", currentBook.getOwnerId());
+                requestedBookData.put("title", currentBook.getTitle());
                 requestedBookData.put("description", currentBook.getDescription());
-                requestedBookData.put("ISBN",currentBook.getISBN());
-                requestedBookData.put("requester",borrower.getUsername());
+                requestedBookData.put("ISBN", currentBook.getISBN());
+                requestedBookData.put("requester", borrower.getUsername());
+                requestedBookData.put("status", currentBook.getStatus());
                 borrowerBookRef.set(requestedBookData);
 
                 DocumentReference RequestedHistoryRef = db.collection("user").document(borrower.getUid()).collection("RequestedHistory").document(currentBook.getID());

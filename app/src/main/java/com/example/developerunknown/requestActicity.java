@@ -197,7 +197,7 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
                                 userNotificationRef.set(notiData);
                             }
 
-                            //clear data from "RequestedBook" of users since some user is accepted
+                            // clear data from "RequestedBook" of users since some user is accepted
                             DocumentReference borrowerRequestedBookRef = db.collection("user").document(requesterID).collection("RequestedBook")
                                     .document(Book.getID());
                             borrowerRequestedBookRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

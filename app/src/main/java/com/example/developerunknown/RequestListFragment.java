@@ -49,7 +49,7 @@ public class RequestListFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         currentUser = (User) this.getArguments().getSerializable("current user");
 
-        View view = inflater.inflate(R.layout.fragment_requestlist,container,false);
+        View view = inflater.inflate(R.layout.fragment_requestlist, container,false);
         context = container.getContext();
 
         bookList = view.findViewById(R.id.user_request_list);
@@ -89,7 +89,7 @@ public class RequestListFragment extends Fragment{
                     String ISBN = (String) doc.getData().get("ISBN");
                     String status = (String) doc.getData().get("status");
 
-                    bookDataList.add(new Book(doc.getId(), title, author, status, ISBN, description,OwnerId,OwnerUname)); // Adding the books from FireStore
+                    bookDataList.add(new Book(doc.getId(), title, author, status, ISBN, description, OwnerId, OwnerUname)); // Adding the books from FireStore
                 }
                 bookAdapter.notifyDataSetChanged(); // Notifying the adapter to render any new data fetcheh
             }
