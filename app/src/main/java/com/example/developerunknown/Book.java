@@ -22,6 +22,11 @@ public class Book implements Serializable {
     private String borrowerID;
     private String borrowerUname;
 
+    private Double lat;
+    private Double lon;
+
+    private String address;
+
 
     /**
      * sets the title of book
@@ -214,6 +219,18 @@ public class Book implements Serializable {
     public void setBorrowerUname(String borrowerUname) {
         this.borrowerUname = borrowerUname;
     }
+
+    public Double getLat() { return this.lat; }
+
+    public void setLat(Double lat) { this.lat = lat; }
+
+    public Double getLon() { return this.lon; }
+
+    public void setLon(Double lon) { this.lon = lon; }
+
+    public String getAddress() { return this.address; }
+
+    public void setAddress(String address) { this.address = address; }
 
     /**
      * This is a class that compares book titles

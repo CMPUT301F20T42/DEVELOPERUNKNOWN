@@ -129,16 +129,24 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
             DocumentReference currentBookRef = db.collection("user").document(Book.getOwnerId()).collection("Book").document(Book.getID());
 
 
-            //update the borrower info in this clicked book
+            // update the borrower info in this clicked book
 
             currentBookRef.update("borrowerID", request.getBorrowerID());
             currentBookRef.update("borrowerUname", request.getBorrowerUname());
             currentBookRef.update("status", "Accepted");
+            currentBookRef.update("add", goAddress);
+            currentBookRef.update("lat", latl);
+            currentBookRef.update("lng", lngl);
+
+            // Update book info
+            Book.setLat(latl);
+            Book.setLon(lngl);
+            Book.setAddress(goAddress);
 
             //notify the user who are accepted,and update his "AcceptedBook" in database
 
 
-            //update accepted book list for borrower
+            // update accepted book list for borrower
             DocumentReference borrowerAcceptedBookRef = db.collection("user").document(request.getBorrowerID()).collection("AcceptedBook").document(Book.getID());
             Map acceptedBookData = new HashMap<>();
             acceptedBookData.put("Bookid", Book.getID());

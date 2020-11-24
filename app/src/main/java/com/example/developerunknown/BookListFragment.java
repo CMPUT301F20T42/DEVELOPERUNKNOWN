@@ -257,13 +257,21 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
                     String ISBN = (String) doc.getData().get("ISBN");
                     String status = (String) doc.getData().get("status");
 
+                    Double lat = doc.getDouble("lat");
+                    Double lon = doc.getDouble("lat");
+                    String address = doc.getString("address");
+
                     // Adding the books from FireStore
-                    Book thisBook = new Book(doc.getId(), title, author, status, ISBN, description,OwnerId,OwnerUname);
+                    Book thisBook = new Book(doc.getId(), title, author, status, ISBN, description, OwnerId, OwnerUname);
                     if (status.equals("Accepted") || status.equals("Borrowed")){
                         String borrowerID = (String) doc.getData().get("borrowerID");
                         String borrowerUname = (String) doc.getData().get("borrowerUname");
                         thisBook.setBorrowerID(borrowerID);
                         thisBook.setBorrowerUname(borrowerUname);
+
+                        thisBook.setLat(lat);
+                        thisBook.setLon(lon);
+                        thisBook.setAddress(address);
                     }
                     bookDataList.add(thisBook); // Adding the books from FireStore
                 }
