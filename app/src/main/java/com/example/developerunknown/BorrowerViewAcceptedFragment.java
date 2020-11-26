@@ -91,19 +91,19 @@ public class BorrowerViewAcceptedFragment extends Fragment implements
         ownerSideCurrentBookRef = db.collection("user").document(clickedBook.getOwnerId()).collection("Book").document(clickedBook.getID());
 
         currentBookDocRef = db.collection("user").document(uid).collection("AcceptedBook").document(clickedBook.getID());
-        currentBookDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                System.out.println("here");
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    Lat = document.getDouble("lat");
-                    Lng = document.getDouble("lng");
-                    System.out.println(Lat);
-                    Address = document.getString("add");
-                }
-            }
-        });
+//        currentBookDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                System.out.println("here");
+//                if (task.isSuccessful()) {
+//                    DocumentSnapshot document = task.getResult();
+//                    Lat = document.getDouble("lat");
+//                    Lng = document.getDouble("lng");
+//                    System.out.println(Lat);
+//                    Address = document.getString("add");
+//                }
+//            }
+//        });
     }
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -245,6 +245,10 @@ public class BorrowerViewAcceptedFragment extends Fragment implements
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Destroy Map fragment
+                if (mapFragment != null) {
+                    getActivity().getFragmentManager().beginTransaction().remove(mapFragment).commit();
+                }
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentManager.popBackStack();
             }
@@ -266,7 +270,7 @@ public class BorrowerViewAcceptedFragment extends Fragment implements
                     ownerSideCurrentBookRef.update("status","Borrowed");
                     ownerSideCurrentBookRef.update("borrowDenoted","false");
 
-                    //for current user,remove book from AcceptedBook and add to BorrowedBook
+                    // for current user,remove book from AcceptedBook and add to BorrowedBook
                     DocumentReference MyBorrowedBookRef = db.collection("user").document(uid).collection("BorrowedBook").document(clickedBook.getID());
                     Map borrowedBookData = new HashMap<>();
                     borrowedBookData.put("Bookid", clickedBook.getID());
@@ -278,6 +282,8 @@ public class BorrowerViewAcceptedFragment extends Fragment implements
                     borrowedBookData.put("ISBN",clickedBook.getISBN());
                     borrowedBookData.put("borrower",currentUser.getUsername());
                     borrowedBookData.put("borrowerId", currentUser.getUid());
+                    borrowedBookData.put("lat", clickedBook.getLat());
+                    borrowedBookData.put("lng", clickedBook.getLon());
                     //use a status to denote is borrower denote return
                     borrowedBookData.put("returnDenoted","false");
                     //also need to handle address
@@ -304,12 +310,13 @@ public class BorrowerViewAcceptedFragment extends Fragment implements
         mMap = googleMap;
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
         MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(new LatLng(Lat, Lng));
+        Log.d("Location ", String.valueOf(clickedBook.getLat()));
+        markerOptions.position(new LatLng(clickedBook.getLat(), clickedBook.getLon()));
 
         markerOptions.title(Address);
         mMap.clear();
         CameraUpdate location = CameraUpdateFactory.newLatLngZoom(
-                new LatLng(Lat, Lng), 16f);
+                new LatLng(clickedBook.getLat(), clickedBook.getLon()), 16f);
         mMap.animateCamera(location);
         mMap.addMarker(markerOptions);
         Log.d("status", "success");

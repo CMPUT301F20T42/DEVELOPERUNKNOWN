@@ -84,19 +84,19 @@ public class BorrowerViewBorrowedFragment extends Fragment implements
         ownerSideCurrentBookRef = db.collection("user").document(clickedBook.getOwnerId()).collection("Book").document(clickedBook.getID());
 
         currentBookDocRef = db.collection("user").document(uid).collection("BorrowedBook").document(clickedBook.getID());
-        currentBookDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                System.out.println("here");
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    Lat = document.getDouble("lat");
-                    Lng = document.getDouble("lng");
-                    System.out.println(Lat);
-                    Address = document.getString("add");
-                }
-            }
-        });
+//        currentBookDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                System.out.println("here");
+//                if (task.isSuccessful()) {
+//                    DocumentSnapshot document = task.getResult();
+//                    Lat = document.getDouble("lat");
+//                    Lng = document.getDouble("lng");
+//                    System.out.println(Lat);
+//                    Address = document.getString("add");
+//                }
+//            }
+//        });
     }
 
 
@@ -212,6 +212,10 @@ public class BorrowerViewBorrowedFragment extends Fragment implements
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Destroy Map fragment
+                if (mapFragment != null) {
+                    getActivity().getFragmentManager().beginTransaction().remove(mapFragment).commit();
+                }
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentManager.popBackStack();
             }
@@ -252,12 +256,13 @@ public class BorrowerViewBorrowedFragment extends Fragment implements
         mMap = googleMap;
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
         MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(new LatLng(Lat, Lng));
+        Log.d("Lat", String.valueOf(clickedBook.getLat()));
+        markerOptions.position(new LatLng(clickedBook.getLat(), clickedBook.getLon()));
 
         markerOptions.title(Address);
         mMap.clear();
         CameraUpdate location = CameraUpdateFactory.newLatLngZoom(
-                new LatLng(Lat, Lng), 16f);
+                new LatLng(clickedBook.getLat(), clickedBook.getLon()), 16f);
         mMap.animateCamera(location);
         mMap.addMarker(markerOptions);
         Log.d("status", "success");
