@@ -64,7 +64,7 @@ public class OwnerViewBorrowedFragment extends Fragment implements
     private TextView bookAuthor;
     private TextView bookDescription;
     private TextView bookISBN;
-    private TextView bookBorrower;
+    private Button bookBorrower;
     private FirebaseStorage storage;
     private StorageReference storageReference;
 
@@ -168,7 +168,15 @@ public class OwnerViewBorrowedFragment extends Fragment implements
             }
         });
 */
-//try to solve the bug,to be tested
+        bookBorrower.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new SearchUserDialogFragment(clickedBook.getBorrowerID()).show(getActivity().getSupportFragmentManager(),"borrower profile");
+
+            }
+        });
+
+
         confirmReturnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -203,6 +211,8 @@ public class OwnerViewBorrowedFragment extends Fragment implements
 
             }
         });
+
+
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -62,7 +62,7 @@ public class BorrowerViewBorrowedFragment extends Fragment implements
     private TextView bookAuthor;
     private TextView bookDescription;
     private TextView bookISBN;
-    private TextView bookOwner;
+    private Button bookOwner;
     private FirebaseStorage storage;
     private StorageReference storageReference;
 
@@ -198,6 +198,14 @@ public class BorrowerViewBorrowedFragment extends Fragment implements
                         }
                     }
                 });
+            }
+        });
+
+        bookOwner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new SearchUserDialogFragment(clickedBook.getOwnerId()).show(getActivity().getSupportFragmentManager(),"borrower profile");
+
             }
         });
 

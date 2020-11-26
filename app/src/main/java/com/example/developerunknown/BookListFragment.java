@@ -47,11 +47,6 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
     ArrayList<String> filterList;
 
 
-
-    Spinner selectSelector;
-    ArrayAdapter<String> selectAdapter;
-    ArrayList<String> selectList;
-
     Fragment fragment; // this fragment will show up after the owner clicks a specific book
 
 
@@ -93,20 +88,6 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
         filterAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, filterList);
         filterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         filterSelection.setAdapter(filterAdapter);
-
-//////////////////////////////////////////////////
-
-        selectSelector = (Spinner) view.findViewById(R.id.list_spinner);
-        selectList = new ArrayList<String>();
-
-        //selectList.add("All");
-        selectList.add("My Owned Books");
-        selectList.add("Books Wishlist");
-
-
-        selectAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, selectList);
-        selectAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        selectSelector.setAdapter(selectAdapter);
 
         return view;
     }
@@ -201,42 +182,6 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
                // Do nothing?
             }
         });
-
-        selectSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            String select;
-
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // Get filter
-                select = selectList.get(position);
-                // Apply filter
-                if (!select.equals("My Owned Books")) {
-                    // Reset bookDataList
-                    bookDataList = currentUser.getFilteredBookList(select);
-
-                    bookAdapter = new CustomList(context, bookDataList);
-                    bookList.setAdapter(bookAdapter);
-
-                } else {
-                    bookDataList = currentUser.getBookList();
-                }
-
-                bookAdapter = new CustomList(context, bookDataList);
-                bookList.setAdapter(bookAdapter);
-            }
-
-            @Override
-            /**
-             * method is called if no item is selected for spinner view
-             *  @param parent
-             */
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-
-
 
 
         //################################### this part retrieves book from online data base and automatically update ################################
