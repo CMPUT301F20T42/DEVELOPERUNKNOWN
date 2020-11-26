@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == Activity.RESULT_CANCELED) {
                 // Not logged in
             }
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
         }
     }
     @Override
@@ -94,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivityForResult(intent,123);
-
         setContentView(R.layout.activity_main);
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);

@@ -219,7 +219,7 @@ public class BookListFragmentTest {
         // Click enter
         View enterBook = solo.getView(R.id.add_book_button2);
         solo.clickOnView(enterBook);
-        
+
         solo.pressSpinnerItem(0,1);
 
         assertFalse(solo.waitForText("Brave New World"));

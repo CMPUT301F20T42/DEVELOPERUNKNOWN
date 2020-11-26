@@ -161,7 +161,7 @@ public class RequestHistoryList extends Fragment {
                                     }
                                 }
                             });
-                    //delete from history is book is deleted
+                    // delete from history is book is deleted
                     if (bookExist == false){
                         doc.getReference().delete();
                         bookExist = true;

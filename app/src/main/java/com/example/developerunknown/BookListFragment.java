@@ -89,6 +89,20 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
         filterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         filterSelection.setAdapter(filterAdapter);
 
+        //////////////////////////////////////////////////
+
+        selectSelector = (Spinner) view.findViewById(R.id.list_spinner);
+        selectList = new ArrayList<String>();
+
+        //selectList.add("All");
+        selectList.add("My Owned Books");
+        selectList.add("Books Wishlist");
+
+
+        selectAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, selectList);
+        selectAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        selectSelector.setAdapter(selectAdapter);
+
         return view;
     }
 
@@ -147,7 +161,7 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
             }
         });
 
-        //this part is used to filter status when viewing my book
+        // this part is used to filter status when viewing my book
         filterSelection.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             String filter;
 
