@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <application
         android:allowBackup="true"
@@ -12,15 +14,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".requestActicity"></activity>
-        <activity android:name=".resultActivity" ></activity>
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBmBGUfAD-pW3dtmS9ulcfRioqT1Qp054A"/>
 
+        <meta-data android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity android:name=".requestActicity" />
+            <meta-data
+                android:name="com.google.android.geo.API_KEY"
+                android:value="AIzaSyBmBGUfAD-pW3dtmS9ulcfRioqT1Qp054A"/>
+
+        <activity android:name=".resultActivity" />
         <activity
             android:name=".SignUpActivity"
             android:label="@string/title_activity_sign_up_" />
         <activity
             android:name=".LoginActivity"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,9 +41,7 @@
         </activity>
         <activity
             android:name=".Scanner"
-            android:label="Scan">
-
-        </activity>
+            android:label="Scan" />
     </application>
 
 </manifest>

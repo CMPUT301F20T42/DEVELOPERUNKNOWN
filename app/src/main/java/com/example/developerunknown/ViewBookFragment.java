@@ -1,9 +1,6 @@
 package com.example.developerunknown;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,7 +25,9 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
+/**
+ * allows user to view book information in detail
+ */
 public class ViewBookFragment extends Fragment {
     Context context;
     User currentUser;
@@ -67,7 +67,7 @@ public class ViewBookFragment extends Fragment {
         editBookButton = view.findViewById(R.id.edit_button);
         deleteBookButton = view.findViewById(R.id.delete_button);
         requestButton = view.findViewById(R.id.requests_button);
-        backButton = view.findViewById(R.id.back_button);
+        backButton = view.findViewById(R.id.back);
 
         // Display clicked book
         bookTitle = view.findViewById(R.id.viewTitle);
@@ -79,28 +79,36 @@ public class ViewBookFragment extends Fragment {
         bookAuthor.setText(clickedBook.getAuthor());
         bookDescription.setText(clickedBook.getDescription());
         bookISBN.setText(clickedBook.getISBN());
-        imageView = view.findViewById(R.id.imageView);
+        imageView = view.findViewById(R.id.imageViewBorrowerBorrowed);
 
         Photographs.viewImage("B", clickedBook.getID(), storageReference, applicationContext, imageView);
 
         editBookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("View Book Fragment", "Clicked on Edit Button");
-                // Create new fragment
-                Bundle args = new Bundle();
-                args.putSerializable("current user", currentUser);
-                args.putSerializable("clicked book", clickedBook);
+                // Can only edit a book that is available
+                if (clickedBook.getStatus().equals("Available")) {
+                    Log.d("View Book Fragment", "Clicked on Edit Button");
+                    // Create new fragment
+                    Bundle args = new Bundle();
+                    args.putSerializable("current user", currentUser);
+                    args.putSerializable("clicked book", clickedBook);
 
-                Fragment fragment = new EditBookFragment();
-                fragment.setArguments(args);
+                    Fragment fragment = new EditBookFragment();
+                    fragment.setArguments(args);
 
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, fragment, "Edit Book Fragment");
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.fragment_container, fragment, "Edit Book Fragment");
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                }
+                // Error message
+                else {
+                    Toast.makeText(getActivity(), "Cannot edit a book that is " + clickedBook.getStatus(), Toast.LENGTH_SHORT).show();
+                }
             }
+
         });
 
         deleteBookButton.setOnClickListener(new View.OnClickListener() {

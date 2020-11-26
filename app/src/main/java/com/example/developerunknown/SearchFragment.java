@@ -34,15 +34,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
-public class SearchFragment extends Fragment {
+/**
+ * Creates fragment to show searchlist view
+ */
+public class    SearchFragment extends Fragment {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     public User currentUser;
     ListView resultList;
     ArrayAdapter<Book> bookAdapter;
     ArrayList<Book> dataList = new ArrayList<>();
     TextView searchBook;
-    //String []books ={"To kill a mockingbird", "Indian Horse", "1984","1984", "Greenlight"};
     Button search_button;
 
     public SearchFragment(User user){this.currentUser = user;}
@@ -59,7 +60,7 @@ public class SearchFragment extends Fragment {
 
         //dataList.addAll(books);
         final Context context= container.getContext();
-        bookAdapter = new CustomList(context, dataList);
+        bookAdapter = new BookList(context, dataList);
 
         //bookAdapter = new CustomList(getActivity(), dataList);
 
@@ -68,35 +69,6 @@ public class SearchFragment extends Fragment {
         searchBook = (TextView)view.findViewById(R.id.editText_book);
 
         search_button = (Button)view.findViewById(R.id.search);
-        /*search_button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                String keyword = searchBook.getText().toString();
-                //Query BookRef = db.collectionGroup("Book");
-                Query myQuery = db.collectionGroup("Book").whereEqualTo("Title", keyword);
-                //Query myQuery = db.collectionGroup("Book").whereEqualTo("description", keyword);
-                //Query myQuery = db.collectionGroup("Book").whereLessThanOrEqualTo("description", keyword);
-                //Query myQuery = db.collectionGroup("Book").startAt(keyword).endAt(keyword+ "\uf8ff");
-                myQuery.get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()){
-                                    System.out.println("here");
-                                    dataList.clear();
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                        String Description = document.getString("description");
-                                        String Author = document.getString("Author");
-                                        String Title = document.getString("Title");
-                                        String ISBN = document.getString("ISBN");
-                                        String Status = document.getString("Status");
-                                        Book nowBook = new Book(Title, Author, Status, ISBN, Description);
-                                        dataList.add(nowBook);
-                                        bookAdapter.notifyDataSetChanged(); // Notifying the adapter to render any new data fetcheh
-                                    }
-                                    // [END_EXCLUDE]
-                                }}
-                        });}}); */
-
 /*
         db.collectionGroup("Book").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -140,9 +112,9 @@ public class SearchFragment extends Fragment {
             }
         });
 
+*/
 
- */
-  //    A alternate approach
+        //Fetch book date from firestore
         search_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 final String keyword = searchBook.getText().toString();
@@ -167,7 +139,7 @@ public class SearchFragment extends Fragment {
                                     }
                                 }
                             }
-                            bookAdapter = new CustomList(context,dataList);
+                            bookAdapter = new BookList(context,dataList);
                             resultList.setAdapter(bookAdapter);   //result list is the list view
                         }
                     }

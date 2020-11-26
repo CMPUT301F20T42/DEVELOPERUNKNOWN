@@ -100,7 +100,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
-        android:id="@+id/back_button"
+        android:id="@+id/back"
         android:layout_width="340dp"
         android:layout_height="40dp"
         android:layout_gravity="center|bottom"
@@ -117,9 +117,9 @@
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:id="@+id/imageViewBorrowerBorrowed"
+        android:layout_width="144dp"
+        android:layout_height="144dp"
         android:layout_marginBottom="20dp"
         android:background="@android:color/darker_gray"
         app:layout_constraintDimensionRatio="H,1:1"

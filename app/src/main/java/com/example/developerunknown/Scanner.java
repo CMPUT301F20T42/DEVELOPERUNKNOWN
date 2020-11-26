@@ -16,10 +16,13 @@ import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
 import com.google.zxing.Result;
-
+/**
+ * Scans book ISBN
+ */
 public class Scanner extends AppCompatActivity {
     private CodeScanner mCodeScanner;
 
+    //this class is come from
     //https://www.youtube.com/watch?v=wfucGSKngq4&t=352s
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +56,17 @@ public class Scanner extends AppCompatActivity {
     }
 
     @Override
+    /**
+     * Continues activity
+     */
     protected void onResume() {
         super.onResume();
         mCodeScanner.startPreview();
     }
 
+    /**
+     * pauses activity
+     */
     @Override
     protected void onPause() {
         mCodeScanner.releaseResources();

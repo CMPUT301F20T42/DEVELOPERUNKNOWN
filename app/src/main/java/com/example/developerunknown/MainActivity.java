@@ -21,15 +21,17 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-;
 
+/**
+ * Controls main fragments such as Home, BookListFragment and Login-activity
+ */
 public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "com.example.developerunknown.MESSAGE";
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference userCollectionReference = db.collection("user");
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     public FirebaseUser user;
-
+    public BottomNavigationView bottomNavigationView;
     User currentUser;
 
     @Override
@@ -82,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == Activity.RESULT_CANCELED) {
                 // Not logged in
             }
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
         }
     }
     @Override
@@ -92,13 +95,17 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivityForResult(intent,123);
-
         setContentView(R.layout.activity_main);
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
     }
-
+    /**
+     * Allows bottom screen navigation to function - Switch's fragments
+     * @param item
+     * @return
+     *  Returns true
+     */
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
@@ -114,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
                         case R.id.nav_booklist:
                             Bundle args = new Bundle();
                             args.putSerializable("current user", currentUser);
-                            selectedFragment = new BookListFragment();
+                            selectedFragment = new BookHomeFragment();
                             selectedFragment.setArguments(args);
                             break;
                         case R.id.nav_account:
@@ -125,11 +132,20 @@ public class MainActivity extends AppCompatActivity {
 
                     return true;
 
-
                     }
                 };
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
     public static Context contextOfApplication;
+    /**
+     * creates context on the current activity, allowing activties to start and intent calls
+     * @return
+     *  Returns contextOfApplication
+     */
     public static Context getContextOfApplication()
     {
         return contextOfApplication;

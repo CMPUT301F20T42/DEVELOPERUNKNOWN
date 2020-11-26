@@ -29,7 +29,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
-
+/**
+*HomeFragment is used to display notification of user,it is also the default interface when user logged in
+ */
 public class HomeFragment extends Fragment {
     ListView notificationList;
     ArrayAdapter<UserNotification> notificationAdapter;
@@ -37,9 +39,9 @@ public class HomeFragment extends Fragment {
     Context context;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    public FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    public String uid = user.getUid();
-    public CollectionReference userNotificationCollectionReference = db.collection("user").document(uid).collection("Notification");
+    public FirebaseUser user;
+    public String uid ;
+    public CollectionReference userNotificationCollectionReference;
 
     @Nullable
     @Override
@@ -50,13 +52,26 @@ public class HomeFragment extends Fragment {
 
         notificationList = view.findViewById(R.id.notificationList);
 
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        uid = user.getUid();
+        userNotificationCollectionReference = db.collection("user").document(uid).collection("Notification");
+
+
         notificationDataList = new ArrayList<>();
 
         notificationAdapter = new NotificationList(context, notificationDataList);
         notificationList.setAdapter(notificationAdapter);
 
+        Log.d("Home Fragment", "Arrived");
+
+
         userNotificationCollectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
+            /**
+             * Retrieves information from Firebase
+             * @param queryDocumentSnapshots holds and retrieves information from fB
+             * @param error status that holds the exception
+             */
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable
                     FirebaseFirestoreException error) {
 
@@ -76,7 +91,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        //if user click the notification,it will be deleted since user already know the information
+        //  if user click the notification,it will be deleted since user already know the information
         notificationList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

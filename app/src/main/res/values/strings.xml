@@ -18,11 +18,8 @@
         <item>Borrowed</item>
         <item>Requested</item>
     </string-array>
-
-    <string-array name="book_list_array">
-        <item>My Owned Books</item>
-        <item>My Borrowed Books</item>
-    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

@@ -45,6 +45,10 @@ import java.util.HashMap;
 
 import static android.app.Activity.RESULT_OK;
 
+
+/**
+ * Always user to edit books already added to fragment
+ */
 public class EditBookFragment extends Fragment {
 
     private static final int RESULT_LOAD_IMG = 111;
@@ -57,7 +61,6 @@ public class EditBookFragment extends Fragment {
 
     private EditText bookTitle;
     private EditText bookAuthor;
-    private Spinner bookStatus;
     private EditText bookDescription;
     private EditText bookISBN;
 
@@ -97,13 +100,11 @@ public class EditBookFragment extends Fragment {
 
         bookTitle = view.findViewById(R.id.book_title_editText);
         bookAuthor = view.findViewById(R.id.book_author_editText);
-        bookStatus = view.findViewById(R.id.spinner);
         bookDescription = view.findViewById(R.id.book_description_editText);
         bookISBN = view.findViewById(R.id.book_isbn_editText);
 
         bookTitle.setText(clickedBook.getTitle());
         bookAuthor.setText(clickedBook.getAuthor());
-        bookStatus.setSelection(((ArrayAdapter) bookStatus.getAdapter()).getPosition(clickedBook.getStatus()));
         bookDescription.setText(clickedBook.getDescription());
         bookISBN.setText(clickedBook.getISBN());
 
@@ -118,7 +119,6 @@ public class EditBookFragment extends Fragment {
                 Photographs.uploadImage("B", clickedBook.getID(), filePath, storageReference, applicationContext);
                 String title = bookTitle.getText().toString();
                 String author = bookAuthor.getText().toString();
-                String status = bookStatus.getSelectedItem().toString();
                 String description = bookDescription.getText().toString();
                 String ISBN = bookISBN.getText().toString();
 
@@ -126,7 +126,7 @@ public class EditBookFragment extends Fragment {
                     // Change book
                     clickedBook.setTitle(title);
                     clickedBook.setAuthor(author);
-                    clickedBook.setStatus(status);
+                    clickedBook.setStatus("Available");
                     clickedBook.setDescription(description);
                     clickedBook.setISBN(ISBN);
                     // Update database
@@ -134,10 +134,14 @@ public class EditBookFragment extends Fragment {
                     HashMap<String, String> data = new HashMap<>();
                     data.put("title", title);
                     data.put("author", author);
-                    data.put("status", status);
+                    data.put("status", "Available");
                     data.put("description", description);
                     // What if user updates the ISBN?
                     data.put("ISBN", ISBN);
+                    data.put("Bookid", clickedBook.getID());
+                    data.put("ownerId", currentUser.getUid());
+                    data.put("ownerUname", currentUser.getUsername());
+
 
                     userBookCollectionReference
                             .document(clickedBook.getID())
@@ -179,7 +183,7 @@ public class EditBookFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
-                    Toast.makeText(getActivity(), "Scan functionality can work only when CAMERA permission is granded", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Scan functionality can work only when CAMERA permission is granted", Toast.LENGTH_SHORT).show();
                     ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, 445);
                 } else {
                     Intent intent = new Intent(getActivity(), Scanner.class);
@@ -226,19 +230,6 @@ public class EditBookFragment extends Fragment {
     }
 
     public void destroy_current_fragment() {
-
-//        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.remove(fragmentManager.findFragmentByTag("Edit Book Fragment"));
-//
-//        Bundle args = new Bundle();
-//        args.putSerializable("current user", currentUser);
-//        args.putSerializable("clicked book", clickedBook);
-//        Fragment fragment = new ViewBookFragment();
-//        fragment.setArguments(args);
-//        fragmentTransaction.replace(R.id.fragment_container, fragment, "View Book Fragment");
-//        fragmentTransaction.addToBackStack(null);
-//        fragmentTransaction.commit();
 
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         fragmentManager.popBackStack();

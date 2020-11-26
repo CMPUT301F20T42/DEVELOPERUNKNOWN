@@ -23,13 +23,16 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.HashMap;
 import java.util.Map;
-
+/**
+ * Controls the result of the book searches
+ */
 public class resultActivity extends AppCompatActivity {
     TextView Title;
     TextView Author;
     TextView ISBN;
     TextView Description;
     TextView Status;
+    TextView OwnerUname;
     ImageView BookImage;
     Book currentBook;
     User borrower;
@@ -61,18 +64,26 @@ public class resultActivity extends AppCompatActivity {
         Description = findViewById(R.id.rbook_description);
         Status = findViewById(R.id.rbook_status);
         BookImage = findViewById(R.id.BookImage);
+        OwnerUname = findViewById(R.id.displayOwner);
 
         Title.setText(currentBook.getTitle());
         Author.setText(currentBook.getAuthor());
         ISBN.setText(currentBook.getISBN());
         Description.setText(currentBook.getDescription());
         Status.setText(currentBook.getStatus());
+        OwnerUname.setText("Owner:"+currentBook.getOwnerUname());
 
         Photographs.viewImage("B", currentBook.getID(), storageReference, applicationContext, BookImage);
 
     }
 
     @Override
+    /**
+     * Allows menu items to be selected
+     * @return
+     *  Return true
+     *  Return item
+     */
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();
@@ -81,19 +92,13 @@ public class resultActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /*public void startRequest(View view){
-        Intent intent = new Intent(this,resultActivity.class);
-        intent.putExtra("SelectedBook", currentBook);
-        startActivity(intent);
-    }*/
 
     public void startRequest(View view) {
         if (currentBook.getOwnerId().equals(borrower.getUid())) {
             Toast.makeText(resultActivity.this, "You can't request your own book", Toast.LENGTH_SHORT).show();
         } else {
             if (currentBook.getStatus().equals("Available") || currentBook.getStatus().equals("Requested")) {
-                final Request nowRequest = new Request(borrower.getUid(), borrower.getUsername(), currentBook);
-                currentBook.requestsListPushBack(nowRequest);
+                final Request nowRequest = new Request(borrower.getUid(), borrower.getUsername(), currentBook.getID());
                 //DocumentReference docRef = db.collection("User").document(currentBook.getOwner());
 /*
                 Query query = db.collectionGroup("Book");
@@ -117,16 +122,20 @@ public class resultActivity extends AppCompatActivity {
                         }
                     }
                 });
+
 */
+                // Start request sequence
                 DocumentReference requestedBookRef = db.collection("user"). document(currentBook.getOwnerId()).
                         collection("Book").document(currentBook.getID());
                 requestedBookRef.update("status","Requested");
+                currentBook.setStatus("Requested");
 
                 DocumentReference requestRef = db.collection("user").
                         document(currentBook.getOwnerId()).collection("Book").
                         document(currentBook.getID()).collection("Request").document();
                 String requestId = requestRef.getId();
-
+                //Get requestdata for data upload
+                //In firestore,each
                 Map requestData = new HashMap<>();
                 requestData.put("id", requestId);
                 requestData.put("Borrower", borrower.getUid());
@@ -134,7 +143,7 @@ public class resultActivity extends AppCompatActivity {
                 requestData.put("BorrowerUname", borrower.getUsername());
 
 
-                requestRef.set(requestData);
+                requestRef.set(requestData); // push to firestore
 
 
                 //send notification
@@ -159,16 +168,23 @@ public class resultActivity extends AppCompatActivity {
                 requestedBookData.put("Bookid", currentBook.getID());
                 requestedBookData.put("book", currentBook.getTitle());
                 requestedBookData.put("ownerUname", currentBook.getOwnerUname());
-                requestedBookData.put("ownerId",currentBook.getOwnerId());
-                requestedBookData.put("title",currentBook.getTitle());
+                requestedBookData.put("ownerId", currentBook.getOwnerId());
+                requestedBookData.put("title", currentBook.getTitle());
                 requestedBookData.put("description", currentBook.getDescription());
-                requestedBookData.put("ISBN",currentBook.getISBN());
-                requestedBookData.put("requester",borrower.getUsername());
-
+                requestedBookData.put("ISBN", currentBook.getISBN());
+                requestedBookData.put("requester", borrower.getUsername());
+                requestedBookData.put("status", currentBook.getStatus());
                 borrowerBookRef.set(requestedBookData);
+
+                DocumentReference RequestedHistoryRef = db.collection("user").document(borrower.getUid()).collection("RequestedHistory").document(currentBook.getID());
+                Map requestedHistoryData = new HashMap<>();
+                requestedHistoryData.put("Bookid",currentBook.getID());
+                requestedHistoryData.put("ownerId",currentBook.getOwnerId());
+                RequestedHistoryRef.set(requestedHistoryData);
 
 
                 Toast.makeText(resultActivity.this, "Your request has sent", Toast.LENGTH_SHORT).show();
+                finish();
 
             }
         }

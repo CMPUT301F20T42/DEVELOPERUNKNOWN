@@ -43,7 +43,9 @@ import java.io.InputStream;
 import java.util.HashMap;
 
 import static android.app.Activity.RESULT_OK;
-
+/**
+ * This is a class allows user to add book to booklist and extends fragment
+ */
 public class AddBookFragment extends Fragment {
 
     private static final int RESULT_LOAD_IMG = 111;
@@ -57,7 +59,6 @@ public class AddBookFragment extends Fragment {
     public String ISBN;
     private EditText bookTitle;
     private EditText bookAuthor;
-    private Spinner bookStatus;
     private EditText bookDescription;
     private EditText bookISBN;
     private Uri filePath;
@@ -136,13 +137,12 @@ public class AddBookFragment extends Fragment {
 
                 bookTitle = view.findViewById(R.id.book_title_editText);
                 bookAuthor = view.findViewById(R.id.book_author_editText);
-                bookStatus = view.findViewById(R.id.spinner);
                 bookDescription = view.findViewById(R.id.book_description_editText);
                 bookISBN = view.findViewById(R.id.book_isbn_editText);
 
                 String title = bookTitle.getText().toString();
                 String author = bookAuthor.getText().toString();
-                String status = bookStatus.getSelectedItem().toString();
+                // String status = bookStatus.getSelectedItem().toString();
                 String description = bookDescription.getText().toString();
                 String ISBN = bookISBN.getText().toString();
 
@@ -150,8 +150,7 @@ public class AddBookFragment extends Fragment {
                     // Create new document
                     DocumentReference newRef = userBookCollectionReference.document();
                     id = newRef.getId();
-                    Book book = new Book(id, title, author, status, ISBN, description);
-                    //Book book = new Book(id, title, author, status, ISBN, description,uid,currentUser.getUsername());
+                    Book book = new Book(id, title, author, "Available", ISBN, description,uid,currentUser.getUsername());
                     currentUser.addBook(book);
 
                     Photographs.uploadImage("B", id, filePath, storageReference, applicationContext);
@@ -160,7 +159,7 @@ public class AddBookFragment extends Fragment {
                     data.put("Bookid", id);
                     data.put("title", title);
                     data.put("author", author);
-                    data.put("status", status);
+                    data.put("status", "Available");
                     data.put("description", description);
                     data.put("ISBN", ISBN);
                     data.put("ownerId", uid);
@@ -220,20 +219,6 @@ public class AddBookFragment extends Fragment {
     }
 
 
-
-
-/*
-                // Create dummy user + book data
-                // TODO: replace with calls to firestore
-                loggedIn = new User("A Admin", "admin", "admin@gmail.com");
-
-                Book b1 = new Book("To Kill A Mockingbird", "Harper Lee", "Available", "123", "The mockingbird dies");
-                Book b2 = new Book("1984", "George Orwell", "Borrowed", "1234", "Set in 1983");
-
-                loggedIn.addBook(b1);
-                loggedIn.addBook(b2);
-*/
-
     /*
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults){
@@ -251,11 +236,20 @@ public class AddBookFragment extends Fragment {
 */
         @Nullable
         @Override
+        /**
+         * runs after the view has been created, and adds implementation
+         * @param view holds the view/layout of the fragment
+         * @param savedInstanceState most current data
+         * references view created by onCreateView
+         */
         public void onViewCreated ( final View view, @Nullable Bundle savedInstanceState){
             super.onCreate(savedInstanceState);
 
         }
 
+    /**
+     * accesses the fragment manager and pops the current one back into the stack
+     */
         public void destroy_current_fragment () {
 
 //        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -274,6 +268,9 @@ public class AddBookFragment extends Fragment {
             fragmentManager.popBackStack();
         }
 
+    /**
+     * Allows user to select a new image
+     */
         private void selectImage () {
             // Defining Implicit Intent to mobile gallery
             Intent photoPickIntent = new Intent(Intent.ACTION_PICK);

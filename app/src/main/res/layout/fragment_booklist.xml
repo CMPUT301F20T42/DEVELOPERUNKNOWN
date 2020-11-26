@@ -11,12 +11,6 @@
         android:layout_height="wrap_content"
         android:background="@android:drawable/btn_dropdown"
         android:spinnerMode="dropdown"/>
-    <Spinner
-        android:id="@+id/list_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:duplicateParentState="true"
-        android:entries="@array/book_list_array" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -25,7 +19,7 @@
         <ListView
             android:id="@+id/user_book_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/add_book_button"
