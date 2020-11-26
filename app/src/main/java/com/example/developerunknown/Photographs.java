@@ -191,6 +191,7 @@ public class Photographs {
                 public void onSuccess(Uri uri) {
                     GlideApp.with(context)
                             .load(uri)
+                            .centerCrop()
                             .placeholder(R.drawable.defaultphoto)
                             .error(R.drawable.defaultphoto)
                             .into(imageView);
@@ -202,6 +203,7 @@ public class Photographs {
                 public void onSuccess(Uri uri) {
                     GlideApp.with(context)
                             .load(uri)
+                            .centerCrop()
                             .placeholder(R.drawable.defaultphoto)
                             .error(R.drawable.defaultphoto)
                             .into(imageView);

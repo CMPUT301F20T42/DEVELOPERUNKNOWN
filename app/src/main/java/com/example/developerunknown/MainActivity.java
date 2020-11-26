@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == Activity.RESULT_CANCELED) {
                 // Not logged in
             }
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
         }
     }
     @Override
@@ -94,11 +95,10 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivityForResult(intent,123);
-
         setContentView(R.layout.activity_main);
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
-        //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
     }
     /**
      * Allows bottom screen navigation to function - Switch's fragments
@@ -132,10 +132,14 @@ public class MainActivity extends AppCompatActivity {
 
                     return true;
 
-
                     }
                 };
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
     public static Context contextOfApplication;
     /**
      * creates context on the current activity, allowing activties to start and intent calls

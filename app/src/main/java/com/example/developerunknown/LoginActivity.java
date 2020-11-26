@@ -28,12 +28,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 //so I stored a key value pair about userName and email/Uid,therefore user can log in using username
 
 public class LoginActivity extends AppCompatActivity {
-    public Button logInButton;
-    public Button signUpButton;
-    public EditText editUserName;
-    public EditText editPassword;
-    public String userName;
-    public String password;
+    private Button logInButton;
+    private Button signUpButton;
+
+    private EditText editUserName;
+    private EditText editPassword;
+    private String userName;
+    private String password;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference unameCollectionReference = db.collection("userName");
     private FirebaseAuth auth = FirebaseAuth.getInstance();
