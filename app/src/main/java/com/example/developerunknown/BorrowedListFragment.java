@@ -108,8 +108,10 @@ public class BorrowedListFragment extends Fragment{
                     String description = (String) doc.getData().get("description");
                     String ISBN = (String) doc.getData().get("ISBN");
                     String status = (String) doc.getData().get("status");
+                    Double lat = (Double) doc.getData().get("lat");
+                    Double lon = (Double) doc.getData().get("lng");
 
-                    bookDataList.add(new Book(doc.getId(), title, author, status, ISBN, description,OwnerId,OwnerUname)); // Adding the books from FireStore
+                    bookDataList.add(new Book(doc.getId(), title, author, status, ISBN, description, OwnerId, OwnerUname, lat, lon)); // Adding the books from FireStore
                 }
                 bookAdapter.notifyDataSetChanged(); // Notifying the adapter to render any new data fetcheh
             }
