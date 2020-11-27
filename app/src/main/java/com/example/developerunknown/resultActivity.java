@@ -72,6 +72,13 @@ public class resultActivity extends AppCompatActivity {
         Description.setText(currentBook.getDescription());
         Status.setText(currentBook.getStatus());
         OwnerUname.setText("Owner:"+currentBook.getOwnerUname());
+        OwnerUname.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new SearchUserDialogFragment(currentBook.getOwnerId()).show(getSupportFragmentManager(),"profile");
+
+            }
+        });
 
         Photographs.viewImage("B", currentBook.getID(), storageReference, applicationContext, BookImage);
 
