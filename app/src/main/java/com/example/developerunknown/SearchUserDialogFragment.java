@@ -93,7 +93,7 @@ public class SearchUserDialogFragment extends DialogFragment {
 
         return builder
                 .setView(view)
-                .setTitle("The result user")
+                .setTitle("The result user profile")
                 .setPositiveButton("OK", null)
                 .create();
         }

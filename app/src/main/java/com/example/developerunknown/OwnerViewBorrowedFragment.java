@@ -36,11 +36,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-
+/**
+        * allows owner to view book information and perform comfirm return action if the status of book is accepted
+        */
 public class OwnerViewBorrowedFragment extends Fragment implements
         android.view.View.OnClickListener, OnMapReadyCallback {
 
@@ -64,7 +67,7 @@ public class OwnerViewBorrowedFragment extends Fragment implements
     private TextView bookAuthor;
     private TextView bookDescription;
     private TextView bookISBN;
-    private TextView bookBorrower;
+    private Button bookBorrower;
     private FirebaseStorage storage;
     private StorageReference storageReference;
 
@@ -84,7 +87,7 @@ public class OwnerViewBorrowedFragment extends Fragment implements
 
         currentBookDocRef = db.collection("user").document(uid).collection("Book").document(clickedBook.getID());
         borrowerSideBorrowedBookRef = db.collection("user").document(clickedBook.getBorrowerID()).collection("BorrowedBook").document(clickedBook.getID());
-        currentBookDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        /*currentBookDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 System.out.println("here");
@@ -96,7 +99,7 @@ public class OwnerViewBorrowedFragment extends Fragment implements
                     Address = document.getString("add");
                 }
             }
-        });
+        });*/
     }
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -168,7 +171,15 @@ public class OwnerViewBorrowedFragment extends Fragment implements
             }
         });
 */
-//try to solve the bug,to be tested
+        bookBorrower.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new SearchUserDialogFragment(clickedBook.getBorrowerID()).show(getActivity().getSupportFragmentManager(),"borrower profile");
+
+            }
+        });
+
+
         confirmReturnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -207,11 +218,23 @@ public class OwnerViewBorrowedFragment extends Fragment implements
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Destroy Map fragment
+                if (mapFragment != null) {
+                    getActivity().getFragmentManager().beginTransaction().remove(mapFragment).commit();
+                }
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentManager.popBackStack();
             }
         });
-
+/*
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager.popBackStack();
+            }
+        });
+*/
         return view;
     }
 
@@ -226,11 +249,15 @@ public class OwnerViewBorrowedFragment extends Fragment implements
                     Toast.makeText(getActivity(), "You successfully received this book", Toast.LENGTH_SHORT).show();
                     currentBookDocRef.update("returnDenoted","false");
                     currentBookDocRef.update("status","Available");
+                    currentBookDocRef.update("borrowerID", FieldValue.delete());
+                    currentBookDocRef.update("borrowerUname", FieldValue.delete());
+                    currentBookDocRef.update("lat", FieldValue.delete());
+                    currentBookDocRef.update("lng", FieldValue.delete());
                     borrowerSideBorrowedBookRef.update("returnDenoted","false");
 
-                    //for borrower,remove book from BorrowedBook
+                    // for borrower,remove book from BorrowedBook
                     borrowerSideBorrowedBookRef.delete();
-                    
+
                 }
                 else {
                     Toast.makeText(getActivity(), "The ISBN you scaned does not match the ISBN of the book", Toast.LENGTH_SHORT).show();
@@ -244,22 +271,38 @@ public class OwnerViewBorrowedFragment extends Fragment implements
     public void onClick(View view) {
 
     }
-
+/*
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
         MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(new LatLng(Lat, Lng));
+        markerOptions.position(new LatLng(clickedBook.getLat(), clickedBook.getLon()));
 
         markerOptions.title(Address);
         mMap.clear();
         CameraUpdate location = CameraUpdateFactory.newLatLngZoom(
-                new LatLng(Lat, Lng), 16f);
+                new LatLng(clickedBook.getLat(), clickedBook.getLon()), 16f);
+        mMap.animateCamera(location);
+        mMap.addMarker(markerOptions);
+        Log.d("status", "success");
+    }
+    */
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        mMap.getUiSettings().setMyLocationButtonEnabled(false);
+        MarkerOptions markerOptions = new MarkerOptions();
+        Log.d("Lat", String.valueOf(clickedBook.getLat()));
+        Log.d("Lon", String.valueOf(clickedBook.getLon()));
+        markerOptions.position(new LatLng(clickedBook.getLat(), clickedBook.getLon()));
+
+        markerOptions.title(Address);
+        mMap.clear();
+        CameraUpdate location = CameraUpdateFactory.newLatLngZoom(
+                new LatLng(clickedBook.getLat(), clickedBook.getLon()), 16f);
         mMap.animateCamera(location);
         mMap.addMarker(markerOptions);
         Log.d("status", "success");
     }
 }
-
-

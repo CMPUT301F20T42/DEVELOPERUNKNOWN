@@ -66,7 +66,7 @@ public class OwnerViewAcceptedFragment extends Fragment implements
     private TextView bookAuthor;
     private TextView bookDescription;
     private TextView bookISBN;
-    private TextView bookBorrower;
+    private Button bookBorrower;
     private FirebaseStorage storage;
     private StorageReference storageReference;
 
@@ -139,6 +139,15 @@ public class OwnerViewAcceptedFragment extends Fragment implements
         imageView = view.findViewById(R.id.imageViewOwnerAccepted);
 
         Photographs.viewImage("B", clickedBook.getID(), storageReference, applicationContext, imageView);
+
+
+        bookBorrower.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new SearchUserDialogFragment(clickedBook.getBorrowerID()).show(getActivity().getSupportFragmentManager(),"borrower profile");
+
+            }
+        });
 /*
         denoteBorrowButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -236,7 +245,7 @@ public class OwnerViewAcceptedFragment extends Fragment implements
 
                 }
                 else {
-                    Toast.makeText(getActivity(), "The ISBN you scaned does not match the ISBN of the book", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "The ISBN you scanned does not match the ISBN of the book", Toast.LENGTH_SHORT).show();
 
                 }
             }
@@ -253,8 +262,7 @@ public class OwnerViewAcceptedFragment extends Fragment implements
         mMap = googleMap;
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
         MarkerOptions markerOptions = new MarkerOptions();
-        Log.d("Lat", String.valueOf(clickedBook.getLat()));
-        Log.d("Lon", String.valueOf(clickedBook.getLon()));
+
         markerOptions.position(new LatLng(clickedBook.getLat(), clickedBook.getLon()));
 
         markerOptions.title(Address);

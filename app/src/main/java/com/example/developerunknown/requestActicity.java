@@ -164,10 +164,10 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
             borrowerAcceptedBookRef.set(acceptedBookData);
 
 
-            DocumentReference userNotificationRef = db.collection("user").document(Book.getOwnerId()).collection("Notification").document();
+            DocumentReference userNotificationRef = db.collection("user").document(request.getBorrowerID()).collection("Notification").document();
             String notificationId = userNotificationRef.getId();
             Map acceptNotiData = new HashMap<>();
-            acceptNotiData.put("sender", currentUser.getUid());
+            acceptNotiData.put("sender", currentUser.getUsername());
             acceptNotiData.put("type", "Accepted");
             acceptNotiData.put("book", Book.getTitle());
             acceptNotiData.put("id", notificationId);
@@ -197,7 +197,7 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
                                 userNotificationRef.set(notiData);
                             }
 
-                            //clear data from "RequestedBook" of users since some user is accepted
+                            // clear data from "RequestedBook" of users since some user is accepted
                             DocumentReference borrowerRequestedBookRef = db.collection("user").document(requesterID).collection("RequestedBook")
                                     .document(Book.getID());
                             borrowerRequestedBookRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

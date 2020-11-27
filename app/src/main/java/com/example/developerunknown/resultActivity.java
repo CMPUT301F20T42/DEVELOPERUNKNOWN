@@ -72,6 +72,13 @@ public class resultActivity extends AppCompatActivity {
         Description.setText(currentBook.getDescription());
         Status.setText(currentBook.getStatus());
         OwnerUname.setText("Owner:"+currentBook.getOwnerUname());
+        OwnerUname.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new SearchUserDialogFragment(currentBook.getOwnerId()).show(getSupportFragmentManager(),"profile");
+
+            }
+        });
 
         Photographs.viewImage("B", currentBook.getID(), storageReference, applicationContext, BookImage);
 
@@ -128,6 +135,7 @@ public class resultActivity extends AppCompatActivity {
                 DocumentReference requestedBookRef = db.collection("user"). document(currentBook.getOwnerId()).
                         collection("Book").document(currentBook.getID());
                 requestedBookRef.update("status","Requested");
+                currentBook.setStatus("Requested");
 
                 DocumentReference requestRef = db.collection("user").
                         document(currentBook.getOwnerId()).collection("Book").
@@ -167,13 +175,19 @@ public class resultActivity extends AppCompatActivity {
                 requestedBookData.put("Bookid", currentBook.getID());
                 requestedBookData.put("book", currentBook.getTitle());
                 requestedBookData.put("ownerUname", currentBook.getOwnerUname());
-                requestedBookData.put("ownerId",currentBook.getOwnerId());
-                requestedBookData.put("title",currentBook.getTitle());
+                requestedBookData.put("ownerId", currentBook.getOwnerId());
+                requestedBookData.put("title", currentBook.getTitle());
                 requestedBookData.put("description", currentBook.getDescription());
-                requestedBookData.put("ISBN",currentBook.getISBN());
-                requestedBookData.put("requester",borrower.getUsername());
-
+                requestedBookData.put("ISBN", currentBook.getISBN());
+                requestedBookData.put("requester", borrower.getUsername());
+                requestedBookData.put("status", currentBook.getStatus());
                 borrowerBookRef.set(requestedBookData);
+
+                DocumentReference RequestedHistoryRef = db.collection("user").document(borrower.getUid()).collection("RequestedHistory").document(currentBook.getID());
+                Map requestedHistoryData = new HashMap<>();
+                requestedHistoryData.put("Bookid",currentBook.getID());
+                requestedHistoryData.put("ownerId",currentBook.getOwnerId());
+                RequestedHistoryRef.set(requestedHistoryData);
 
 
                 Toast.makeText(resultActivity.this, "Your request has sent", Toast.LENGTH_SHORT).show();

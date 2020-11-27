@@ -97,6 +97,7 @@ public class AcceptedListFragment extends Fragment{
                 bookDataList.clear();
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
                 {
+
                     String OwnerId = doc.getString("ownerId");
                     String OwnerUname = doc.getString("ownerUname");
                     String title = (String) doc.getData().get("title");
@@ -104,8 +105,18 @@ public class AcceptedListFragment extends Fragment{
                     String description = (String) doc.getData().get("description");
                     String ISBN = (String) doc.getData().get("ISBN");
                     String status = (String) doc.getData().get("status");
+                    Double lat = (Double) doc.getData().get("lat");
+                    Double lon = (Double) doc.getData().get("lng");
 
-                    bookDataList.add(new Book(doc.getId(), title, author, status, ISBN, description,OwnerId,OwnerUname)); // Adding the books from FireStore
+                    String address = doc.getString("address");
+
+                    // Adding the books from FireStore
+                    Book thisBook = new Book(doc.getId(), title, author, status, ISBN, description, OwnerId, OwnerUname);
+
+                    thisBook.setLat(lat);
+                    thisBook.setLon(lon);
+                    thisBook.setAddress(address);
+                    bookDataList.add(thisBook); // Adding the books from FireStore
                 }
                 bookAdapter.notifyDataSetChanged(); // Notifying the adapter to render any new data fetcheh
             }

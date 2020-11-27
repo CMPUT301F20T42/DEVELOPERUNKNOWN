@@ -62,6 +62,8 @@ public class HomeFragment extends Fragment {
         notificationAdapter = new NotificationList(context, notificationDataList);
         notificationList.setAdapter(notificationAdapter);
 
+        Log.d("Home Fragment", "Arrived");
+
 
         userNotificationCollectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -89,7 +91,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        //if user click the notification,it will be deleted since user already know the information
+        //  if user click the notification,it will be deleted since user already know the information
         notificationList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
