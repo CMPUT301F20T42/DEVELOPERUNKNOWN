@@ -3,6 +3,7 @@ package com.example.developerunknown;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,11 +14,14 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -27,6 +31,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,10 +45,28 @@ import java.util.Map;
 public class requestFragment extends DialogFragment {
     private TextView Title;
     private TextView Author;
+
+
+    private ImageView resultUserProfile;
+    private TextView resultUserName;
+    private TextView resultUserFullName;
+    private TextView resultUserEmail;
+    private TextView resultUserPhone;
+    public String requestUid;
+    private FragmentActivity myContext;
+    private FirebaseStorage storage;
+    private StorageReference storageReference;
+    final Context applicationContext = MainActivity.getContextOfApplication();
+
+
+
     private Book nowBook;
     private Request nowRequest;
     private User currentUser;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+
+    private CollectionReference userCollectionReference = db.collection("user");
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -96,7 +120,35 @@ public class requestFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_request, null);
-        Title = view.findViewById(R.id.rf_title);
+
+        resultUserName = view.findViewById(R.id.searchUserName);
+        resultUserFullName = view.findViewById(R.id.searchUserFullName);
+        resultUserEmail = view.findViewById(R.id.searchUserContactMail);
+        resultUserPhone = view.findViewById(R.id.searchUserContactPhone);
+        resultUserProfile = view.findViewById(R.id.imageViewBorrowerBorrowed);
+        DocumentReference RequestUserDocRef = userCollectionReference.document(nowRequest.getBorrowerID());
+
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
+
+        RequestUserDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    resultUserName.setText(document.getString("userName"));
+                    resultUserFullName.setText(document.getString("firstName")+' '+document.getString("lastName"));
+                    resultUserEmail.setText(document.getString("contactEmail"));
+                    resultUserPhone.setText(document.getString("contactPhone"));
+                    Photographs.viewImage("U", nowRequest.getBorrowerID(), storageReference, applicationContext, resultUserProfile);
+                }
+                else {
+                    Log.d("check userProfile", "user profile error");
+                    Toast.makeText(getActivity(), "There is a error showing the profile", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
 
         String dialogTitle = "Request from " + nowRequest.getBorrowerUname();
         //currentUser = (User) this.getArguments().getSerializable("current user");
