@@ -161,12 +161,11 @@ public class requestFragment extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         //Todo: Delete request from firebase
-                        DocumentReference currentBookRef = db.collection("user").document(nowBook.getOwnerId()).collection("Book").document(nowBook.getID());
+                        final DocumentReference currentBookRef = db.collection("user").document(nowBook.getOwnerId()).collection("Book").document(nowBook.getID());
                         // Change book status to available
-                        nowBook.setStatus("Available");
-                        currentBookRef.update("status", "Available");
 
-                        CollectionReference requestCollectionRef = currentBookRef.collection("Request");
+
+                        final CollectionReference requestCollectionRef = currentBookRef.collection("Request");
 
                         requestCollectionRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
@@ -176,7 +175,7 @@ public class requestFragment extends DialogFragment {
                                         String requesterID = document.getString("Borrower");
                                         //String documentId = document.getId();
 
-                                        if (requesterID.equals(nowRequest.getBorrowerID())) {        //if not the user we accept,deny and send notification
+                                        if (requesterID.equals(nowRequest.getBorrowerID())) {        //deny and send notification for request made by the same user
                                             //send deny notification
                                             DocumentReference userNotificationRef = db.collection("user").document(requesterID).collection("Notification").document();
                                             String notificationId = userNotificationRef.getId();
@@ -204,10 +203,50 @@ public class requestFragment extends DialogFragment {
                                                 }
                                             });
                                         }
+
                                     }
+                                    //check if there is anymore request,if not,set status of current book to available
+                                    requestCollectionRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task2) {
+                                            if (task2.isSuccessful()) {
+                                                if (task2.getResult().size() > 0) {
+                                                    //do nothing
+                                                } else {
+                                                    //set book available
+                                                    nowBook.setStatus("Available");
+                                                    currentBookRef.update("status", "Available");
+                                                }
+                                            }
+                                        }
+                                    });
+
                                 }
                             }
                         });
+/*
+                        requestCollectionRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    if (task.getResult().size() > 0) {
+                                        //do nothing
+                                    }
+
+                                } else {
+                                    //set book available
+                                    nowBook.setStatus("Available");
+                                    currentBookRef.update("status", "Available");
+                                }
+                            }
+                        });
+
+*/
+
+
+
+
+
                     }})
                 .setPositiveButton("OK I accept", new DialogInterface.OnClickListener() {
                     @Override

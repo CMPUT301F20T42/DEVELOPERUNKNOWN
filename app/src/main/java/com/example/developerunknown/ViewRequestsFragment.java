@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
@@ -19,9 +20,12 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -130,6 +134,27 @@ public class ViewRequestsFragment extends Fragment {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*
+                bookRequestCollectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                                               @Override
+                                                                               public void onComplete(@NonNull Task<QuerySnapshot> task2) {
+                                                                                   if (task2.isSuccessful()) {
+                                                                                       if (task2.getResult().size() > 0) {
+                                                                                           //do nothing
+                                                                                       } else {
+                                                                                           //set book available
+                                                                                           clickedBook.setStatus("Available");
+                                                                                           DocumentReference currentBookRef = db.collection("user").
+                                                                                                   document(uid).collection("Book").
+                                                                                                   document(bookid);
+
+                                                                                           currentBookRef.update("status", "Available");
+                                                                                       }
+                                                                                   }
+                                                                               }
+                                                                           });
+
+                 */
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentManager.popBackStack();
             }
