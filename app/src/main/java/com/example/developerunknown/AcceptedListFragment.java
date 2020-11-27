@@ -108,8 +108,6 @@ public class AcceptedListFragment extends Fragment{
                     Double lat = (Double) doc.getData().get("lat");
                     Double lon = (Double) doc.getData().get("lng");
 
-                    Double lat = doc.getDouble("lat");
-                    Double lon = doc.getDouble("lat");
                     String address = doc.getString("address");
 
                     // Adding the books from FireStore
