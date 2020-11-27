@@ -108,6 +108,7 @@
         android:layout_marginTop="20dp"
         android:background="#FFFFFF"
         android:text="Borrower"
+        app:layout_constraintBottom_toTopOf="@+id/mapp4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/viewISBNOwnerAccepted" />
 
