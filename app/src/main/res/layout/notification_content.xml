@@ -14,32 +14,32 @@
         android:padding="10dp"
         android:text="notificationType"
         android:textSize="25sp"
-        app:layout_constraintEnd_toStartOf="@+id/notificationBook"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/notificationBook"
-        android:layout_width="251dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:padding="10dp"
         android:text="Book"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/notificationType"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+     <TextView
         android:id="@+id/notificationSender"
-        android:layout_width="251dp"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:padding="10dp"
         android:text="Sender"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/notificationType"
-        app:layout_constraintTop_toBottomOf="@id/notificationBook" />
+        app:layout_constraintTop_toBottomOf="@+id/notificationBook" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
