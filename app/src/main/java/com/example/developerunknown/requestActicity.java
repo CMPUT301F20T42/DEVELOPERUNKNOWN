@@ -167,7 +167,7 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
             DocumentReference userNotificationRef = db.collection("user").document(request.getBorrowerID()).collection("Notification").document();
             String notificationId = userNotificationRef.getId();
             Map acceptNotiData = new HashMap<>();
-            acceptNotiData.put("sender", currentUser.getUid());
+            acceptNotiData.put("sender", currentUser.getUsername());
             acceptNotiData.put("type", "Accepted");
             acceptNotiData.put("book", Book.getTitle());
             acceptNotiData.put("id", notificationId);
