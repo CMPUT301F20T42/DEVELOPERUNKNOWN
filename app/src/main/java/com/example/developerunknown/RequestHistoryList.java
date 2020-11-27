@@ -145,14 +145,14 @@ public class RequestHistoryList extends Fragment {
                                         DocumentSnapshot document = task.getResult();
                                         if (document.exists()) {
                                             Log.d("TAG", "found book");
-                                            String OwnerId = document.getString("ownerId");
+                                            String ownerId = document.getString("ownerId");
                                             String OwnerUname = document.getString("ownerUname");
                                             String title = (String) document.getData().get("title");
                                             String author = (String) document.getData().get("author");
                                             String description = (String) document.getData().get("description");
                                             String ISBN = (String) document.getData().get("ISBN");
                                             String status = (String) document.getData().get("status");
-                                            bookDataList.add(new Book(document.getId(), title, author, status, ISBN, description, OwnerId, OwnerUname)); // Adding the books from FireStore
+                                            bookDataList.add(new Book(document.getId(), title, author, status, ISBN, description, ownerId, OwnerUname)); // Adding the books from FireStore
                                             bookAdapter.notifyDataSetChanged();
                                         }
                                         else{
@@ -161,7 +161,7 @@ public class RequestHistoryList extends Fragment {
                                     }
                                 }
                             });
-                    // delete from history is book is deleted
+                    // delete from history if book is deleted
                     if (bookExist == false){
                         doc.getReference().delete();
                         bookExist = true;
