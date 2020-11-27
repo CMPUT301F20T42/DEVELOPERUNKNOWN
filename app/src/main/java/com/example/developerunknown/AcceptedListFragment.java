@@ -105,6 +105,8 @@ public class AcceptedListFragment extends Fragment{
                     String description = (String) doc.getData().get("description");
                     String ISBN = (String) doc.getData().get("ISBN");
                     String status = (String) doc.getData().get("status");
+                    Double lat = (Double) doc.getData().get("lat");
+                    Double lon = (Double) doc.getData().get("lng");
 
                     Double lat = doc.getDouble("lat");
                     Double lon = doc.getDouble("lat");

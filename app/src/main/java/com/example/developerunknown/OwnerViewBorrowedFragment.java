@@ -36,6 +36,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -248,11 +249,15 @@ public class OwnerViewBorrowedFragment extends Fragment implements
                     Toast.makeText(getActivity(), "You successfully received this book", Toast.LENGTH_SHORT).show();
                     currentBookDocRef.update("returnDenoted","false");
                     currentBookDocRef.update("status","Available");
+                    currentBookDocRef.update("borrowerID", FieldValue.delete());
+                    currentBookDocRef.update("borrowerUname", FieldValue.delete());
+                    currentBookDocRef.update("lat", FieldValue.delete());
+                    currentBookDocRef.update("lng", FieldValue.delete());
                     borrowerSideBorrowedBookRef.update("returnDenoted","false");
 
-                    //for borrower,remove book from BorrowedBook
+                    // for borrower,remove book from BorrowedBook
                     borrowerSideBorrowedBookRef.delete();
-                    
+
                 }
                 else {
                     Toast.makeText(getActivity(), "The ISBN you scaned does not match the ISBN of the book", Toast.LENGTH_SHORT).show();
@@ -272,12 +277,12 @@ public class OwnerViewBorrowedFragment extends Fragment implements
         mMap = googleMap;
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
         MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(new LatLng(Lat, Lng));
+        markerOptions.position(new LatLng(clickedBook.getLat(), clickedBook.getLon()));
 
         markerOptions.title(Address);
         mMap.clear();
         CameraUpdate location = CameraUpdateFactory.newLatLngZoom(
-                new LatLng(Lat, Lng), 16f);
+                new LatLng(clickedBook.getLat(), clickedBook.getLon()), 16f);
         mMap.animateCamera(location);
         mMap.addMarker(markerOptions);
         Log.d("status", "success");
@@ -301,5 +306,3 @@ public class OwnerViewBorrowedFragment extends Fragment implements
         Log.d("status", "success");
     }
 }
-
-

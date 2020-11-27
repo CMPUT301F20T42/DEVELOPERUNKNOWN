@@ -282,12 +282,13 @@ public class BorrowerViewBorrowedFragment extends Fragment implements
         mMap = googleMap;
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
         MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(new LatLng(Lat, Lng));
+        Log.d("Lat", String.valueOf(clickedBook.getLat()));
+        markerOptions.position(new LatLng(clickedBook.getLat(), clickedBook.getLon()));
 
         markerOptions.title(Address);
         mMap.clear();
         CameraUpdate location = CameraUpdateFactory.newLatLngZoom(
-                new LatLng(Lat, Lng), 16f);
+                new LatLng(clickedBook.getLat(), clickedBook.getLon()), 16f);
         mMap.animateCamera(location);
         mMap.addMarker(markerOptions);
         Log.d("status", "success");
@@ -295,5 +296,3 @@ public class BorrowerViewBorrowedFragment extends Fragment implements
 
      */
 }
-
-

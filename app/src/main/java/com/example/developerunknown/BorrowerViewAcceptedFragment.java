@@ -321,7 +321,7 @@ public class BorrowerViewAcceptedFragment extends Fragment implements
                     ownerSideCurrentBookRef.update("status","Borrowed");
                     ownerSideCurrentBookRef.update("borrowDenoted","false");
 
-                    //for current user,remove book from AcceptedBook and add to BorrowedBook
+                    // for current user,remove book from AcceptedBook and add to BorrowedBook
                     DocumentReference MyBorrowedBookRef = db.collection("user").document(uid).collection("BorrowedBook").document(clickedBook.getID());
                     Map borrowedBookData = new HashMap<>();
                     borrowedBookData.put("Bookid", clickedBook.getID());
@@ -333,6 +333,8 @@ public class BorrowerViewAcceptedFragment extends Fragment implements
                     borrowedBookData.put("ISBN",clickedBook.getISBN());
                     borrowedBookData.put("borrower",currentUser.getUsername());
                     borrowedBookData.put("borrowerId", currentUser.getUid());
+                    borrowedBookData.put("lat", clickedBook.getLat());
+                    borrowedBookData.put("lng", clickedBook.getLon());
                     //use a status to denote is borrower denote return
                     borrowedBookData.put("returnDenoted","false");
                     //also need to handle address
@@ -360,12 +362,14 @@ public class BorrowerViewAcceptedFragment extends Fragment implements
         mMap = googleMap;
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
         MarkerOptions markerOptions = new MarkerOptions();
+        Log.d("Location ", String.valueOf(clickedBook.getLat()));
+        markerOptions.position(new LatLng(clickedBook.getLat(), clickedBook.getLon()));
 
         markerOptions.title(Address);
         mMap.clear();
         markerOptions.position(new LatLng(Lat, Lng));
         CameraUpdate location = CameraUpdateFactory.newLatLngZoom(
-                new LatLng(Lat, Lng), 16f);
+                new LatLng(clickedBook.getLat(), clickedBook.getLon()), 16f);
         mMap.animateCamera(location);
         mMap.addMarker(markerOptions);
         Log.d("status", "success");
