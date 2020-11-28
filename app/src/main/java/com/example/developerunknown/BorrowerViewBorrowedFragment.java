@@ -248,7 +248,7 @@ public class BorrowerViewBorrowedFragment extends Fragment implements
         mMap = googleMap;
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
         MarkerOptions markerOptions = new MarkerOptions();
-        Log.d("Lat", String.valueOf(clickedBook.getLat()));
+
         markerOptions.position(new LatLng(clickedBook.getLat(), clickedBook.getLon()));
 
         markerOptions.title(Address);
