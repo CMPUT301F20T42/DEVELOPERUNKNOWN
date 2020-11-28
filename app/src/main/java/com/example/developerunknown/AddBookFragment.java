@@ -82,6 +82,7 @@ public class AddBookFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
+        //this is to handle scanning activity result
         if (requestCode == 325) {
             if (resultCode == Activity.RESULT_OK) {
                 String result = data.getStringExtra("RESULT_ISBN");
@@ -89,7 +90,7 @@ public class AddBookFragment extends Fragment {
                 bookISBN.setText(result);
             }
         }
-
+        //this part is to handle picture selection result
         if (requestCode == RESULT_LOAD_IMG)
             if (resultCode == RESULT_OK) {
 
