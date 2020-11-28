@@ -66,7 +66,7 @@ public class OwnerViewAcceptedFragment extends Fragment implements
     private TextView bookAuthor;
     private TextView bookDescription;
     private TextView bookISBN;
-    private TextView bookBorrower;
+    private Button bookBorrower;
     private FirebaseStorage storage;
     private StorageReference storageReference;
 
@@ -139,6 +139,15 @@ public class OwnerViewAcceptedFragment extends Fragment implements
         imageView = view.findViewById(R.id.imageViewOwnerAccepted);
 
         Photographs.viewImage("B", clickedBook.getID(), storageReference, applicationContext, imageView);
+
+
+        bookBorrower.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new SearchUserDialogFragment(clickedBook.getBorrowerID()).show(getActivity().getSupportFragmentManager(),"borrower profile");
+
+            }
+        });
 /*
         denoteBorrowButton.setOnClickListener(new View.OnClickListener() {
             @Override

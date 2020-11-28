@@ -20,14 +20,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.259" />
 
     <TextView
         android:id="@+id/viewAuthorBorrowerAccepted"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginBottom="180dp"
+        android:layout_marginBottom="164dp"
         android:baselineAligned="false"
         android:inputType="textPersonName"
         android:textSize="18sp"
@@ -38,51 +39,47 @@
 
     <TextView
         android:id="@+id/viewDescriptionBorrowerAccepted"
-        android:layout_width="363dp"
+        android:layout_width="wrap_content"
         android:layout_height="58dp"
         android:layout_gravity="center"
         android:layout_marginStart="16dp"
-        android:layout_marginBottom="16dp"
-        android:textSize="18sp"
+        android:layout_marginBottom="12dp"
         android:inputType="textPersonName"
+        android:maxLength="120"
+        android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/viewISBNBorrowerAccepted"
         app:layout_constraintEnd_toEndOf="parent"
-        android:maxLength="120"
+        app:layout_constraintHorizontal_bias="0.478"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/viewISBNBorrowerAccepted"
-        android:layout_width="189dp"
+        android:layout_width="wrap_content"
         android:layout_height="49dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="24dp"
         android:inputType="textPersonName"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewDescriptionBorrowerAccepted" />
+        app:layout_constraintBottom_toTopOf="@+id/mapp2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintStart_toEndOf="@+id/acceptedOwner" />
 
     <Button
         android:id="@+id/back"
-        android:layout_width="340dp"
+        android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_gravity="center|bottom"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="16dp"
         android:backgroundTint="#AFB7B6"
         android:text="Back"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.307"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        tools:layout_editor_absoluteX="0dp" />
 
     <ImageView
         android:id="@+id/imageViewBorrowerAccepted"
         android:layout_width="144dp"
         android:layout_height="141dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="4dp"
         android:background="@android:color/darker_gray"
         app:layout_constraintBottom_toTopOf="@+id/viewDescriptionBorrowerAccepted"
         app:layout_constraintEnd_toEndOf="parent"
@@ -91,33 +88,32 @@
 
     <TextView
         android:id="@+id/acceptedOwner"
-        android:layout_width="187dp"
+        android:layout_width="wrap_content"
         android:layout_height="35dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="52dp"
         android:text="Owner:"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewISBNBorrowerAccepted" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/viewISBNBorrowerAccepted"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/borrower_confirm_borrow"
-        android:layout_width="340dp"
+        android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="4dp"
+        android:backgroundTint="#a3d977"
         android:text="Confirm borrow"
         app:layout_constraintBottom_toTopOf="@+id/back"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        tools:layout_editor_absoluteX="0dp" />
 
     <fragment
         android:id="@+id/mapp2"
         class="com.google.android.gms.maps.MapFragment"
         android:layout_width="382dp"
         android:layout_height="137dp"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/borrower_confirm_borrow"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/acceptedOwner" />
+        app:layout_constraintHorizontal_bias="0.551"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -62,7 +62,7 @@ public class BorrowerViewBorrowedFragment extends Fragment implements
     private TextView bookAuthor;
     private TextView bookDescription;
     private TextView bookISBN;
-    private TextView bookOwner;
+    private Button bookOwner;
     private FirebaseStorage storage;
     private StorageReference storageReference;
 
@@ -84,19 +84,21 @@ public class BorrowerViewBorrowedFragment extends Fragment implements
         ownerSideCurrentBookRef = db.collection("user").document(clickedBook.getOwnerId()).collection("Book").document(clickedBook.getID());
 
         currentBookDocRef = db.collection("user").document(uid).collection("BorrowedBook").document(clickedBook.getID());
-//        currentBookDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                System.out.println("here");
-//                if (task.isSuccessful()) {
-//                    DocumentSnapshot document = task.getResult();
-//                    Lat = document.getDouble("lat");
-//                    Lng = document.getDouble("lng");
-//                    System.out.println(Lat);
-//                    Address = document.getString("add");
-//                }
-//            }
-//        });
+        /*currentBookDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                System.out.println("here");
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    Lat = document.getDouble("lat");
+                    Lng = document.getDouble("lng");
+                    System.out.println(Lat);
+                    Address = document.getString("add");
+                }
+            }
+        });
+
+         */
     }
 
 
@@ -201,6 +203,22 @@ public class BorrowerViewBorrowedFragment extends Fragment implements
             }
         });
 
+        bookOwner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new SearchUserDialogFragment(clickedBook.getOwnerId()).show(getActivity().getSupportFragmentManager(),"borrower profile");
+
+            }
+        });
+/*
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager.popBackStack();
+            }
+        });
+*/
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -242,7 +260,23 @@ public class BorrowerViewBorrowedFragment extends Fragment implements
     public void onClick(View view) {
 
     }
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        mMap.getUiSettings().setMyLocationButtonEnabled(false);
+        MarkerOptions markerOptions = new MarkerOptions();
+        Log.d("Lat", String.valueOf(clickedBook.getLat()));
+        Log.d("Lon", String.valueOf(clickedBook.getLon()));
+        markerOptions.position(new LatLng(clickedBook.getLat(), clickedBook.getLon()));
 
+        markerOptions.title(Address);
+        mMap.clear();
+        CameraUpdate location = CameraUpdateFactory.newLatLngZoom(
+                new LatLng(clickedBook.getLat(), clickedBook.getLon()), 16f);
+        mMap.animateCamera(location);
+        mMap.addMarker(markerOptions);
+        Log.d("status", "success");
+    }
+    /*
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -259,6 +293,6 @@ public class BorrowerViewBorrowedFragment extends Fragment implements
         mMap.addMarker(markerOptions);
         Log.d("status", "success");
     }
+
+     */
 }
-
-

@@ -65,7 +65,6 @@ public class RequestListFragment extends Fragment{
     @Nullable
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        // Get add book button
 
 
 

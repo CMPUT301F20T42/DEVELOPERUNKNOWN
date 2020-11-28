@@ -39,7 +39,7 @@ public class Scanner extends AppCompatActivity {
                     @Override
                     public void run() {
                         Intent intent=new Intent();
-                        Toast.makeText(Scanner.this, result.getText(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(Scanner.this, result.getText(), Toast.LENGTH_SHORT).show();
                         intent.putExtra("RESULT_ISBN", result.getText());
                         setResult(Activity.RESULT_OK, intent);
                         finish();

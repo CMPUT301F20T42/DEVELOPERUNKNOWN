@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -20,7 +21,9 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/add_photo_button"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
 
         <Button
             android:id="@+id/cancel_book_button"
@@ -69,7 +72,7 @@
 
         <EditText
             android:id="@+id/book_title_editText"
-            android:layout_width="356dp"
+            android:layout_width="300dp"
             android:layout_height="48dp"
             android:layout_gravity="center"
             android:layout_marginBottom="16dp"
@@ -107,7 +110,7 @@
 
         <ImageView
             android:id="@+id/add_photo_button"
-            android:layout_width="203dp"
+            android:layout_width="190dp"
             android:layout_height="190dp"
             android:layout_marginBottom="16dp"
             android:background="@android:color/darker_gray"
@@ -115,6 +118,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.527"
             app:layout_constraintStart_toStartOf="parent" />
+
 
         <EditText
             android:id="@+id/book_description_editText"
@@ -125,10 +129,11 @@
             android:ems="10"
             android:hint="Description"
             android:inputType="textPersonName"
+            android:maxLength="120"
             app:layout_constraintBottom_toTopOf="@+id/book_isbn_editText"
             app:layout_constraintEnd_toEndOf="parent"
-            android:maxLength="120"
             app:layout_constraintStart_toStartOf="parent" />
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
