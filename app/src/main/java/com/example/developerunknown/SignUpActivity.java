@@ -160,6 +160,8 @@ public class SignUpActivity extends AppCompatActivity {
                                                             @Override
                                                             public void onSuccess(Void aVoid) {
                                                                 Log.d("create user", "user information been added successfully!");
+                                                                Toast.makeText(SignUpActivity.this,"You account is created successfully!",Toast.LENGTH_SHORT).show();
+
                                                             }
                                                         })
                                                         .addOnFailureListener(new OnFailureListener() {

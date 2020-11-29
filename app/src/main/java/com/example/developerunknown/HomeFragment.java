@@ -94,7 +94,7 @@ public class HomeFragment extends Fragment {
                 if (notificationDataList.size()==0){
                     description.setText("No New Notification");
                 }else{
-                    description.setText("Notifications you may want to pay attention");
+                    description.setText("Notifications to be dealt with");
                 }
             }
         });

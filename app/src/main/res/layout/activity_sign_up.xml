@@ -44,7 +44,7 @@
         android:background="#f5f5f5"
         android:ems="10"
         android:hint="Enter your email"
-        android:inputType="textPersonName"
+        android:inputType="textEmailAddress"
         app:layout_constraintBottom_toTopOf="@+id/registerPassword"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -57,7 +57,7 @@
         android:background="#f5f5f5"
         android:ems="10"
         android:hint="Enter your password"
-        android:inputType="textPersonName"
+        android:inputType="textPassword"
         app:layout_constraintBottom_toTopOf="@+id/registerUname"
         app:layout_constraintEnd_toEndOf="parent" />
 
