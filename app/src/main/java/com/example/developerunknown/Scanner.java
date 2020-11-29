@@ -1,16 +1,13 @@
 package com.example.developerunknown;
 
-import android.Manifest;
+
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
@@ -22,8 +19,13 @@ import com.google.zxing.Result;
 public class Scanner extends AppCompatActivity {
     private CodeScanner mCodeScanner;
 
-    //this class is come from
-    //https://www.youtube.com/watch?v=wfucGSKngq4&t=352s
+    //this class is inspired from
+    //https://www.youtube.com/watch?v=drH63NpSWyk&t=4s
+    //Citation：
+    //URL:https://github.com/yuriy-budiyev/code-scanner
+    //author：https://stackoverflow.com/users/1992715/android-coder
+    //date:Dec 6,2018
+    //license:MIT License Copyright (c) 2017 Yuriy Budiyev [yuriy.budiyev@yandex.ru]
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
