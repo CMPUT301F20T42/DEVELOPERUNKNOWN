@@ -204,7 +204,7 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
                     String status = (String) doc.getData().get("status");
 
                     Double lat = doc.getDouble("lat");
-                    Double lon = doc.getDouble("lat");
+                    Double lon = doc.getDouble("lng");
                     String address = doc.getString("address");
 
                     // Adding the books from FireStore
