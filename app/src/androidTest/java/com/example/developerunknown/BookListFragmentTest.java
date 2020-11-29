@@ -41,7 +41,7 @@ public class BookListFragmentTest {
         Activity activity = rule.getActivity();
     }
 
-     // Adds a book to the listview and check the book name using assertTrue
+    // Adds a book to the listview and check the book name using assertTrue
     @Test
     public void checkAddBook() {
         // Login

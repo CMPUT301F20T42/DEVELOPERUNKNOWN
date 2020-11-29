@@ -59,7 +59,7 @@ public class BorrowerViewBorrowedFragment extends Fragment implements
     private TextView bookAuthor;
     private TextView bookDescription;
     private TextView bookISBN;
-    private TextView bookOwner;
+    private Button bookOwner;
     private FirebaseStorage storage;
     private StorageReference storageReference;
 
