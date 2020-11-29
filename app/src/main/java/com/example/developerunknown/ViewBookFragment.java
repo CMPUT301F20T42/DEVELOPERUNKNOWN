@@ -114,11 +114,11 @@ public class ViewBookFragment extends Fragment {
         deleteBookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Delete book from user collection
-                Log.d("delete book", "delete button clicked");
-                userBookCollectionReference
-                        .document(clickedBook.getID())
-                        .delete()
+                if (clickedBook.getStatus().equals("Available")) {
+
+                    Log.d("delete book", "delete button clicked");
+                    userBookCollectionReference.document(clickedBook.getID()).delete();
+                    /*
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
@@ -131,14 +131,18 @@ public class ViewBookFragment extends Fragment {
                                 Log.d("delete book", "ISBN is not be deleted! " + e.toString());
                             }
                         });
-
-                Photographs.deleteImage("B", clickedBook.getID(), storageReference, storage);
+*/
+                    Photographs.deleteImage("B", clickedBook.getID(), storageReference, storage);
 
                 // Close fragment
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentManager.popBackStack();
-            }
-        });
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    fragmentManager.popBackStack();
+                }
+                else{
+                    Toast.makeText(getActivity(), "Cannot delete a book that is " + clickedBook.getStatus(), Toast.LENGTH_SHORT).show();
+                }
+        }}
+        );
 
         requestButton.setOnClickListener(new View.OnClickListener() {
             @Override

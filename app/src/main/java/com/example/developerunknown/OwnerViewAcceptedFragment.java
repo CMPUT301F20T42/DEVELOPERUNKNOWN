@@ -248,7 +248,7 @@ public class OwnerViewAcceptedFragment extends Fragment implements
 
                 }
                 else {
-                    Toast.makeText(getActivity(), "The ISBN you scaned does not match the ISBN of the book", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "The ISBN you scanned does not match the ISBN of the book", Toast.LENGTH_SHORT).show();
 
                 }
             }
@@ -265,8 +265,7 @@ public class OwnerViewAcceptedFragment extends Fragment implements
         mMap = googleMap;
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
         MarkerOptions markerOptions = new MarkerOptions();
-        Log.d("Lat", String.valueOf(clickedBook.getLat()));
-        Log.d("Lon", String.valueOf(clickedBook.getLon()));
+
         markerOptions.position(new LatLng(clickedBook.getLat(), clickedBook.getLon()));
 
         markerOptions.title(Address);

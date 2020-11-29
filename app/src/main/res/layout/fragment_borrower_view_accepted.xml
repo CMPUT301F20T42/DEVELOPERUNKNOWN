@@ -89,7 +89,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
+    <TextView
         android:id="@+id/acceptedOwner"
         android:layout_width="187dp"
         android:layout_height="35dp"
@@ -97,6 +97,7 @@
         android:layout_marginTop="20dp"
         android:background="#FFFFFF"
         android:text="Owner:"
+        app:layout_constraintBottom_toTopOf="@+id/mapp2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/viewISBNBorrowerAccepted" />
 
@@ -117,8 +118,8 @@
         class="com.google.android.gms.maps.MapFragment"
         android:layout_width="382dp"
         android:layout_height="137dp"
+        app:layout_constraintBottom_toTopOf="@+id/borrower_confirm_borrow"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/acceptedOwner" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

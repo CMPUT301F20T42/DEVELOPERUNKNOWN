@@ -103,8 +103,8 @@
 
     <Button
         android:id="@+id/borrowedOwner"
-        android:layout_width="187dp"
-        android:layout_height="35dp"
+        android:layout_width="184dp"
+        android:layout_height="34dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="20dp"
         android:text="Owner:"

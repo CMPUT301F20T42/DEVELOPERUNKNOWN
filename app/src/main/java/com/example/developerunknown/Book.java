@@ -203,6 +203,19 @@ public class Book implements Serializable {
         this.ownerUname = ownerUname;
     }
 
+    public Book(String id, String title, String author, String status, String ISBN, String description, String ownerId, String ownerUname, Double lat, Double lon) {
+        this.title = title;
+        this.author = author;
+        this.status = status;
+        this.ISBN = ISBN;
+        this.description = description;
+        this.id = id;
+        this.ownerId = ownerId;
+        this.ownerUname = ownerUname;
+        this.lat = lat;
+        this.lon = lon;
+    }
+
 
     public String getBorrowerID() {
         return borrowerID;
