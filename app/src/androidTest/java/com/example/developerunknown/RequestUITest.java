@@ -83,7 +83,7 @@ public class RequestUITest {
         solo.enterText(bookTitle, "Game of Thrones");
         solo.enterText(bookAuthor, "George RR Martin");
         solo.enterText(bookDescription, "fantasy");
-        solo.enterText(bookISBN, "72261");
+        solo.enterText(bookISBN, "7226116353267");
 
 
         // Click enter
@@ -165,7 +165,9 @@ public class RequestUITest {
         TestCase.assertTrue(solo.waitForText("gkeates"));
 
         solo.clickOnText("gkeates");
-        // solo.clickOnText();
+        // Decline the request
+        solo.clickOnText("Decline");
+        TestCase.assertFalse(solo.waitForText("gkeates"));
     }
 
 
