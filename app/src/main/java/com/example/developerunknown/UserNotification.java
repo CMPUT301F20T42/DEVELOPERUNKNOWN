@@ -18,19 +18,19 @@ public class UserNotification {
      * @param sender user's name
      * @param type  status type
      */
-        public UserNotification(String sender, String type, String book,String id) {
+        public UserNotification(String sender, String type, String book, String id) {
             this.sender = sender;
             this.type = type;
             this.book = book;
             this.id = id;
             if (type.equals("Accepted")) {
-                description = sender + " accepted your request of book "+book;
+                this.description = sender + " accepted your request of book "+ book;
             }
             else if (type.equals("Request")){
-                description = sender + " requested on your book "+ book;
+                this.description = sender + " requested on your book "+ book;
             }
             else if (type.equals("Denied")){
-                description = sender+ " denied your request on book "+book;
+                this.description = sender + " denied your request on book " + book;
             }
         }
 

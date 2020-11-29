@@ -63,7 +63,7 @@ public class BorrowerViewAcceptedFragment extends Fragment implements
     private GoogleMap mMap;
 
     MapFragment mapFragment;
-
+  
     String Address;
 
     public Button confirmBorrowButton;
@@ -274,19 +274,6 @@ public class BorrowerViewAcceptedFragment extends Fragment implements
 
             }
         });
-
-
-
-//        backButton.setOnClickListener(new View.OnClickListener() {
-//           @Override
-//            public void onClick(View v) {
-//                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-//                fragmentManager.popBackStack();
-
-//            }
-
-
-//        });
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override

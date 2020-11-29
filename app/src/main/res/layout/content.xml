@@ -12,11 +12,10 @@
         android:layout_height="66dp"
         android:padding="20dp"
         android:text="Title"
-
-        android:textColor="#818181"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="#818181">
 
     </TextView>
 
@@ -26,12 +25,12 @@
         android:layout_height="66dp"
         android:padding="20dp"
         android:text="Status"
-        android:textColor="#818181"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="#818181">
         app:layout_constraintStart_toEndOf="@+id/book_title"
         app:layout_constraintTop_toTopOf="parent">
-
     </TextView>
 
     <TextView
@@ -40,9 +39,9 @@
         android:layout_height="54dp"
         android:padding="20dp"
         android:text="Description"
-        android:textColor="#AFB7B6"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/book_author2" />
+        app:layout_constraintTop_toBottomOf="@+id/book_author2"
+        android:textColor="#AFB7B6"/>
 
     <TextView
         android:id="@+id/book_author2"
@@ -69,9 +68,9 @@
         android:id="@+id/book_owner"
         android:layout_width="159dp"
         android:layout_height="51dp"
-        android:textColor="#AFB7B6"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/book_description"
-        app:layout_constraintTop_toBottomOf="@+id/book_borrower" />
+        app:layout_constraintTop_toBottomOf="@+id/book_borrower"
+        android:textColor="#AFB7B6"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

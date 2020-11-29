@@ -45,14 +45,14 @@ public class AccountUITest {
         solo.enterText((EditText)solo.getView(R.id.editPassward),"123456");
         solo.clickOnButton("Login");
         //solo.wait(100);
-        solo.waitForActivity(MainActivity.class,2000);
+        solo.waitForActivity(MainActivity.class,5000);
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
     }
 
     @Test
     public void SignUpTest() {
         solo.clickOnButton("sign up");
-        solo.waitForActivity(SignUpActivity.class,2000);
+        solo.waitForActivity(SignUpActivity.class,5000);
         solo.assertCurrentActivity("Wrong Activity", SignUpActivity.class);
     }
 
@@ -60,8 +60,11 @@ public class AccountUITest {
     public void searchUser(){
         solo.enterText((EditText)solo.getView(R.id.editUsername),"XZPshaw");
         solo.enterText((EditText)solo.getView(R.id.editPassward),"123456");
-        solo.clickOnButton("Login");
-        solo.waitForActivity(MainActivity.class,2000);
+
+        View signinButton = solo.getView(R.id.signIn);
+        solo.clickOnView(signinButton);
+
+        solo.waitForActivity(MainActivity.class,5000);
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         solo.clickOnView(solo.getView(R.id.nav_account));
         solo.enterText((EditText)solo.getView(R.id.searchUnameEdit),"XZPshaw");
@@ -75,7 +78,7 @@ public class AccountUITest {
         solo.enterText((EditText)solo.getView(R.id.editUsername),"XZPshaw");
         solo.enterText((EditText)solo.getView(R.id.editPassward),"123456");
         solo.clickOnButton("Login");
-        solo.waitForActivity(MainActivity.class,2000);
+        solo.waitForActivity(MainActivity.class,5000);
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         solo.clickOnView(solo.getView(R.id.nav_account));
 
