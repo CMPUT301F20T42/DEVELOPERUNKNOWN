@@ -222,7 +222,7 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
             Toast.makeText(requestActicity.this, "All done!", Toast.LENGTH_SHORT).show();
             finish();
         } else {
-            Toast.makeText(requestActicity.this, "You should enter an address", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requestActicity.this, "You should pick up an address", Toast.LENGTH_SHORT).show();
         }
     }
 
