@@ -127,9 +127,9 @@ public class AccountFragment extends Fragment {
         contactEmailEdit.setClickable(false);
         contactPhoneEdit.setEnabled(false);
         contactPhoneEdit.setClickable(false);
-
-        Photographs.viewImage("U", uid, storageReference, applicationContext, editImageButton);
         editImageButton.setClickable(false);
+        Photographs.viewImage("U", uid, storageReference, applicationContext, editImageButton);
+        //editImageButton.setClickable(false);
 
 
         currentUserDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

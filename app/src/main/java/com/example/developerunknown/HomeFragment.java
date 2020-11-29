@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,15 +34,16 @@ import static android.content.ContentValues.TAG;
 *HomeFragment is used to display notification of user,it is also the default interface when user logged in
  */
 public class HomeFragment extends Fragment {
-    ListView notificationList;
-    ArrayAdapter<UserNotification> notificationAdapter;
+    public ListView notificationList;
+    public TextView description;
+    public ArrayAdapter<UserNotification> notificationAdapter;
     ArrayList<UserNotification> notificationDataList;
     Context context;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    public FirebaseUser user;
-    public String uid ;
-    public CollectionReference userNotificationCollectionReference;
+    private FirebaseUser user;
+    private String uid ;
+    private CollectionReference userNotificationCollectionReference;
 
     @Nullable
     @Override
@@ -51,6 +53,7 @@ public class HomeFragment extends Fragment {
         context = container.getContext();
 
         notificationList = view.findViewById(R.id.notificationList);
+        description = view.findViewById(R.id.notification);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         uid = user.getUid();
@@ -88,6 +91,11 @@ public class HomeFragment extends Fragment {
                     //notificationDataList.add(new UserNotification(sender, time, type, book,id) ); // Adding the cities and provinces from FireStore
                 }
                 notificationAdapter.notifyDataSetChanged(); // Notifying the adapter to render any new data fetch
+                if (notificationDataList.size()==0){
+                    description.setText("No New Notification");
+                }else{
+                    description.setText("Notifications you may want to pay attention");
+                }
             }
         });
 
