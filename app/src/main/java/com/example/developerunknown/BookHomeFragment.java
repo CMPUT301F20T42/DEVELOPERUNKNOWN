@@ -16,6 +16,7 @@ public class BookHomeFragment extends Fragment {
     public TabLayout tabLayout;
     public ViewPager viewPager;
     User currentUser;
+    public ViewPagerAdapter adapter;
 
     @javax.annotation.Nullable
     @Override
@@ -25,7 +26,7 @@ public class BookHomeFragment extends Fragment {
 
         tabLayout = view.findViewById(R.id.tabLayout);
         viewPager = view.findViewById(R.id.viewPager);
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
+        adapter = new ViewPagerAdapter(getChildFragmentManager());
 
         Bundle args = new Bundle();
         args.putSerializable("current user", currentUser);

@@ -74,10 +74,6 @@ public class AddBookFragment extends Fragment {
     final Context applicationContext = MainActivity.getContextOfApplication();
     User currentUser;
 
-    public interface OnFragmentInteractionListener {
-        void onOkPressed (Book newBook);
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -148,39 +144,47 @@ public class AddBookFragment extends Fragment {
                 String ISBN = bookISBN.getText().toString();
 
                 if (title.length() > 0 && author.length() > 0 && description.length() > 0 && ISBN.length() > 0) {
-                    // Create new document
-                    DocumentReference newRef = userBookCollectionReference.document();
-                    id = newRef.getId();
-                    Book book = new Book(id, title, author, "Available", ISBN, description,uid,currentUser.getUsername());
-                    currentUser.addBook(book);
+                    if (ISBN.length()!=13){
+                        Toast.makeText(getActivity(), "Please check ISBN you enter,it should be 13-digit number", Toast.LENGTH_SHORT).show();
+                    }else {
+                        // Create new document
+                        DocumentReference newRef = userBookCollectionReference.document();
+                        id = newRef.getId();
+                        Book book = new Book(id, title, author, "Available", ISBN, description, uid, currentUser.getUsername());
+                        currentUser.addBook(book);
 
-                    Photographs.uploadImage("B", id, filePath, storageReference, applicationContext);
-                    // Add book to book collection
-                    HashMap<String, String> data = new HashMap<>();
-                    data.put("Bookid", id);
-                    data.put("title", title);
-                    data.put("author", author);
-                    data.put("status", "Available");
-                    data.put("description", description);
-                    data.put("ISBN", ISBN);
-                    data.put("ownerId", uid);
-                    data.put("ownerUname", currentUser.getUsername());
+                        Photographs.uploadImage("B", id, filePath, storageReference, applicationContext);
+                        // Add book to book collection
+                        HashMap<String, String> data = new HashMap<>();
+                        data.put("Bookid", id);
+                        data.put("title", title);
+                        data.put("author", author);
+                        data.put("status", "Available");
+                        data.put("description", description);
+                        data.put("ISBN", ISBN);
+                        data.put("ownerId", uid);
+                        data.put("ownerUname", currentUser.getUsername());
 
-                    newRef.set(data)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Log.d("create book", "book has been added successfully!");
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.d("create book", "ISBN is not be added!" + e.toString());
-                                }
-                            });
+                        newRef.set(data)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d("create book", "book has been added successfully!");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.d("create book", "ISBN is not be added!" + e.toString());
+                                    }
+                                });
 
-                    destroy_current_fragment();
+                        destroy_current_fragment();
+                    }
+                }
+                else{
+                    Toast.makeText(getActivity(), "All fields must not be empty", Toast.LENGTH_SHORT).show();
+
                 }
             }
         });

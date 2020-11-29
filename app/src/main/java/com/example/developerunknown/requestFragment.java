@@ -43,9 +43,6 @@ import java.util.Map;
  * create an instance of this fragment.
  */
 public class requestFragment extends DialogFragment {
-    private TextView Title;
-    private TextView Author;
-
 
     private ImageView resultUserProfile;
     private TextView resultUserName;

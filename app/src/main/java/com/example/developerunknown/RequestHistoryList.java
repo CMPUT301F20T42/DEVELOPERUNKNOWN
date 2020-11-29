@@ -29,7 +29,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class RequestHistoryList extends Fragment {
+public class  RequestHistoryList extends Fragment {
 
 
     ListView bookList;
@@ -37,7 +37,7 @@ public class RequestHistoryList extends Fragment {
     ArrayList<Book> bookDataList;
     Context context;
     User currentUser;
-    boolean bookExist = true;
+    public boolean bookExist = true;
     //########################## this part is needed for the below blocking part.
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();

@@ -61,12 +61,9 @@ public class BorrowerViewAcceptedFragment extends Fragment implements
     User currentUser;
     Book clickedBook;
     private GoogleMap mMap;
-    MapView mapView;
-    Double Lat;
-    Double Lng;
+
     MapFragment mapFragment;
-    //SupportMapFragment mapFragment;
-    LatLng Latlng;
+
     String Address;
 
     public Button confirmBorrowButton;
