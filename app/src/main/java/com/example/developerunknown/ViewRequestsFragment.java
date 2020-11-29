@@ -134,27 +134,6 @@ public class ViewRequestsFragment extends Fragment {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*
-                bookRequestCollectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                                               @Override
-                                                                               public void onComplete(@NonNull Task<QuerySnapshot> task2) {
-                                                                                   if (task2.isSuccessful()) {
-                                                                                       if (task2.getResult().size() > 0) {
-                                                                                           //do nothing
-                                                                                       } else {
-                                                                                           //set book available
-                                                                                           clickedBook.setStatus("Available");
-                                                                                           DocumentReference currentBookRef = db.collection("user").
-                                                                                                   document(uid).collection("Book").
-                                                                                                   document(bookid);
-
-                                                                                           currentBookRef.update("status", "Available");
-                                                                                       }
-                                                                                   }
-                                                                               }
-                                                                           });
-
-                 */
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentManager.popBackStack();
             }

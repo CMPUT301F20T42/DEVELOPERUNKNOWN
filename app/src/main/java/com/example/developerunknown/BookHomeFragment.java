@@ -10,11 +10,13 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
-
+// a Fragment that contains some child fragment by applying ViewPagerAdapter, customer can view specific book information
+// for borrower and owner,there are different fragments to view
 public class BookHomeFragment extends Fragment {
     public TabLayout tabLayout;
     public ViewPager viewPager;
     User currentUser;
+    public ViewPagerAdapter adapter;
 
     @javax.annotation.Nullable
     @Override
@@ -24,7 +26,7 @@ public class BookHomeFragment extends Fragment {
 
         tabLayout = view.findViewById(R.id.tabLayout);
         viewPager = view.findViewById(R.id.viewPager);
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
+        adapter = new ViewPagerAdapter(getChildFragmentManager());
 
         Bundle args = new Bundle();
         args.putSerializable("current user", currentUser);

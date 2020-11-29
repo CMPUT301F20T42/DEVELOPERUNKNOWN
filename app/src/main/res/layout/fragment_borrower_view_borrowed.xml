@@ -64,12 +64,12 @@
     <TextView
         android:id="@+id/viewISBNBorrowerBorrowed"
         android:layout_width="wrap_content"
-        android:layout_height="49dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="132dp"
         android:inputType="textPersonName"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/mapp3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/viewAuthorBorrowerBorrowed"
         app:layout_constraintTop_toBottomOf="@+id/viewDescriptionBorrowerBorrowed"
         app:layout_constraintVertical_bias="0.669" />
 
@@ -98,7 +98,7 @@
     <Button
         android:id="@+id/borrowedOwner"
         android:layout_width="wrap_content"
-        android:layout_height="35dp"
+        android:layout_height="25dp"
         android:layout_marginStart="52dp"
         android:text="Owner:"
         app:layout_constraintBaseline_toBaselineOf="@+id/viewISBNBorrowerBorrowed"

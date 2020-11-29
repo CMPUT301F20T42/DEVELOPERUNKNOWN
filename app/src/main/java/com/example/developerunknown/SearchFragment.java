@@ -53,16 +53,12 @@ public class    SearchFragment extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_search,container,false);
-        //final List<Book> books = new ArrayList<>();
 
 
         resultList = (ListView)view.findViewById(R.id.result_list);
 
-        //dataList.addAll(books);
         final Context context= container.getContext();
         bookAdapter = new BookList(context, dataList);
-
-        //bookAdapter = new CustomList(getActivity(), dataList);
 
         resultList.setAdapter(bookAdapter);
 

@@ -1,5 +1,6 @@
 package com.example.developerunknown;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,9 +16,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -104,8 +111,33 @@ public class resultActivity extends AppCompatActivity {
         if (currentBook.getOwnerId().equals(borrower.getUid())) {
             Toast.makeText(resultActivity.this, "You can't request your own book", Toast.LENGTH_SHORT).show();
         } else {
+/*          //try to restrict user request multiple times
+            final DocumentReference currentBookRef = db.collection("user").document(currentBook.getOwnerId()).collection("Book").document(currentBook.getID());
+            // Change book status to available
+
+
+            final CollectionReference requestCollectionRef = currentBookRef.collection("Request");
+
+            requestCollectionRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String requesterID = document.getString("Borrower");
+
+                            if (requesterID.equals(borrower.getUid())) {
+                                Toast.makeText(resultActivity.this, "You already requested this book", Toast.LENGTH_SHORT).show();
+                                return;
+
+                            }
+
+                        }
+                    }
+                }
+            });
+
+ */
             if (currentBook.getStatus().equals("Available") || currentBook.getStatus().equals("Requested")) {
-                final Request nowRequest = new Request(borrower.getUid(), borrower.getUsername(), currentBook.getID());
                 //DocumentReference docRef = db.collection("User").document(currentBook.getOwner());
 /*
                 Query query = db.collectionGroup("Book");

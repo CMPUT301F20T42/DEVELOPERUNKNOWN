@@ -66,7 +66,25 @@ public class RequestListFragment extends Fragment{
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
+        bookList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView parent, View view, int position, long id) {
+                Log.d("BookList Message", "Successfully clicked book");
 
+                Book clickedBook = bookDataList.get(position);
+
+                Bundle args = new Bundle();
+                args.putSerializable("clicked book", clickedBook);
+
+                Fragment fragment = new BorrowerViewGeneralFragment();
+                fragment.setArguments(args);
+
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, fragment, "View Requesting Book");
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
 
         //################################### this part retrieves book from online data base and automatically update ################################
 

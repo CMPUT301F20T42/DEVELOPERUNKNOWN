@@ -8,11 +8,11 @@
 
     <TextView
         android:id="@+id/book_title"
-        android:layout_width="251dp"
-        android:layout_height="wrap_content"
+        android:layout_width="249dp"
+        android:layout_height="66dp"
         android:padding="20dp"
         android:text="Title"
-
+        android:textColor="#818181"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -26,27 +26,30 @@
         android:layout_height="66dp"
         android:padding="20dp"
         android:text="Status"
+        android:textColor="#818181"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:textColor="#818181">
-
+        app:layout_constraintStart_toEndOf="@+id/book_title"
+        app:layout_constraintTop_toTopOf="parent">
     </TextView>
 
     <TextView
         android:id="@+id/book_description"
-        android:layout_width="215dp"
-        android:layout_height="60dp"
+        android:layout_width="249dp"
+        android:layout_height="54dp"
         android:padding="20dp"
         android:text="Description"
+        android:textColor="#AFB7B6"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/book_author2"
         android:textColor="#AFB7B6"/>
 
     <TextView
         android:id="@+id/book_author2"
-        android:layout_width="246dp"
-        android:layout_height="58dp"
+        android:layout_width="251dp"
+        android:layout_height="60dp"
         android:padding="20dp"
         android:text="Author"
         android:textColor="#AFB7B6"
@@ -61,12 +64,14 @@
         android:padding="20dp"
         android:textColor="#AFB7B6"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/book_author2"
         app:layout_constraintTop_toBottomOf="@+id/book_status" />
 
     <TextView
         android:id="@+id/book_owner"
-        android:layout_width="188dp"
-        android:layout_height="55dp"
+        android:layout_width="159dp"
+        android:layout_height="51dp"
+        android:textColor="#AFB7B6"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/book_description"

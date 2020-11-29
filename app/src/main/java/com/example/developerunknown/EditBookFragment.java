@@ -123,6 +123,10 @@ public class EditBookFragment extends Fragment {
                 String ISBN = bookISBN.getText().toString();
 
                 if (title.length() > 0 && author.length() > 0 && description.length() > 0 && ISBN.length() > 0) {
+                    if(ISBN.length()!=13){
+                        Toast.makeText(getActivity(), "Please check ISBN you enter,it should be 13-digit number", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
                     // Change book
                     clickedBook.setTitle(title);
                     clickedBook.setAuthor(author);
@@ -160,6 +164,10 @@ public class EditBookFragment extends Fragment {
                             });
 
                     destroy_current_fragment();
+                    }
+                }
+                else{
+                    Toast.makeText(getActivity(), "All fields must not be empty", Toast.LENGTH_SHORT).show();
                 }
             }
         });

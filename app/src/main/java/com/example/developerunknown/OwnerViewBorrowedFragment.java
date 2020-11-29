@@ -51,11 +51,8 @@ public class OwnerViewBorrowedFragment extends Fragment implements
     User currentUser;
     Book clickedBook;
 
-    MapView mapView;
-    Double Lat;
-    Double Lng;
+
     MapFragment mapFragment;
-    LatLng Latlng;
     String Address;
     private GoogleMap mMap;
 

@@ -34,7 +34,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 /**
  * booklistfragment displays the Owner books, and wishlist books
  */
-public class BookListFragment extends Fragment implements AddBookFragment.OnFragmentInteractionListener  {
+public class BookListFragment extends Fragment  {
     ListView bookList;
     ArrayAdapter<Book> bookAdapter;
     ArrayList<Book> bookDataList;
@@ -206,7 +206,7 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
                     String status = (String) doc.getData().get("status");
 
                     Double lat = doc.getDouble("lat");
-                    Double lon = doc.getDouble("lat");
+                    Double lon = doc.getDouble("lng");
                     String address = doc.getString("address");
 
                     // Adding the books from FireStore
@@ -230,12 +230,5 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
 
     }
 
-    @Override
-    /**
-     * Tells fragments when button is pressed
-     *  @param newBook
-     */
-    public void onOkPressed (Book newBook) {
 
-    }
 }

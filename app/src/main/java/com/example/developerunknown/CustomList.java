@@ -52,6 +52,10 @@ public class CustomList extends ArrayAdapter<Book> {
 
         if (book.getBorrowerUname() != null) {
             bookBorrower.setText(book.getBorrowerUname());
+
+        }
+        else{
+            bookBorrower.setText(" ");
         }
 
 
