@@ -29,6 +29,7 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -44,7 +45,8 @@ import com.google.firebase.storage.StorageReference;
  * allows owner to view book information and perform denote borrow action if the status of book is accepted
  */
 public class OwnerViewAcceptedFragment extends Fragment implements
-        android.view.View.OnClickListener, OnMapReadyCallback {
+        android.view.View.OnClickListener, OnMapReadyCallback,
+        GoogleMap.OnMarkerClickListener {
 
     Context context;
     User currentUser;
@@ -57,6 +59,7 @@ public class OwnerViewAcceptedFragment extends Fragment implements
     LatLng Latlng;
     String Address;
     private GoogleMap mMap;
+    private Marker mSelectedMarker;
 
     public Button denoteBorrowButton;
     public Button backButton;
@@ -272,5 +275,25 @@ public class OwnerViewAcceptedFragment extends Fragment implements
         mMap.animateCamera(location);
         mMap.addMarker(markerOptions);
         Log.d("status", "success");
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        // The user has re-tapped on the marker which was already showing an info window.
+        if (marker.equals(mSelectedMarker)) {
+            // The showing info window has already been closed - that's the first thing to happen
+            // when any marker is clicked.
+            // Return true to indicate we have consumed the event and that we do not want the
+            // the default behavior to occur (which is for the camera to move such that the
+            // marker is centered and for the marker's info window to open, if it has one).
+            mSelectedMarker = null;
+            return true;
+        }
+
+        mSelectedMarker = marker;
+
+        // Return false to indicate that we have not consumed the event and that we wish
+        // for the default behavior to occur.
+        return false;
     }
 }
