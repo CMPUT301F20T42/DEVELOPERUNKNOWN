@@ -65,6 +65,8 @@ public class BookListFragment extends Fragment implements AddBookFragment.OnFrag
         View view = inflater.inflate(R.layout.fragment_booklist,container,false);
         context = container.getContext();
 
+        Log.d("Book List Fragment", "Here!");
+
         bookList = view.findViewById(R.id.user_book_list);
 
         bookDataList = currentUser.getBookList();

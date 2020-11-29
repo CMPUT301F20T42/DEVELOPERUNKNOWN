@@ -91,7 +91,7 @@ public class ViewRequestsFragment extends Fragment {
                     String borrowerUname = (String) doc.getData().get("BorrowerUname");
                     //Timestamp time = (Timestamp) doc.getData().get("time"); //discard for now
                     String Rid = doc.getId();
-                    requestDataList.add(new Request(borrower, borrowerUname, bookid,Rid));
+                    requestDataList.add(new Request(borrower, borrowerUname, bookid, Rid));
                 }
                 requestAdapter.notifyDataSetChanged();
             }
@@ -126,7 +126,7 @@ public class ViewRequestsFragment extends Fragment {
 
                 Request thisRequest = requestDataList.get(pos);
 
-                new requestFragment(clickedBook,thisRequest,currentUser).show(getActivity().getSupportFragmentManager(), "Requst From");
+                new requestFragment(clickedBook, thisRequest, currentUser).show(getActivity().getSupportFragmentManager(), "Request From");
 
             }
         });

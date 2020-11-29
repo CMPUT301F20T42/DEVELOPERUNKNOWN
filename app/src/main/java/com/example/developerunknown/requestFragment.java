@@ -121,12 +121,16 @@ public class requestFragment extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_request, null);
 
+        Log.d("Request Fragment", nowRequest.getBorrowerID());
+
         resultUserName = view.findViewById(R.id.searchUserName);
         resultUserFullName = view.findViewById(R.id.searchUserFullName);
         resultUserEmail = view.findViewById(R.id.searchUserContactMail);
         resultUserPhone = view.findViewById(R.id.searchUserContactPhone);
         resultUserProfile = view.findViewById(R.id.imageViewBorrowerBorrowed);
         DocumentReference RequestUserDocRef = userCollectionReference.document(nowRequest.getBorrowerID());
+
+
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
@@ -137,7 +141,7 @@ public class requestFragment extends DialogFragment {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     resultUserName.setText(document.getString("userName"));
-                    resultUserFullName.setText(document.getString("firstName")+' '+document.getString("lastName"));
+                    resultUserFullName.setText(document.getString("firstName") + ' ' + document.getString("lastName"));
                     resultUserEmail.setText(document.getString("contactEmail"));
                     resultUserPhone.setText(document.getString("contactPhone"));
                     Photographs.viewImage("U", nowRequest.getBorrowerID(), storageReference, applicationContext, resultUserProfile);
