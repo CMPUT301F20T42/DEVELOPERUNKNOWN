@@ -224,7 +224,7 @@ public class requestFragment extends DialogFragment {
                             }
                         });
 
-*/
+
                     }})
                 .setPositiveButton("OK I accept", new DialogInterface.OnClickListener() {
                     @Override
