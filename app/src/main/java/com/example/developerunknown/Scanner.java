@@ -17,7 +17,7 @@ import com.google.zxing.Result;
  *  Scans book ISBN
  *  this class is inspired from
  *  https://www.youtube.com/watch?v=drH63NpSWyk&t=4s
- *  Citation：
+ *  *Citation
  *  URL:https://github.com/yuriy-budiyev/code-scanner
  *  author：https://stackoverflow.com/users/1992715/android-coder
  *  date:Dec 6,2018
