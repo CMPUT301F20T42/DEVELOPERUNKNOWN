@@ -84,19 +84,7 @@ public class OwnerViewBorrowedFragment extends Fragment implements
 
         currentBookDocRef = db.collection("user").document(uid).collection("Book").document(clickedBook.getID());
         borrowerSideBorrowedBookRef = db.collection("user").document(clickedBook.getBorrowerID()).collection("BorrowedBook").document(clickedBook.getID());
-        /*currentBookDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                System.out.println("here");
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    Lat = document.getDouble("lat");
-                    Lng = document.getDouble("lng");
-                    System.out.println(Lat);
-                    Address = document.getString("add");
-                }
-            }
-        });*/
+
     }
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -223,15 +211,7 @@ public class OwnerViewBorrowedFragment extends Fragment implements
                 fragmentManager.popBackStack();
             }
         });
-/*
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentManager.popBackStack();
-            }
-        });
-*/
+
         return view;
     }
 
@@ -242,7 +222,7 @@ public class OwnerViewBorrowedFragment extends Fragment implements
             if (resultCode == Activity.RESULT_OK) {
                 String result = data.getStringExtra("RESULT_ISBN");
                 if (result.equals(clickedBook.getISBN())){
-                    //owner confirm receive returned book
+                    // owner confirm receive returned book
                     Toast.makeText(getActivity(), "You successfully received this book", Toast.LENGTH_SHORT).show();
                     currentBookDocRef.update("returnDenoted","false");
                     currentBookDocRef.update("status","Available");
@@ -252,12 +232,12 @@ public class OwnerViewBorrowedFragment extends Fragment implements
                     currentBookDocRef.update("lng", FieldValue.delete());
                     borrowerSideBorrowedBookRef.update("returnDenoted","false");
 
-                    // for borrower,remove book from BorrowedBook
+                    // for borrower, remove book from BorrowedBook
                     borrowerSideBorrowedBookRef.delete();
 
                 }
                 else {
-                    Toast.makeText(getActivity(), "The ISBN you scaned does not match the ISBN of the book", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "The ISBN you scanned does not match the ISBN of the book", Toast.LENGTH_SHORT).show();
 
                 }
             }
@@ -285,13 +265,13 @@ public class OwnerViewBorrowedFragment extends Fragment implements
         Log.d("status", "success");
     }
     */
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
         MarkerOptions markerOptions = new MarkerOptions();
-        Log.d("Lat", String.valueOf(clickedBook.getLat()));
-        Log.d("Lon", String.valueOf(clickedBook.getLon()));
+
         markerOptions.position(new LatLng(clickedBook.getLat(), clickedBook.getLon()));
 
         markerOptions.title(Address);
@@ -300,6 +280,5 @@ public class OwnerViewBorrowedFragment extends Fragment implements
                 new LatLng(clickedBook.getLat(), clickedBook.getLon()), 16f);
         mMap.animateCamera(location);
         mMap.addMarker(markerOptions);
-        Log.d("status", "success");
     }
 }
