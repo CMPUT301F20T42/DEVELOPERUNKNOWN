@@ -113,6 +113,8 @@ public class requestFragment extends DialogFragment {
         }
     }
 
+    // Pop up a dialog to let owner select deny or accept
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -222,11 +224,7 @@ public class requestFragment extends DialogFragment {
                             }
                         });
 
-
-
-
-
-
+*/
                     }})
                 .setPositiveButton("OK I accept", new DialogInterface.OnClickListener() {
                     @Override
@@ -235,7 +233,7 @@ public class requestFragment extends DialogFragment {
 //                        nowBook.setStatus("Accepted");
 //                        DocumentReference currentBookRef = db.collection("user").document(nowBook.getOwnerId()).collection("Book").document(nowBook.getID());
 //                        currentBookRef.update("status", "Accepted");
-
+                        // pass parameters to new activity
                         Intent intent = new Intent(getActivity(),requestActicity.class);
                         intent.putExtra("CurrentUser", currentUser);
                         intent.putExtra("Request", nowRequest);
