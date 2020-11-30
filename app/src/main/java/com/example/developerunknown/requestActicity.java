@@ -276,28 +276,28 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
             }
         }
     }
-
+    // Access Google Map Api by call the OnMapReadyCallBack
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.mMap = googleMap;
-        this.mMap.setOnMapClickListener(this);
-        this.mMap.setOnMyLocationButtonClickListener(this);
+        this.mMap.setOnMapClickListener(this);  // set OnMapClickListener for map click set marker and fetch corrdinate data
+        this.mMap.setOnMyLocationButtonClickListener(this); // Enable the mylocation button to navigate the map to your current location
         enableMyLocation();
 
     }
 
     @Override
     public void onMapClick(LatLng point) {
-        MarkerOptions markerOptions = new MarkerOptions();
+        MarkerOptions markerOptions = new MarkerOptions(); // Set new market
         markerOptions.position(point);
 
-        markerOptions.title(getAddress(point));
+        markerOptions.title(getAddress(point)); // set market title
 
         mMap.clear();
         CameraUpdate location = CameraUpdateFactory.newLatLngZoom(
-                point, 15);
+                point, 15); // Move the map camera to marker location
         mMap.animateCamera(location);
-        mMap.addMarker(markerOptions);
+        mMap.addMarker(markerOptions);  // put market down
     }
 
     private String getAddress(LatLng latLng){
@@ -307,8 +307,8 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
         geocoder = new Geocoder(this, Locale.getDefault());
 
         try {
-            addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-            String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+            addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1); // Here 1 represent max location result to returned
+            String address = addresses.get(0).getAddressLine(0);
             String city = addresses.get(0).getLocality();
             String state = addresses.get(0).getAdminArea();
             String country = addresses.get(0).getCountryName();
