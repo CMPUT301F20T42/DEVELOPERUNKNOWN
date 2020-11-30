@@ -13,7 +13,7 @@ public class User implements Serializable {
     private String Uid;
     private ArrayList<Book> bookList;
 
-    // TODO: images
+
 
     /**
      *initializes values for user signup

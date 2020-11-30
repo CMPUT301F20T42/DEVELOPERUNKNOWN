@@ -32,6 +32,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
+/**
+ * Shows the list of past requests on a book
+ */
 public class  RequestHistoryList extends Fragment {
 
 
@@ -149,6 +152,12 @@ public class  RequestHistoryList extends Fragment {
         //################################### this part retrieves book from online data base and automatically update ################################
 
         requestedBookCollectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            /**
+             *Handles the event of recalling the past book requests
+             * @param queryDocumentSnapshots contains data read from a document in your Firestore
+             *                               database as part of a query.
+             * @param error a class exception thrown by firstore
+             */
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable
                     FirebaseFirestoreException error) {
@@ -161,6 +170,11 @@ public class  RequestHistoryList extends Fragment {
 
                     DocumentReference requestedHistoryBook = db.collection("user").document(OwnerId).collection("Book").document(bookID);
                     requestedHistoryBook.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+
+                        /**
+                         *Called when a task is completed
+                         * @param task is either completed or uncompleted
+                         */
                                 @Override
                                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                     if (task.isSuccessful()) {

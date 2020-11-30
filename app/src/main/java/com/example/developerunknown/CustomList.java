@@ -22,6 +22,11 @@ public class CustomList extends ArrayAdapter<Book> {
     private ArrayList<Book> books;
     //private Context context;
 
+    /**
+     *
+     * @param context influencing app environment
+     * @param books books in the list
+     */
     public CustomList (Context context, ArrayList<Book> books) {
         super(context, 0, books);
         this.context = context;
@@ -37,6 +42,7 @@ public class CustomList extends ArrayAdapter<Book> {
 
         Book book = books.get(position);
 
+        //fields for adding books to a list
         TextView bookName = view.findViewById(R.id.book_title);
         TextView authorName = view.findViewById(R.id.book_author2);
         TextView bookStatus = view.findViewById(R.id.book_status);
@@ -51,10 +57,12 @@ public class CustomList extends ArrayAdapter<Book> {
         owner.setText(book.getOwnerUname());
 
         if (book.getBorrowerUname() != null) {
+            //if a book borrower exists, then set it
             bookBorrower.setText(book.getBorrowerUname());
 
         }
         else{
+            //if no borrower leave the borrower field as blank
             bookBorrower.setText(" ");
         }
 

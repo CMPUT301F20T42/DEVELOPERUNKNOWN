@@ -28,6 +28,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
+/**
+ * This is a list fragment for the users borrowed books list
+ */
 public class BorrowedListFragment extends Fragment{
 
 
@@ -70,6 +73,7 @@ public class BorrowedListFragment extends Fragment{
 
         bookList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View view, int position, long id) {
+                //If item for borrowed list is clicked, message will display
                 Log.d("BookList Message", "Successfully clicked book");
 
                 Book clickedBook = bookDataList.get(position);

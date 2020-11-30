@@ -67,6 +67,7 @@ public class    SearchFragment extends Fragment {
         search_button = (Button)view.findViewById(R.id.search);
 
 
+
         //Fetch book date from firestore
         search_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -99,7 +100,7 @@ public class    SearchFragment extends Fragment {
                 });
             }
         });
-
+        //select result from list
         resultList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> list, View v, int pos, long id) {
                 Intent intent = new Intent(getActivity(),resultActivity.class);

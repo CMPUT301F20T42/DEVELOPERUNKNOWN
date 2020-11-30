@@ -27,6 +27,17 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+/*
+ * CMPUT 301
+ *
+ * Part 4 - Book borrowing app- AcceptingList Fragment
+ *The accept list fragment creates a separate list to view all
+ * accepted books that the owner has requested from someone else
+ *
+ * Nov 28, 2020
+ *
+ * No Copyright
+ */
 
 public class AcceptedListFragment extends Fragment{
 
@@ -43,6 +54,7 @@ public class AcceptedListFragment extends Fragment{
     public FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     public String uid = user.getUid();
     public CollectionReference acceptedBookCollectionReference = db.collection("user").document(uid).collection("AcceptedBook");
+
 
     @Nullable
     @Override
@@ -79,6 +91,7 @@ public class AcceptedListFragment extends Fragment{
                 Fragment fragment = new BorrowerViewAcceptedFragment();
                 fragment.setArguments(args);
 
+                //used to change be
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.fragment_container, fragment, "View Book Accepted by owner");

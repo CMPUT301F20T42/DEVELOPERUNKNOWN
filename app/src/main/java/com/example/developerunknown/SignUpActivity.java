@@ -64,7 +64,7 @@ public class SignUpActivity extends AppCompatActivity {
         actionBar.setTitle("Signup Your Account");
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-
+        //initializes variables to XML textviews then gets the text and convert to string
         registerUserName = findViewById(R.id.registerUname);
         registerPassword = findViewById(R.id.registerPassword);
         registerEmail = findViewById(R.id.registerEmail);
@@ -191,6 +191,12 @@ public class SignUpActivity extends AppCompatActivity {
 
 
     }
+
+    /**
+     * Allows user to select an item
+     * @param item menu item to be selected
+     * @return the selected item in relation to its boolean count (ex. return item 1 = snake)
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {

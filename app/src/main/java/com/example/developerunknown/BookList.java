@@ -13,7 +13,7 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 
 /**
- * This class defines initializes an ArrayList and extendsadapters
+ * This class defines initializes an ArrayList and extends adapters
  */
 public class BookList extends ArrayAdapter<Book> {
     private final Context context;
@@ -48,12 +48,14 @@ public class BookList extends ArrayAdapter<Book> {
 
         Book book = books.get(position);
 
+        //Initializes variable as a TextView and sets it to a corresponding XML id
         TextView bookName = view.findViewById(R.id.book_title);
         TextView authorName = view.findViewById(R.id.book_author2);
         TextView bookStatus = view.findViewById(R.id.book_status);
         TextView bookDescription = view.findViewById(R.id.book_description);
         TextView owner = view.findViewById(R.id.book_owner);
 
+        //Sets the text to be displayed using its connected textview
         bookName.setText(book.getTitle());
         authorName.setText(book.getAuthor());
         bookStatus.setText(book.getStatus());

@@ -39,7 +39,11 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
+/*
+*Allows borrower to view books hat they have borrowered from someone else. This extends the Fragment
+* class and implements on click listeners for response and map functions so that the borrower can
+* select a location on the map
+ */
 public class BorrowerViewBorrowedFragment extends Fragment implements
         android.view.View.OnClickListener, OnMapReadyCallback {
 
