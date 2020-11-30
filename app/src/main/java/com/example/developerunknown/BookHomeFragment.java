@@ -10,8 +10,9 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
-// a Fragment that contains some child fragment by applying ViewPagerAdapter, customer can view specific book information
-// for borrower and owner,there are different fragments to view
+/**a Fragment that contains some child fragment by applying ViewPagerAdapter, customer can view specific book information
+for borrower and owner,there are different fragments to view
+ */
 public class BookHomeFragment extends Fragment {
     public TabLayout tabLayout;
     public ViewPager viewPager;
@@ -20,6 +21,14 @@ public class BookHomeFragment extends Fragment {
 
     @javax.annotation.Nullable
     @Override
+    /**
+     * This displays the view of the class
+     * @param inflater creates view
+     * @param container contains the layout view
+     * @param savedInstanceState contains the recent data
+     * @return
+     * Return the view of the BookHome Fragment
+     */
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         final View view = inflater.inflate(R.layout.book_home, container, false);
         currentUser = (User) this.getArguments().getSerializable("current user");

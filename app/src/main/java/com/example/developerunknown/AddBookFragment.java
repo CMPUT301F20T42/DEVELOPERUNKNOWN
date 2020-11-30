@@ -77,6 +77,7 @@ public class AddBookFragment extends Fragment {
 
 
     /**
+     * handle the result by using Scanner or ImagePicker
      * When the activity you launched exits, it gives you the requestCode you started it with,
      * the resultCode it returned, and any additional data from it.
      * @param requestCode  allowing you to identify who the activity result came from.
@@ -125,6 +126,14 @@ public class AddBookFragment extends Fragment {
 
     @Override
     @Nullable
+    /**
+     * This displays the view of the class
+     * @param inflater creates view
+     * @param container contains the layout view
+     * @param savedInstanceState contains the recent data
+     * @return
+     * Return the view of the AddBook Fragment
+     */
     public View onCreateView (LayoutInflater inflater, @Nullable ViewGroup container,
                               @Nullable Bundle savedInstanceState) {
 
@@ -292,7 +301,6 @@ public class AddBookFragment extends Fragment {
 
     /**
      * Allows user to select a new image
-     * @param
      */
         private void selectImage () {
             // Defining Implicit Intent to mobile gallery

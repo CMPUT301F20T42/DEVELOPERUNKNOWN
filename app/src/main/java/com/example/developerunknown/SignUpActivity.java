@@ -31,7 +31,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 
 /**
- *initializes values for user signup
+ *provide anything necessary for a new user to register a new account
  */
 public class SignUpActivity extends AppCompatActivity {
     private FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -54,7 +54,10 @@ public class SignUpActivity extends AppCompatActivity {
     private CollectionReference unameCollectionReference = db.collection("userName");
     @Override
 
-
+    /**
+     * initialize the interface of SignUpActivity,basically all EditText and a confirm button to allow user register
+     * @param savedInstanceState contains data from previous activity
+     */
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);

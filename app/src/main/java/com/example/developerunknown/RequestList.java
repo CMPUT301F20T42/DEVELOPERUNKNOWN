@@ -32,6 +32,12 @@ public class RequestList extends ArrayAdapter<Request> {
         this.requests = requests;
 
     }
+    /**
+     * initialize the text shown in each request,basically just the username of requester
+     * @param position the index of clicked request
+     * @param convertView the convertView
+     * @param parent ViewGroup
+     */
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View view = convertView;
 

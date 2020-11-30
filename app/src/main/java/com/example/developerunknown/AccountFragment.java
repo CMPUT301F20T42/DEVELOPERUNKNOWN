@@ -289,7 +289,9 @@ public class AccountFragment extends Fragment {
         return view;
     }
 
-
+    /**
+     * Allows user to select a new image
+     */
     private void selectImage() {
         // Defining Implicit Intent to mobile gallery
         Intent photoPickIntent = new Intent(Intent.ACTION_PICK);

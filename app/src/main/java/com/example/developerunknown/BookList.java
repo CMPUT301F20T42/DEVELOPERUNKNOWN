@@ -32,7 +32,7 @@ public class BookList extends ArrayAdapter<Book> {
 
 
     /**
-     * Gets view from layout fragment
+     * Gets view from layout fragment,initialize the needed text for every shown book
      * @param position placement within the view
      * @param convertView allows for assignment of new view
      * @param parent original viewgroup

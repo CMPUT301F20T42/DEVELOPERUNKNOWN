@@ -33,6 +33,14 @@ public class CustomList extends ArrayAdapter<Book> {
         this.books = books;
     }
 
+    /**
+     * initialize the shown text for each notification
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     * return the view generated
+     */
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View view = convertView;
 

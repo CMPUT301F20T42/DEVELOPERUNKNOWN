@@ -52,6 +52,14 @@ public class ViewBookFragment extends Fragment {
     public CollectionReference userBookCollectionReference = db.collection("user").document(uid).collection("Book");
     final Context applicationContext = MainActivity.getContextOfApplication();
 
+    /**
+     * This displays the view of the class
+     * @param inflater creates view
+     * @param container contains the layout view
+     * @param savedInstanceState contains the recent data
+     * @return
+     * Return the view of viewing book information as a owner and provide access to future action like view request,edit and delete
+     */
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         currentUser = (User) this.getArguments().getSerializable("current user");

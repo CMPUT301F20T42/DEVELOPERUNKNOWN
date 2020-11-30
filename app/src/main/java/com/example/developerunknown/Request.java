@@ -14,7 +14,12 @@ public class Request implements Serializable {
     private String Status = "Requested";
 
 
-
+    /**
+     * another approach to construct Request class,but may not be used
+     * @param borrowerID the borrower id
+     * @param borrowerUname  the borrower user name
+     * @param targetBook a specific book being requested
+     */
     public Request(String borrowerID, String borrowerUname, String targetBook) {
         // this.requestID = requestID;
         this.borrowerID = borrowerID;
@@ -27,7 +32,7 @@ public class Request implements Serializable {
      * @param borrowerID the borrower id
      * @param borrowerUname  the borrower user name
      * @param targetBook a specific book being requested
-     * @param Rid the request id?
+     * @param Rid the request id
      */
     public Request(String borrowerID, String borrowerUname, String targetBook,String Rid) {
         // this.requestID = requestID;

@@ -29,7 +29,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 /**
- * This is a list fragment for the users borrowed books list
+ * This is a list fragment for the users borrowed books list as a borrower
  */
 public class BorrowedListFragment extends Fragment{
 
@@ -50,6 +50,14 @@ public class BorrowedListFragment extends Fragment{
 
     @Nullable
     @Override
+    /**
+     * This displays the view of a list of borrowed Book as a borrower
+     * @param inflater creates view
+     * @param container contains the layout view
+     * @param savedInstanceState contains the recent data
+     * @return
+     * Return the view of the  Fragment
+     */
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         currentUser = (User) this.getArguments().getSerializable("current user");
 
@@ -68,6 +76,12 @@ public class BorrowedListFragment extends Fragment{
 
     @Nullable
     @Override
+    /**
+     * attach onItemClickListener to bookList and addSnapshotListner for click interaction and realtime updated
+     * also allow to get profile of book owner
+     * @param view created view
+     * @param savedInstanceState contains the recent data
+     */
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         // Get add book button
 

@@ -35,7 +35,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Creates fragment to show searchlist view
+ * Creates fragment to allow user search existing book and show searchlist view
  */
 public class    SearchFragment extends Fragment {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -46,11 +46,23 @@ public class    SearchFragment extends Fragment {
     TextView searchBook;
     Button search_button;
 
+    /**
+     * constructor,taking the current logged user as a parameter
+     * @param user
+     */
     public SearchFragment(User user){this.currentUser = user;}
 
 
     @Nullable
     @Override
+    /**
+     * This displays the view of the search functionality
+     * @param inflater creates view
+     * @param container contains the layout view
+     * @param savedInstanceState contains the recent data
+     * @return
+     * Return the view of a list of result book by evaluating keyword entered by user
+     */
     public View onCreateView(final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_search,container,false);
 

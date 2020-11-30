@@ -14,19 +14,25 @@ import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
 import com.google.zxing.Result;
 /**
- * Scans book ISBN
+ *  Scans book ISBN
+ *  this class is inspired from
+ *  https://www.youtube.com/watch?v=drH63NpSWyk&t=4s
+ *  Citation：
+ *  URL:https://github.com/yuriy-budiyev/code-scanner
+ *  author：https://stackoverflow.com/users/1992715/android-coder
+ *  date:Dec 6,2018
+ *  license:MIT License Copyright (c) 2017 Yuriy Budiyev [yuriy.budiyev@yandex.ru]
  */
 public class Scanner extends AppCompatActivity {
     private CodeScanner mCodeScanner;
 
-    //this class is inspired from
-    //https://www.youtube.com/watch?v=drH63NpSWyk&t=4s
-    //Citation：
-    //URL:https://github.com/yuriy-budiyev/code-scanner
-    //author：https://stackoverflow.com/users/1992715/android-coder
-    //date:Dec 6,2018
-    //license:MIT License Copyright (c) 2017 Yuriy Budiyev [yuriy.budiyev@yandex.ru]
+
     @Override
+    /**
+     *initialize everything needed to use camera to scan
+     * @param savedInstanceState contains the recent data
+     * @return
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.scanner);

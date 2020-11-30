@@ -37,7 +37,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.w3c.dom.Text;
 
 import java.io.Console;
-/*
+/**
 * Confirm address is a dialog fragment, that makes user confirm the selected location that was
 * just clicked and sets the pick up/ drop off location
  */
@@ -58,6 +58,10 @@ public class ConfirmAddress extends DialogFragment implements
     Button ChangeBtn;
 
     @Override
+    /**
+     * initialize Lat,Long annd Address before creatView
+     * @param savedInstanceState contains data from previous activity
+     */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Lat = getArguments().getDouble("lat");
@@ -68,6 +72,14 @@ public class ConfirmAddress extends DialogFragment implements
 
     MapFragment mapFragment;
 
+    /**
+     * This displays the view of necessary components for user to pick and confirm location he/she picked
+     * @param inflater creates view
+     * @param container contains the layout view
+     * @param savedInstanceState contains the recent data
+     * @return
+     * Return the view of the  Fragment
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.custom_confirm_address, container, false);

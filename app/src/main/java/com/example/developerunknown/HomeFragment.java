@@ -48,6 +48,14 @@ public class HomeFragment extends Fragment {
 
     @Nullable
     @Override
+    /**
+     * This displays the view of view a list of notifications and perform realtime-update
+     * @param inflater creates view
+     * @param container contains the layout view
+     * @param savedInstanceState contains the recent data
+     * @return
+     * Return the created view
+     */
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,@Nullable Bundle savedInstanceState){
         View view= inflater.inflate(R.layout.fragment_home,container,false);            //initialize view
 

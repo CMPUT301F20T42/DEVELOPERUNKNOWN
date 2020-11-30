@@ -47,7 +47,7 @@ import static android.app.Activity.RESULT_OK;
 
 
 /**
- * Always user to edit books already added to fragment
+ * allow user to edit a book that belongs to them
  */
 public class EditBookFragment extends Fragment {
 
@@ -80,6 +80,14 @@ public class EditBookFragment extends Fragment {
 
     @Override
     @Nullable
+    /**
+     * This displays the view some information as EditText and allow user to change information and image then save them to database
+     * @param inflater creates view
+     * @param container contains the layout view
+     * @param savedInstanceState contains the recent data
+     * @return
+     * Return the view of the Fragment
+     */
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         currentUser = (User) this.getArguments().getSerializable("current user");
@@ -218,13 +226,18 @@ public class EditBookFragment extends Fragment {
 
     }
 
+    /**
+     * destory current fragment and jump back
+     */
     public void destroy_current_fragment() {
 
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         fragmentManager.popBackStack();
     }
 
-
+    /**
+     * allow user to pick a image from local gallery
+     */
     private void selectImage() {
         // Defining Implicit Intent to mobile gallery
         Intent photoPickIntent = new Intent(Intent.ACTION_PICK);
@@ -232,7 +245,14 @@ public class EditBookFragment extends Fragment {
         startActivityForResult(photoPickIntent, RESULT_LOAD_IMG);
     }
 
-
+    /**
+     * handle the result by using Scanner or ImagePicker
+     * When the activity you launched exits, it gives you the requestCode you started it with,
+     * the resultCode it returned, and any additional data from it.
+     * @param requestCode  allowing you to identify who the activity result came from.
+     * @param resultCode returned by the child activity
+     * @param data  An Intent, which can return result data to the caller
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

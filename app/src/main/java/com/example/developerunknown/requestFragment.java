@@ -75,10 +75,19 @@ public class requestFragment extends DialogFragment {
     private String mParam1;
     private String mParam2;
 
+    /**
+     * empty constructor
+     */
     public requestFragment() {
         // Required empty public constructor
     }
 
+    /**
+     * A constructor of requestFragment,it takes the clicked book,current user,and selected request
+     * @param nowBook
+     * @param nowRequest
+     * @param currentUser
+     */
     public requestFragment(Book nowBook, Request nowRequest, User currentUser) {
         this.nowBook = nowBook;
         this.nowRequest = nowRequest;
@@ -105,6 +114,10 @@ public class requestFragment extends DialogFragment {
     }
 
     @Override
+    /**
+     * initialize mParam1 and mParam2 before view is created
+     * @param savedInstanceState contains data from previous activity
+     */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
@@ -117,6 +130,13 @@ public class requestFragment extends DialogFragment {
 
     @NonNull
     @Override
+    /**
+     * Initialized the DialogFragment,display borrower information
+     * provide positive and negative button to allow owner accept or reject request
+     * @param savedInstanceState
+     * @return
+     * return the constructed dialog
+     */
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_request, null);
 

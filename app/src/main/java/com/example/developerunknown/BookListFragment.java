@@ -59,6 +59,14 @@ public class BookListFragment extends Fragment  {
 
     @Nullable
     @Override
+    /**
+     * This displays the view of the class
+     * @param inflater creates view
+     * @param container contains the layout view
+     * @param savedInstanceState contains the recent data
+     * @return
+     * Return the view of the BookList Fragment,it shows a list of books owned by current user with necessary information
+     */
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         currentUser = (User) this.getArguments().getSerializable("current user");
 
@@ -99,6 +107,11 @@ public class BookListFragment extends Fragment  {
 
     @Nullable
     @Override
+    /**
+     * This method define some actions after the view is created
+     * @param view created view
+     * @param savedInstanceState contains the recent data
+     */
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         // Get add book button
         FloatingActionButton addBookButton = view.findViewById(R.id.add_book_button);

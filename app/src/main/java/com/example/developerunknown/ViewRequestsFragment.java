@@ -34,7 +34,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 /**
- * allows user to see a list of available book and request one
+ * allows user to see a list of requests on one of his/her book and perform future actions
  */
 public class ViewRequestsFragment extends Fragment {
     ListView requestList;
@@ -54,11 +54,22 @@ public class ViewRequestsFragment extends Fragment {
     public CollectionReference bookRequestCollectionReference;
 
     @Override
+    /**take a given activity and attach it
+     * @param activity
+     */
     public void onAttach(Activity activity) {
         myContext=(FragmentActivity) activity;
         super.onAttach(activity);
     }
 
+    /**
+     * This displays the view of the class
+     * @param inflater creates view
+     * @param container contains the layout view
+     * @param savedInstanceState contains the recent data
+     * @return
+     * Return the view of a list of requests,it shows a list of books owned by current user with necessary information
+     */
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         currentUser = (User) this.getArguments().getSerializable("current user");
@@ -113,6 +124,12 @@ public class ViewRequestsFragment extends Fragment {
 
     @Nullable
     @Override
+    /**
+     * This method define some actions after the view is created,attach onClickListener to both request list component
+     * and make a back button to allow it lead user back to previous page
+     * @param view created view
+     * @param savedInstanceState contains the recent data
+     */
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
         // Click oh item listener

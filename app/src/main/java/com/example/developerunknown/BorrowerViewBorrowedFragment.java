@@ -39,10 +39,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-/*
-*Allows borrower to view books hat they have borrowered from someone else. This extends the Fragment
+/**
+*Allows borrower to view books hat they have borrowered from someone else and perform return action. This extends the Fragment
 * class and implements on click listeners for response and map functions so that the borrower can
-* select a location on the map
+* see location from a map
  */
 public class BorrowerViewBorrowedFragment extends Fragment implements
         android.view.View.OnClickListener, OnMapReadyCallback {
@@ -77,6 +77,10 @@ public class BorrowerViewBorrowedFragment extends Fragment implements
 
     private String returnDenoted = null;
 
+    /**
+     * initialize currentUser and clickedBook and documentReference before creating the view
+     * @param savedInstanceState contains data from previous activity
+     */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         currentUser = (User) this.getArguments().getSerializable("current user");
@@ -88,7 +92,14 @@ public class BorrowerViewBorrowedFragment extends Fragment implements
 
     }
 
-
+    /**
+     * This displays the view that a Borrowed Book as a borrower
+     * @param inflater creates view
+     * @param container contains the layout view
+     * @param savedInstanceState contains the recent data
+     * @return
+     * Return the view of the with all function button and onclickListener
+     */
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         currentUser = (User) this.getArguments().getSerializable("current user");
@@ -191,7 +202,12 @@ public class BorrowerViewBorrowedFragment extends Fragment implements
         return view;
     }
 
-
+    /**
+     * handles the result by calling scanning activity,check if the return ISBN matches and decide if user action if valid
+     * @param requestCode  allowing you to identify who the activity result came from.
+     * @param resultCode returned by the child activity
+     * @param data  An Intent, which can return result data to the caller
+     */
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
@@ -212,11 +228,18 @@ public class BorrowerViewBorrowedFragment extends Fragment implements
             }
         }
     }
-
+    /**
+     * override onClick method,do nothing
+     * @param view
+     */
     @Override
     public void onClick(View view) {
 
     }
+    /**
+     * Load geolocation of the meeting location book owner set
+     * @param googleMap the google map for locations
+     */
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.getUiSettings().setMyLocationButtonEnabled(false);

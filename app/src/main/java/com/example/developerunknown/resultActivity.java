@@ -31,7 +31,7 @@ import com.google.firebase.storage.StorageReference;
 import java.util.HashMap;
 import java.util.Map;
 /**
- * Controls the result of the book searches
+ * shows the specific information of one of the book user obtained by searching,and allow currently user to request the book
  */
 public class resultActivity extends AppCompatActivity {
     TextView Title;
@@ -51,6 +51,10 @@ public class resultActivity extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
+    /**
+     * initialize the interface and book information
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,7 +110,10 @@ public class resultActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
+    /**
+     * handle the request button and perform change related to firestore
+     * @param view
+     */
     public void startRequest(View view) {
         if (currentBook.getOwnerId().equals(borrower.getUid())) {
             Toast.makeText(resultActivity.this, "You can't request your own book", Toast.LENGTH_SHORT).show();

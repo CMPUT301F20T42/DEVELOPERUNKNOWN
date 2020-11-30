@@ -28,6 +28,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
+/**
+ * this class shows a list of books that the user is currently requesting
+ */
 public class RequestListFragment extends Fragment{
 
 
@@ -45,6 +48,14 @@ public class RequestListFragment extends Fragment{
 
     @Nullable
     @Override
+    /**
+     * This displays the view that a list of books requested by owner but there is no response yet
+     * @param inflater creates view
+     * @param container contains the layout view
+     * @param savedInstanceState contains the recent data
+     * @return the constructed view
+     *
+     */
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         currentUser = (User) this.getArguments().getSerializable("current user");
 
@@ -63,6 +74,11 @@ public class RequestListFragment extends Fragment{
 
     @Nullable
     @Override
+    /**
+     * @param view
+     * @param savedInstanceState
+     * attach onItemClickListener and addSpanpsshotListener to firestore collection reference,keep real-time updating
+     */
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
         bookList.setOnItemClickListener(new AdapterView.OnItemClickListener() {

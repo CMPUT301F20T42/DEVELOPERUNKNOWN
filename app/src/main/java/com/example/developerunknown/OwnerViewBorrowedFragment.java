@@ -77,6 +77,10 @@ public class OwnerViewBorrowedFragment extends Fragment implements
 
     private String returnDenoted = null;
 
+    /**
+     * initialize the currentUser,clicked book and the firestore documentreference
+     * @param savedInstanceState contains data from previous activity
+     */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         currentUser = (User) this.getArguments().getSerializable("current user");
@@ -86,7 +90,14 @@ public class OwnerViewBorrowedFragment extends Fragment implements
         borrowerSideBorrowedBookRef = db.collection("user").document(clickedBook.getBorrowerID()).collection("BorrowedBook").document(clickedBook.getID());
 
     }
-
+    /**
+     * This displays the view of view a borrowed Book as a owner
+     * @param inflater creates view
+     * @param container contains the layout view
+     * @param savedInstanceState contains the recent data
+     * @return
+     * Return the view of the  Fragment
+     */
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         currentUser = (User) this.getArguments().getSerializable("current user");
@@ -192,7 +203,12 @@ public class OwnerViewBorrowedFragment extends Fragment implements
 */
         return view;
     }
-
+    /**
+     * handles the result by calling scanning activity,check if the return ISBN matches and decide if user action if valid
+     * @param requestCode  allowing you to identify who the activity result came from.
+     * @param resultCode returned by the child activity
+     * @param data  An Intent, which can return result data to the caller
+     */
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
@@ -223,10 +239,18 @@ public class OwnerViewBorrowedFragment extends Fragment implements
     }
 
     @Override
+    /**
+     * override onClick method,do nothing
+     * @param view
+     */
     public void onClick(View view) {
 
     }
 
+    /**
+     * Load geolocation of the meeting location book owner set
+     * @param googleMap the google map for locations
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;

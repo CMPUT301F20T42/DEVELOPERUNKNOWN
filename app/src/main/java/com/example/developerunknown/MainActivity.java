@@ -23,6 +23,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
+ * start intent of whole program
  * Controls main fragments such as Home, BookListFragment and Login-activity
  */
 public class MainActivity extends AppCompatActivity {
@@ -35,6 +36,12 @@ public class MainActivity extends AppCompatActivity {
     User currentUser;
 
     @Override
+    /**
+     * handles the result by Login to enter the system,initial some fragments when LoginActivity is finished
+     * @param requestCode  allowing you to identify who the activity result came from.
+     * @param resultCode returned by the child activity
+     * @param data  An Intent, which can return result data to the caller
+     */
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
@@ -88,6 +95,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     @Override
+    /**
+     * creates the view for the Main Activity by setting it to a R.layout
+     * @param savedInstanceState contains data from previous activity
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 

@@ -56,7 +56,7 @@ public class SearchUserDialogFragment extends DialogFragment {
     @NonNull
     @Override
     /**
-     *creates the view of the oncreate dialog
+     *creates the view of the oncreate dialog and initialize the profile information of target user
      * @param savedInstanceState current state
      */
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {

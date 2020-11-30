@@ -33,7 +33,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 /**
- * Shows the list of past requests on a book
+ * This class shows a list of books the current user has ever requested
  */
 public class  RequestHistoryList extends Fragment {
 
@@ -56,6 +56,14 @@ public class  RequestHistoryList extends Fragment {
 
     @Nullable
     @Override
+    /**
+     * This displays the view of a list of book user ever requested
+     * @param inflater creates view
+     * @param container contains the layout view
+     * @param savedInstanceState contains the recent data
+     * @return constructed view
+     *
+     */
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         currentUser = (User) this.getArguments().getSerializable("current user");
 
@@ -71,61 +79,19 @@ public class  RequestHistoryList extends Fragment {
         bookAdapter = new CustomList(context, bookDataList);
         bookList.setAdapter(bookAdapter);
 
-/*
-        requestedBookCollectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable
-                    FirebaseFirestoreException error) {
 
-                bookDataList.clear();
-                bookIdList.clear();
-                ownerIdList.clear();
-                for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-
-                    String bookID = doc.getId();
-                    String ownerId = doc.getString("ownerId");
-
-                    bookIdList.add(bookID);
-                    ownerIdList.add(ownerId);
-                }
-                for (int i = 0; i < bookIdList.size(); i++) {
-
-                    DocumentReference requestedHistoryBook = db.collection("user").document(ownerIdList.get(i)).collection("Book").document(bookIdList.get(i));
-                    requestedHistoryBook.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot document = task.getResult();
-                                if (document.exists()) {
-                                    Log.d("TAG", "found book");
-                                    String OwnerId = document.getString("ownerId");
-                                    String OwnerUname = document.getString("ownerUname");
-                                    String title = (String) document.getData().get("title");
-                                    String author = (String) document.getData().get("author");
-                                    String description = (String) document.getData().get("description");
-                                    String ISBN = (String) document.getData().get("ISBN");
-                                    String status = (String) document.getData().get("status");
-                                    bookDataList.add(new Book(document.getId(), title, author, status, ISBN, description, OwnerId, OwnerUname)); // Adding the books from FireStore
-                                    bookAdapter.notifyDataSetChanged();
-                                } else {
-                                    Log.d("TAG", "fail to found book");
-                                }
-                            }
-                        }
-                    });
-                    //delete from history is book is deleted
-
-                }
-
-                //bookAdapter.notifyDataSetChanged(); // Notifying the adapter to render any new data fetcheh
-            }
-        });*/
         return view;
     }
 
 
     @Nullable
     @Override
+    /**
+     * @param view
+     * @param savedInstanceState
+     * attach onItemClickListener and addSpanpsshotListener to firestore collection reference,keep real-time updating
+     * get reference to original book from borrower so that the status of book is also real-time updated
+     */
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         // Get add book button
         bookList.setOnItemClickListener(new AdapterView.OnItemClickListener() {

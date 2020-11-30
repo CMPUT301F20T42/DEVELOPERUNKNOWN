@@ -1,12 +1,8 @@
 package com.example.developerunknown;
 
-import android.Manifest;
-import android.app.Activity;
+
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -23,6 +18,8 @@ import androidx.fragment.app.FragmentManager;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+/**this class is a view book fragment,but there is no special functionality on it,just purely view book as a non-owner
+ */
 public class BorrowerViewGeneralFragment extends Fragment {
     Context context;
     private TextView bookTitle;
@@ -41,6 +38,15 @@ public class BorrowerViewGeneralFragment extends Fragment {
 
     final Context applicationContext = MainActivity.getContextOfApplication();
     @Override
+    /**
+     * This displays the view of purely Viewing a book as a borrower,but no special functionality,this happens when
+     * user try to access the book from WishList or RequestHistory
+     * @param inflater creates view
+     * @param container contains the layout view
+     * @param savedInstanceState contains the recent data
+     * @return
+     * Return the view of the Fragment
+     */
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         clickedBook = (Book) this.getArguments().getSerializable("clicked book");
         View view = inflater.inflate(R.layout.general_book_view_borrower, container,false);
@@ -96,7 +102,6 @@ public class BorrowerViewGeneralFragment extends Fragment {
                 fragmentManager.popBackStack();
             }
         });
-
 
 
         return view;

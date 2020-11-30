@@ -44,7 +44,7 @@ import java.util.Map;
 
 
 /**
- * controls intents of the request function
+ * this class handles situation when user accepts a request and pick meeting location
  */
 public class requestActicity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMyLocationButtonClickListener, ActivityCompat.OnRequestPermissionsResultCallback{
 
@@ -62,7 +62,10 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
     Button btn;
     private final static int PLACE_PICKER_REQUEST = 999;
     private final static int LOCATION_REQUEST_CODE = 23;
-
+    /**
+     * initialize the currentUser,clicked book ,request,and googlemap
+     * @param savedInstanceState contains data from previous activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,6 +120,10 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
 
     }
 
+    /**
+     * finalize the location and accept action and update firestore
+     * @param view
+     */
     public void finishIt(View view) {
         goAddress = Address.getText().toString();
 
@@ -227,6 +234,12 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
     }
 
     @Override
+    /**
+     * this method handles the permission of getting current location of user
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
             case LOCATION_REQUEST_CODE: {
@@ -276,7 +289,11 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
             }
         }
     }
-    // Access Google Map Api by call the OnMapReadyCallBack
+
+    /**
+     * Access Google Map Api
+     * @param googleMap
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.mMap = googleMap;
@@ -286,6 +303,10 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
 
     }
 
+    /**
+     * handle the action that user set marker on the map
+     * @param point a LatLng location
+     */
     @Override
     public void onMapClick(LatLng point) {
         MarkerOptions markerOptions = new MarkerOptions(); // Set new market
@@ -300,6 +321,11 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
         mMap.addMarker(markerOptions);  // put market down
     }
 
+    /**
+     * try to generate a text(address) by taking selected geolocation
+     * @param latLng
+     * @return a string that represents selected location
+     */
     private String getAddress(LatLng latLng){
 
         Geocoder geocoder;
@@ -342,6 +368,10 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
 
 
     }
+
+    /**
+     * check permission and enable access currentLocation of user
+     */
     private void enableMyLocation() {
         // [START maps_check_location_permission]
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -365,7 +395,10 @@ public class requestActicity extends AppCompatActivity implements OnMapReadyCall
         return super.onOptionsItemSelected(item);
     }
 
-
+    /**
+     *
+     * @return false
+     */
     @Override
     public boolean onMyLocationButtonClick() {
         return false;

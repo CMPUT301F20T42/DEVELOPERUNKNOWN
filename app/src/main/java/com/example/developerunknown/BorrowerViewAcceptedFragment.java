@@ -7,11 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.TextPaint;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
+
 import android.util.Log;
 import android.view.InflateException;
 import android.view.LayoutInflater;
@@ -54,6 +50,11 @@ import com.google.firebase.storage.StorageReference;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ *Allows borrower to view books hat they have been accepted from someone else and perform confirm borrow action. This extends the Fragment
+ * class and implements on click listeners for response and map functions so that the borrower can
+ * see location from a map
+ */
 
 public class BorrowerViewAcceptedFragment extends Fragment implements
         android.view.View.OnClickListener, OnMapReadyCallback {
@@ -89,7 +90,10 @@ public class BorrowerViewAcceptedFragment extends Fragment implements
 
     private String borrowDenoted;
 
-
+    /**
+     * initialize currentUser and clickedBook and documentReference before creating the view
+     * @param savedInstanceState contains data from previous activity
+     */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         currentUser = (User) this.getArguments().getSerializable("current user");
@@ -97,22 +101,18 @@ public class BorrowerViewAcceptedFragment extends Fragment implements
 
         ownerSideCurrentBookRef = db.collection("user").document(clickedBook.getOwnerId()).collection("Book").document(clickedBook.getID());
         currentBookDocRef = db.collection("user").document(uid).collection("AcceptedBook").document(clickedBook.getID());
-        /*currentBookDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                System.out.println("here");
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    Lat = document.getDouble("lat");
-                    Lng = document.getDouble("lng");
-                    System.out.println(Lat);
-                    Address = document.getString("add");
-                }
-            }
-        });*/
+
     }
 
     @Override
+    /**
+     * This displays the view of view a accepted Book as a borrower
+     * @param inflater creates view
+     * @param container contains the layout view
+     * @param savedInstanceState contains the recent data
+     * @return
+     * Return the view of the  Fragment
+     */
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         currentUser = (User) this.getArguments().getSerializable("current user");
         clickedBook = (Book) this.getArguments().getSerializable("clicked book");
@@ -224,7 +224,12 @@ public class BorrowerViewAcceptedFragment extends Fragment implements
 
         return view;
     }
-
+    /**
+     * handles the result by calling scanning activity,check if the return ISBN matches and decide if user action if valid
+     * @param requestCode  allowing you to identify who the activity result came from.
+     * @param resultCode returned by the child activity
+     * @param data  An Intent, which can return result data to the caller
+     */
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
@@ -268,12 +273,19 @@ public class BorrowerViewAcceptedFragment extends Fragment implements
         }
     }
 
+    /**
+     * override onClick method,do nothing
+     * @param view
+     */
     @Override
     public void onClick(View view) {
 
     }
 
-
+    /**
+     * Load geolocation of the meeting location book owner set
+     * @param googleMap the google map for locations
+     */
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
