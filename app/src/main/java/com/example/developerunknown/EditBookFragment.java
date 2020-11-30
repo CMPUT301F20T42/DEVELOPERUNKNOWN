@@ -202,26 +202,7 @@ public class EditBookFragment extends Fragment {
         deletePhotoButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                /*storageReference.child("BookImages/"+clickedBook.getID()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        StorageReference photoRef = storage.getReferenceFromUrl(uri.toString());
-                        photoRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                // File deleted successfully
-                                Log.d("delete photo", "onSuccess: deleted file");
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception exception) {
-                                // Uh-oh, an error occurred!
-                                Log.d("delete photo", "onFailure: did not delete file");
-                            }
-                        });
-                    }
-                });
-                 */
+
                 Photographs.deleteImage("B", clickedBook.getID(), storageReference, storage);
                 editImageButton.setImageResource(android.R.color.transparent);
             }

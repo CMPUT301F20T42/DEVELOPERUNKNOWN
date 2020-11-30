@@ -226,23 +226,7 @@ public class OwnerViewBorrowedFragment extends Fragment implements
     public void onClick(View view) {
 
     }
-/*
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        mMap.getUiSettings().setMyLocationButtonEnabled(false);
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(new LatLng(clickedBook.getLat(), clickedBook.getLon()));
 
-        markerOptions.title(Address);
-        mMap.clear();
-        CameraUpdate location = CameraUpdateFactory.newLatLngZoom(
-                new LatLng(clickedBook.getLat(), clickedBook.getLon()), 16f);
-        mMap.animateCamera(location);
-        mMap.addMarker(markerOptions);
-        Log.d("status", "success");
-    }
-    */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;

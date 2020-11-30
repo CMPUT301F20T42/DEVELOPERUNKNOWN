@@ -85,21 +85,7 @@ public class BorrowerViewBorrowedFragment extends Fragment implements
         ownerSideCurrentBookRef = db.collection("user").document(clickedBook.getOwnerId()).collection("Book").document(clickedBook.getID());
 
         currentBookDocRef = db.collection("user").document(uid).collection("BorrowedBook").document(clickedBook.getID());
-        /*currentBookDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                System.out.println("here");
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    Lat = document.getDouble("lat");
-                    Lng = document.getDouble("lng");
-                    System.out.println(Lat);
-                    Address = document.getString("add");
-                }
-            }
-        });
 
-         */
     }
 
 
@@ -137,37 +123,7 @@ public class BorrowerViewBorrowedFragment extends Fragment implements
         imageView = view.findViewById(R.id.imageViewBorrowerBorrowed);
 
         Photographs.viewImage("B", clickedBook.getID(), storageReference, applicationContext, imageView);
-/*
-        denoteReturnButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                currentBookDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            returnDenoted = document.getString("returnDenoted");
-                        }
-                    }
-                });
-                if (returnDenoted!=null && returnDenoted.equals("true")) {
-                    Toast.makeText(getActivity(), "You already denoted borrow before", Toast.LENGTH_SHORT).show();
-                }
-                //the book is either first time to be denoted or denoted=="false" currently
-                else {
 
-                    if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
-                        Toast.makeText(getActivity(), "You must grant the permission of camera to confirm return", Toast.LENGTH_SHORT).show();
-                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, 445);
-                    } else {
-                        Intent intent = new Intent(getActivity(), Scanner.class);
-                        startActivityForResult(intent, 325);
-                    }
-                }
-
-            }
-        });
-        */
 
 
         denoteReturnButton.setOnClickListener(new View.OnClickListener() {
@@ -277,23 +233,5 @@ public class BorrowerViewBorrowedFragment extends Fragment implements
         mMap.addMarker(markerOptions);
         Log.d("status", "success");
     }
-    /*
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        mMap.getUiSettings().setMyLocationButtonEnabled(false);
-        MarkerOptions markerOptions = new MarkerOptions();
 
-        markerOptions.position(new LatLng(clickedBook.getLat(), clickedBook.getLon()));
-
-        markerOptions.title(Address);
-        mMap.clear();
-        CameraUpdate location = CameraUpdateFactory.newLatLngZoom(
-                new LatLng(clickedBook.getLat(), clickedBook.getLon()), 16f);
-        mMap.animateCamera(location);
-        mMap.addMarker(markerOptions);
-        Log.d("status", "success");
-    }
-
-     */
 }
