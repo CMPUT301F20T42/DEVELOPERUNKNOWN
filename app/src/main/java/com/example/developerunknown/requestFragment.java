@@ -118,6 +118,7 @@ public class requestFragment extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_request, null);
 
+        //initializes user information to a layout xml
         resultUserName = view.findViewById(R.id.searchUserName);
         resultUserFullName = view.findViewById(R.id.searchUserFullName);
         resultUserEmail = view.findViewById(R.id.searchUserContactMail);
@@ -132,6 +133,7 @@ public class requestFragment extends DialogFragment {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
+                    //setting the text fields with user information
                     DocumentSnapshot document = task.getResult();
                     resultUserName.setText(document.getString("userName"));
                     resultUserFullName.setText(document.getString("firstName")+' '+document.getString("lastName"));
@@ -221,26 +223,6 @@ public class requestFragment extends DialogFragment {
                                 }
                             }
                         });
-/*
-                        requestCollectionRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    if (task.getResult().size() > 0) {
-                                        //do nothing
-                                    }
-
-                                } else {
-                                    //set book available
-                                    nowBook.setStatus("Available");
-                                    currentBookRef.update("status", "Available");
-                                }
-                            }
-                        });
-
-*/
-
-
 
 
 

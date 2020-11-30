@@ -23,10 +23,10 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-//this class hold is in fact first fully operated class in this project,it will get the username and password entered,and compare with
-//firestore,a trick is applied here,since in user stories,we should focus on userName but the firebase auth only has email and password,and UID
-//so I stored a key value pair about userName and email/Uid,therefore user can log in using username
-
+/**this class hold is in fact first fully operated class in this project,it will get the username and password entered,and compare with
+firestore,a trick is applied here,since in user stories,we should focus on userName but the firebase auth only has email and password,and UID
+so I stored a key value pair about userName and email/Uid,therefore user can log in using username
+*/
 public class LoginActivity extends AppCompatActivity {
     private Button logInButton;
     private Button signUpButton;
@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     /**
      * creates the view for the activity by setting it to a R.layout
-     * @param savedInstanceState
+     * @param savedInstanceState contains data from previous activity
      */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,13 +113,14 @@ public class LoginActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(LoginActivity.this, "login success", Toast.LENGTH_SHORT).show();
-
+                    //shows toast message when user sucessfully logins
                     FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
                     FirebaseUser currentUser = mAuth.getCurrentUser();
 
                     if(currentUser == null){
                         Toast.makeText(LoginActivity.this, "error connecting to server", Toast.LENGTH_SHORT).show();
+                        //If there is a login issue in regards to server a message will be shown
                     }
                     else{
                         Intent returnIntent = new Intent();
@@ -129,6 +130,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 } else {
                     Toast.makeText(LoginActivity.this, "wrong password", Toast.LENGTH_SHORT).show();
+                    //If the password is wrong, a message will show
                 }
             }
         });

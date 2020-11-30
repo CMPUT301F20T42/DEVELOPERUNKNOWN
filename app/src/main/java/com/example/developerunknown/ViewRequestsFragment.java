@@ -138,26 +138,6 @@ public class ViewRequestsFragment extends Fragment {
                 fragmentManager.popBackStack();
             }
         });
-/*
-
-
-        bookRequestCollectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable
-                    FirebaseFirestoreException error) {
-
-                requestDataList.clear();
-                for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
-                {
-                    String borrowerID = (String) doc.getData().get("Borrower");
-                    String borrowerUname = (String) doc.getData().get("BorrowerUname");
-
-                    requestDataList.add(new Request(borrowerID, borrowerUname, clickedBook.getID())); // Adding the requests from FireStore
-                }
-                requestAdapter.notifyDataSetChanged(); // Notifying the adapter to render any new data fetcheh
-            }
-        });
-*/
 
     }
 

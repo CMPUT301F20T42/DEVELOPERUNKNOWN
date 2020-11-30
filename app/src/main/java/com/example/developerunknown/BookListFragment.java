@@ -76,7 +76,9 @@ public class BookListFragment extends Fragment  {
 
 
 
-
+        /*Initializes the spinner, and adds the different book statues that can be used to filter
+        through the books
+         */
         filterSelection = (Spinner) view.findViewById(R.id.filter_spinner);
 
         filterList = new ArrayList<String>();
@@ -124,6 +126,7 @@ public class BookListFragment extends Fragment  {
         bookList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View view, int position, long id) {
                 Log.d("BookList Message", "Successfully clicked book");
+                //Lets user known the book has been successfully clicked
 
                 Book clickedBook = bookDataList.get(position);
 

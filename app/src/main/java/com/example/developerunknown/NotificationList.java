@@ -38,6 +38,7 @@ public class NotificationList extends ArrayAdapter<UserNotification> {
             view = LayoutInflater.from(context).inflate(R.layout.notification_content,parent,false);
         }
 
+        //sets notifications to a Textview
         UserNotification currentNotification = userNotifications.get(position);
         TextView notificationType = view.findViewById(R.id.notificationType);
         TextView notificationBook = view.findViewById(R.id.notificationBook);

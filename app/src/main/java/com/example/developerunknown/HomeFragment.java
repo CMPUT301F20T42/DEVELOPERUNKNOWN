@@ -31,7 +31,8 @@ import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
 /**
-*HomeFragment is used to display notification of user,it is also the default interface when user logged in
+*HomeFragment is used to display notification of user,it is also the default interface when user
+ * logged in
  */
 public class HomeFragment extends Fragment {
     public ListView notificationList;
@@ -111,12 +112,14 @@ public class HomeFragment extends Fragment {
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
+                                //By clicking the notification, it gets deleted and message is shown
                                 Log.d(TAG, "DocumentSnapshot successfully deleted!");
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
+                                //If there is an issue, this message is shown
                                 Log.w(TAG, "Error deleting document", e);
                             }
                         });

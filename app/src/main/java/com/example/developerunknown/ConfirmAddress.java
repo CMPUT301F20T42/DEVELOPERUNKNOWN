@@ -37,7 +37,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.w3c.dom.Text;
 
 import java.io.Console;
-
+/*
+* Confirm address is a dialog fragment, that makes user confirm the selected location that was
+* just clicked and sets the pick up/ drop off location
+ */
 public class ConfirmAddress extends DialogFragment implements
         android.view.View.OnClickListener, OnMapReadyCallback {
 
@@ -68,16 +71,21 @@ public class ConfirmAddress extends DialogFragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.custom_confirm_address, container, false);
+        //initaliztion of TextViews and buttons, connecting the to XML
         myAddress = (TextView) v.findViewById(R.id.myAddress);
         SelectBtn = (Button) v.findViewById(R.id.Select);
         ChangeBtn = (Button) v.findViewById(R.id.Change);
 
-
+        //initializes the map
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.mapp);
         mapFragment.getMapAsync(this);
         // Toast.makeText(getActivity(),mNum,Toast.LENGTH_LONG).show();
 
         SelectBtn.setOnClickListener(new View.OnClickListener() {
+            /**
+             * The on Click controls the response for when a use clicks something on screen
+             * @param v the view
+             */
             @Override
             public void onClick(View v) {
                 Toast.makeText(getActivity(), myAddress.getText().toString(), Toast.LENGTH_LONG).show();
@@ -97,6 +105,10 @@ public class ConfirmAddress extends DialogFragment implements
 
     }
 
+    /**
+     * A dialog fragment to cancel a selection of a map location
+     * @param dialog an independent subwindow meant to carry temporary notice or options
+     */
     @Override
     public void onCancel(DialogInterface dialog) {
         super.onCancel(dialog);
@@ -104,6 +116,10 @@ public class ConfirmAddress extends DialogFragment implements
 
     }
 
+    /**
+     * A dialog fragment to close fragment
+     * @param dialog an independent subwindow meant to carry temporary notice or options
+     */
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
@@ -115,6 +131,11 @@ public class ConfirmAddress extends DialogFragment implements
 
     }
 
+
+    /**
+     * Sets information that allows user to select their location from a map view
+     * @param googleMap the google map for locations
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;

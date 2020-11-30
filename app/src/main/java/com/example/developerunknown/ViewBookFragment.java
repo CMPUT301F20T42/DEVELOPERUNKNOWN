@@ -118,20 +118,7 @@ public class ViewBookFragment extends Fragment {
 
                     Log.d("delete book", "delete button clicked");
                     userBookCollectionReference.document(clickedBook.getID()).delete();
-                    /*
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Log.d("delete book", "book has been deleted successfully!");
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.d("delete book", "ISBN is not be deleted! " + e.toString());
-                            }
-                        });
-*/
+
                     Photographs.deleteImage("B", clickedBook.getID(), storageReference, storage);
 
                 // Close fragment

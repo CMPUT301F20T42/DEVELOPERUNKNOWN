@@ -64,6 +64,7 @@ public class AddBookFragment extends Fragment {
     private Uri filePath;
     ImageView addPhotoButton;
 
+    //declaration to connect to firestore collections
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     public FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private FirebaseStorage storage;
@@ -74,6 +75,14 @@ public class AddBookFragment extends Fragment {
     final Context applicationContext = MainActivity.getContextOfApplication();
     User currentUser;
 
+
+    /**
+     * When the activity you launched exits, it gives you the requestCode you started it with,
+     * the resultCode it returned, and any additional data from it.
+     * @param requestCode  allowing you to identify who the activity result came from.
+     * @param resultCode returned by the child activity
+     * @param data  An Intent, which can return result data to the caller
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -98,12 +107,15 @@ public class AddBookFragment extends Fragment {
                     addPhotoButton.setImageBitmap(bitmap);
                 }
                 catch (Exception e) {
+                    //Messgae that occurs if for some reason the photo can not be added
                     e.printStackTrace();
                     Toast.makeText(applicationContext, "Something went wrong", Toast.LENGTH_LONG).show();
+
                 }
 
 
             }else{
+                //If user do tries to add a photo but then chooses not to
                 Toast.makeText(applicationContext, "You haven't picked Image", Toast.LENGTH_SHORT).show();
             }
 
@@ -113,7 +125,8 @@ public class AddBookFragment extends Fragment {
 
     @Override
     @Nullable
-    public View onCreateView (LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView (LayoutInflater inflater, @Nullable ViewGroup container,
+                              @Nullable Bundle savedInstanceState) {
 
         currentUser = (User) this.getArguments().getSerializable("current user");
 
@@ -145,7 +158,8 @@ public class AddBookFragment extends Fragment {
 
                 if (title.length() > 0 && author.length() > 0 && description.length() > 0 && ISBN.length() > 0) {
                     if (ISBN.length()!=13){
-                        Toast.makeText(getActivity(), "Please check ISBN you enter,it should be 13-digit number", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Please check ISBN you enter,it should be" +
+                                " 13-digit number", Toast.LENGTH_SHORT).show();
                     }else {
                         // Create new document
                         DocumentReference newRef = userBookCollectionReference.document();
@@ -170,12 +184,15 @@ public class AddBookFragment extends Fragment {
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         Log.d("create book", "book has been added successfully!");
+                                        //If all fields are filled in, the book will be sucessfully
+                                        // added to the list
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-                                        Log.d("create book", "ISBN is not be added!" + e.toString());
+                                        Log.d("create book", "ISBN has not been added!" + e.toString());
+                                        //If superficially an ISBN number has not been entered
                                     }
                                 });
 
@@ -184,7 +201,7 @@ public class AddBookFragment extends Fragment {
                 }
                 else{
                     Toast.makeText(getActivity(), "All fields must not be empty", Toast.LENGTH_SHORT).show();
-
+                    //occurs if user tries to save a book with an empty field
                 }
             }
         });
@@ -275,6 +292,7 @@ public class AddBookFragment extends Fragment {
 
     /**
      * Allows user to select a new image
+     * @param
      */
         private void selectImage () {
             // Defining Implicit Intent to mobile gallery
