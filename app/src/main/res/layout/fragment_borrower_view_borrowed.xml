@@ -65,9 +65,9 @@
         android:id="@+id/viewISBNBorrowerBorrowed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="132dp"
         android:inputType="textPersonName"
         android:textSize="18sp"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@+id/mapp3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/viewDescriptionBorrowerBorrowed"
@@ -98,9 +98,11 @@
     <Button
         android:id="@+id/borrowedOwner"
         android:layout_width="wrap_content"
-        android:layout_height="25dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="52dp"
         android:text="Owner:"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/mapp3"
         app:layout_constraintBaseline_toBaselineOf="@+id/viewISBNBorrowerBorrowed"
         app:layout_constraintStart_toStartOf="parent" />
 
