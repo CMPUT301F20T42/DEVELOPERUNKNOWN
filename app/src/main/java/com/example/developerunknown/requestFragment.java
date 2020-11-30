@@ -221,24 +221,7 @@ public class requestFragment extends DialogFragment {
                                 }
                             }
                         });
-/*
-                        requestCollectionRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    if (task.getResult().size() > 0) {
-                                        //do nothing
-                                    }
 
-                                } else {
-                                    //set book available
-                                    nowBook.setStatus("Available");
-                                    currentBookRef.update("status", "Available");
-                                }
-                            }
-                        });
-
-*/
 
 
 

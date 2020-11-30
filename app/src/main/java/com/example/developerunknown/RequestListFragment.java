@@ -37,7 +37,6 @@ public class RequestListFragment extends Fragment{
     Context context;
     User currentUser;
 
-    //########################## this part is needed for the below blocking part.
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     public FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

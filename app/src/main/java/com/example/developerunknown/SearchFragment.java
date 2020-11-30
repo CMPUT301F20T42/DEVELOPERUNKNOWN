@@ -65,50 +65,7 @@ public class    SearchFragment extends Fragment {
         searchBook = (TextView)view.findViewById(R.id.editText_book);
 
         search_button = (Button)view.findViewById(R.id.search);
-/*
-        db.collectionGroup("Book").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    dataList.clear();
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        String Description = document.getString("description");
-                        String Author = document.getString("author");
-                        String Title = document.getString("title");
-                        String ISBN = document.getString("ISBN");
-                        String Status = document.getString("status");
-                        String OwnerId = document.getString("ownerId");
-                        String OwnerUname = document.getString("ownerUname");
 
-                        //Book nowBook = new Book(document.getId(), Title, Author, Status, ISBN, Description,uid,OwnerId.OwnerUname);
-                        Book nowBook = new Book(document.getId(),Title, Author, Status, ISBN, Description);
-                        nowBook.setOwnerId(OwnerId);
-                        nowBook.setOwnerUname(OwnerUname);
-                        dataList.add(nowBook);
-                        bookAdapter.notifyDataSetChanged();
-                    }
-                }
-            }
-        });
-
-        search_button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                String keyword = searchBook.getText().toString();
-                ArrayList<Book> newDataList = new ArrayList<>();
-                for(int i = 0; i < dataList.size();i++){
-                    Book thisBook = dataList.get(i);
-                    String thisString = thisBook.getTitle();
-
-                    if(thisString.equals(keyword)){
-                        newDataList.add(thisBook);
-                    }
-                }
-                bookAdapter = new CustomList(context,newDataList);
-                resultList.setAdapter(bookAdapter);
-            }
-        });
-
-*/
 
         //Fetch book date from firestore
         search_button.setOnClickListener(new View.OnClickListener() {
