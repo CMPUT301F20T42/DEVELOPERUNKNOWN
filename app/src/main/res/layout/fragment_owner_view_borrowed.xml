@@ -78,8 +78,8 @@
 
     <ImageView
         android:id="@+id/imageViewOwnerBorrowed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="144dp"
+        android:layout_height="141dp"
         android:layout_marginBottom="36dp"
         android:background="@android:color/darker_gray"
         app:layout_constraintBottom_toTopOf="@+id/viewDescriptionOwnerBorrowed"

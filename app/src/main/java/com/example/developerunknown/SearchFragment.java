@@ -66,6 +66,8 @@ public class    SearchFragment extends Fragment {
 
         search_button = (Button)view.findViewById(R.id.search);
 
+
+
         //Fetch book date from firestore
         search_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {

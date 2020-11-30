@@ -111,58 +111,11 @@ public class resultActivity extends AppCompatActivity {
         if (currentBook.getOwnerId().equals(borrower.getUid())) {
             Toast.makeText(resultActivity.this, "You can't request your own book", Toast.LENGTH_SHORT).show();
         } else {
-/*          //try to restrict user request multiple times
-            final DocumentReference currentBookRef = db.collection("user").document(currentBook.getOwnerId()).collection("Book").document(currentBook.getID());
-            // Change book status to available
 
-
-            final CollectionReference requestCollectionRef = currentBookRef.collection("Request");
-
-            requestCollectionRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            String requesterID = document.getString("Borrower");
-
-                            if (requesterID.equals(borrower.getUid())) {
-                                Toast.makeText(resultActivity.this, "You already requested this book", Toast.LENGTH_SHORT).show();
-                                return;
-
-                            }
-
-                        }
-                    }
-                }
-            });
-
- */
             if (currentBook.getStatus().equals("Available") || currentBook.getStatus().equals("Requested")) {
-                //DocumentReference docRef = db.collection("User").document(currentBook.getOwner());
-/*
-                Query query = db.collectionGroup("Book");
-                query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                if (document.getId() == currentBook.getID()) {
-                                    DocumentReference docRef = db.collection("user").document(currentBook.getOwnerId()).collection("Book").document(currentBook.getID());
-                                    Map<String, Object> requstData = new HashMap<>();
-                                    requstData.put("Borrower", nowRequest.getBorrower());
-                                    requstData.put("Bookid", currentBook.getID());
-                                    requstData.put("status", nowRequest.getStatus());
-                                    docRef.collection("Request").add(requstData);
-                                    Map<String, Object> newbookData = new HashMap<>();
-                                    newbookData.put("status", "Requested");
-                                    docRef.update(newbookData);
-                                }
-                            }
-                        }
-                    }
-                });
 
-*/
+
+
                 // Start request sequence
                 DocumentReference requestedBookRef = db.collection("user"). document(currentBook.getOwnerId()).
                         collection("Book").document(currentBook.getID());
