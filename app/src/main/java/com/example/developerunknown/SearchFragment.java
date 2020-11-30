@@ -129,7 +129,7 @@ public class    SearchFragment extends Fragment {
                                 String OwnerUname = document.getString("ownerUname");
                                 //if (Description.toLowerCase().contains(keyword.toLowerCase()) || title.toLowerCase().contains(keyword..toLowerCase())))
                                 if (Status.equals("Available") || Status.equals("Requested")) {
-                                    if (Description.toLowerCase().contains(keyword.toLowerCase())|| Title.toLowerCase().contains(keyword.toLowerCase())) {
+                                    if (Description.toLowerCase().contains(keyword.toLowerCase())|| Title.toLowerCase().contains(keyword.toLowerCase())||Author.toLowerCase().contains(keyword.toLowerCase())) {
                                         Book nowBook = new Book(document.getId(), Title, Author, Status, ISBN, Description, OwnerId, OwnerUname);
                                         dataList.add(nowBook);                      //dataList stores all valid book
                                     }

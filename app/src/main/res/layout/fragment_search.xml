@@ -17,7 +17,7 @@
         android:layout_toStartOf="@+id/search"
         android:layout_weight="1"
         android:ems="10"
-        android:hint="Book Name"
+        android:hint="Enter keyword"
         android:inputType="textCapWords"
         android:textColor="#AAA" />
 

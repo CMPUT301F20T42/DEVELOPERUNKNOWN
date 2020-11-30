@@ -195,7 +195,7 @@ public class AccountFragment extends Fragment {
                                  */
                                 public void onSuccess(Void aVoid) {
                                     Log.d(TAG, "DocumentSnapshot successfully updated!");
-                                    Toast.makeText(getActivity(), "New contact info is saved", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(), "Changes are saved", Toast.LENGTH_SHORT).show();
 
                                 }
                             })
@@ -209,7 +209,7 @@ public class AccountFragment extends Fragment {
                                     Log.w(TAG, "Error updating document", e);
                                     contactEmailEdit.setText(contactEmail);    //use original contact email and contactPhone
                                     contactPhoneEdit.setText(contactPhone);
-                                    Toast.makeText(getActivity(), "There is a error updating the contact info", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(), "There is a error updating the changes", Toast.LENGTH_SHORT).show();
 
                                 }
                             });
