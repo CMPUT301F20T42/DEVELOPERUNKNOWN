@@ -78,24 +78,22 @@
 
     <ImageView
         android:id="@+id/imageViewOwnerBorrowed"
-        android:layout_width="144dp"
-        android:layout_height="141dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="36dp"
         android:background="@android:color/darker_gray"
         app:layout_constraintBottom_toTopOf="@+id/viewDescriptionOwnerBorrowed"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
+    <Button
         android:id="@+id/borrowedBorrower"
         android:layout_width="wrap_content"
-        android:layout_height="33dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="52dp"
         android:text="Borrower:"
         app:layout_constraintBaseline_toBaselineOf="@+id/viewISBNOwnerBorrowed"
         app:layout_constraintEnd_toStartOf="@+id/viewISBNOwnerBorrowed"
-        app:layout_constraintHorizontal_bias="0.093"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button

@@ -133,7 +133,7 @@ public class OwnerViewBorrowedFragment extends Fragment implements
         bookDescription.setText(clickedBook.getDescription());
         bookISBN.setText(clickedBook.getISBN());
         //need to get borrower here
-        bookBorrower.setText("Borrower:"+clickedBook.getOwnerUname());
+        bookBorrower.setText("Borrower:"+clickedBook.getBorrowerUname());
         imageView = view.findViewById(R.id.imageViewOwnerBorrowed);
 
         Photographs.viewImage("B", clickedBook.getID(), storageReference, applicationContext, imageView);
